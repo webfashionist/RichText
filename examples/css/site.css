@@ -1,0 +1,30 @@
+/* reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* page */
+.page-wrapper {
+    margin: 0 auto;
+    width: 960px;
+    max-width: 100%;
+}
+
+
+/* box */
+.box-content {
+    padding:20px;
+    background-color: #FFF;
+}
+
+
+textarea {
+    background-color:#FAFAFA;
+    border:#EFEFEF solid 1px;
+    color:#333;
+    height:150px;
+    width:100%;
+}

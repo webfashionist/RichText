@@ -1,0 +1,51 @@
+.richText{
+    background-color:#FAFAFA;
+    border:#EFEFEF solid 1px;
+    color:#333;
+    width:100%;
+}
+
+.richText-toolbar{
+    min-height:20px;
+    border-bottom:#EFEFEF solid 1px;
+}
+
+
+.richText-toolbar ul:after{
+    display:block;
+    content:"";
+    clear:both;
+}
+
+.richText-toolbar li{
+    float:left;
+    display:block;
+    list-style:none;
+}
+
+.richText-toolbar li a{
+    display:block;
+    padding:10px 15px;
+    border-right:#EFEFEF solid 1px;
+    cursor:pointer;
+    -webkit-transition:background-color 0.4s;
+    -moz-transition:background-color 0.4s;
+    transition:background-color 0.4s;
+}
+
+.richText-toolbar li a:hover{
+    background-color:#FFF;
+}
+
+.richText-editor{
+    padding:20px;
+    background-color:#FFF;
+    border-left:#FFF solid 2px;
+    font-family:Calibri,Verdana,Helvetica,sans-serif;
+    height:150px;
+    outline:none;
+}
+
+.richText-editor:focus{
+    border-left:#3498db solid 2px;
+}
