@@ -8,7 +8,12 @@
             $toolbarElement = $('<li />'),
             $btnBold = $('<a />', {class: "richText-btn fa fa-bold", text: "Bold"}),
             $btnItalic = $('<a />', {class: "richText-btn fa fa-italic", text: "Italic"}),
-            $btnUnderline;
+            $btnUnderline = $('<a />', {class: "richText-btn fa fa-underline", text: "Underline"}),
+            $btnLeftAlign = $('<a />', {class: "richText-btn fa fa-align-left", text: "Align left"}),
+            $btnCenterAlign = $('<a />', {class: "richText-btn fa fa-align-left", text: "Align center"}),
+            $btnRightAlign = $('<a />', {class: "richText-btn fa fa-align-left", text: "Align right"}),
+            $btnOL = $('<a />', {class: "richText-btn fa fa-list-ol", text: "OL"}),
+            $btnUL = $('<a />', {class: "richText-btn fa fa-list", text: "UL"});
  
         // set default options
         // and merge them with the parameter options
@@ -59,12 +64,34 @@
             var $editorView = $('<div />', {class: "richText-editor", contenteditable: true});
             $toolbar.append($toolbarList);
 
+            /* text formatting */
             if(settings.bold === true) {
                 $toolbarList.append($toolbarElement.clone().append($btnBold));
             }
-
             if(settings.italic === true) {
                 $toolbarList.append($toolbarElement.clone().append($btnItalic));
+            }
+            if(settings.underline === true) {
+                $toolbarList.append($toolbarElement.clone().append($btnUnderline));
+            }
+
+            /* align */
+            if(settings.leftAlign === true) {
+                $toolbarList.append($toolbarElement.clone().append($btnLeftAlign));
+            }
+            if(settings.centerAlign === true) {
+                $toolbarList.append($toolbarElement.clone().append($btnCenterAlign));
+            }
+            if(settings.rightAlign === true) {
+                $toolbarList.append($toolbarElement.clone().append($btnRightAlign));
+            }
+
+            /* lists */
+            if(settings.ol === true) {
+                $toolbarList.append($toolbarElement.clone().append($btnOL));
+            }
+            if(settings.ul === true) {
+                $toolbarList.append($toolbarElement.clone().append($btnUL));
             }
 
 
@@ -73,17 +100,11 @@
             $editor.append($editorView);
             $editor.append($inputElement.clone().hide());
             $inputElement.replaceWith($editor);
-        }
+        };
 
         init();
 
- 
-        // Greenify the collection based on the settings variable.
-        return this.css({
-            color: settings.color,
-            backgroundColor: settings.backgroundColor
-        });
- 
+        return $(this);
     };
  
 }( jQuery ));
