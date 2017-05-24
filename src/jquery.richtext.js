@@ -76,6 +76,7 @@
             $formLabel = $('<label />'), // form label
             $formInput = $('<input />', {type: "text"}), //form input field
             $formInputFile = $('<input />', {type: "file"}), // form file input field
+            $formInputSelect = $('<select />');
             $formButton = $('<button />', {text: "Einfügen", class: "btn"}); // button
 
 
@@ -99,6 +100,16 @@
             $formItem.clone()
                 .append($formLabel.clone().text("Text").attr("for", "urlText"))
                 .append($formInput.clone().attr("id", "urlText"))
+               );
+        $linksForm.append(
+            $formItem.clone()
+                .append($formLabel.clone().text("Open in").attr("for", "openIn"))
+                .append(
+                    $formInputSelect
+                        .clone().attr("id", "openIn")
+                        .append($("<option />", {value: '_self', text: 'Same tab'}))
+                        .append($("<option />", {value: '_blank', text: 'New tab'}))
+                    )
                );
         $linksForm.append( $formItem.clone().append($formButton) );
         $linksDropdown.append($linksForm);

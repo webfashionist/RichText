@@ -14,11 +14,15 @@ $highlight: #3498db;
             padding: 10px 15px;
         }
 
-        input[type="text"], input[type="file"] {
+        input[type="text"], input[type="file"], select {
             padding: 10px 15px;
             border: #999999 solid 1px;
             min-width: 200px;
             width: 100%;
+        }
+
+        select {
+            cursor: pointer;
         }
 
         button {
@@ -68,7 +72,7 @@ $highlight: #3498db;
                         
                         .richText-dropdown {
                             display: block;
-                            margin: 5% auto 0 auto;
+                            margin: 3% auto 0 auto;
                             background-color: #FAFAFA;
                             border: #EFEFEF solid 1px;
                             min-width: 100px;
