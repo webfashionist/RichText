@@ -6,14 +6,23 @@
         var $editor,
             $toolbarList = $('<ul />'),
             $toolbarElement = $('<li />'),
-            $btnBold = $('<a />', {class: "richText-btn fa fa-bold", text: "Bold"}),
-            $btnItalic = $('<a />', {class: "richText-btn fa fa-italic", text: "Italic"}),
-            $btnUnderline = $('<a />', {class: "richText-btn fa fa-underline", text: "Underline"}),
-            $btnLeftAlign = $('<a />', {class: "richText-btn fa fa-align-left", text: "Align left"}),
-            $btnCenterAlign = $('<a />', {class: "richText-btn fa fa-align-left", text: "Align center"}),
-            $btnRightAlign = $('<a />', {class: "richText-btn fa fa-align-left", text: "Align right"}),
-            $btnOL = $('<a />', {class: "richText-btn fa fa-list-ol", text: "OL"}),
-            $btnUL = $('<a />', {class: "richText-btn fa fa-list", text: "UL"});
+            $btnBold = $('<a />', {class: "richText-btn fa fa-bold"}), // bold
+            $btnItalic = $('<a />', {class: "richText-btn fa fa-italic"}), // italic
+            $btnUnderline = $('<a />', {class: "richText-btn fa fa-underline"}), // underline
+            $btnLeftAlign = $('<a />', {class: "richText-btn fa fa-align-left"}), // left align
+            $btnCenterAlign = $('<a />', {class: "richText-btn fa fa-align-center"}), // centered
+            $btnRightAlign = $('<a />', {class: "richText-btn fa fa-align-right"}), // right align
+            $btnOL = $('<a />', {class: "richText-btn fa fa-list-ol"}), // ordered list
+            $btnUL = $('<a />', {class: "richText-btn fa fa-list"}), // unordered list
+            $btnHeading = $('<a />', {class: "richText-btn fa fa-header"}), // title/header
+            $btnFontColor = $('<a />', {class: "richText-btn fa fa-paint-brush"}), // font color
+            $btnImageUpload = $('<a />', {class: "richText-btn fa fa-image"}), // image
+            $btnFileUpload = $('<a />', {class: "richText-btn fa fa-file-text-o"}), // file
+            $btnURLs = $('<a />', {class: "richText-btn fa fa-link"}), // urls/links
+            $btnTable = $('<a />', {class: "richText-btn fa fa-table"}), // table
+            $btnRemoveStyles = $('<a />', {class: "richText-btn fa fa-recycle"}), // clean up styles
+            $btnCode = $('<a />', {class: "richText-btn fa fa-code"}); // code
+
  
         // set default options
         // and merge them with the parameter options
@@ -38,7 +47,6 @@
 
             // colors
             fontColor: true,
-            backgroundColor: true,
 
             // uploads
             imageUpload: true,
@@ -94,6 +102,36 @@
                 $toolbarList.append($toolbarElement.clone().append($btnUL));
             }
 
+            /* heading */
+            if(settings.heading === true) {
+                $toolbarList.append($toolbarElement.clone().append($btnHeading));
+            }
+
+            /* colors */
+            if(settings.fontColor === true) {
+                $toolbarList.append($toolbarElement.clone().append($btnFontColor));
+            }
+
+            /* uploads */
+            if(settings.imageUpload === true) {
+                $toolbarList.append($toolbarElement.clone().append($btnImageUpload));
+            }
+            if(settings.fileUpload === true) {
+                $toolbarList.append($toolbarElement.clone().append($btnFileUpload));
+            }
+
+            /* urls */
+            if(settings.urls === true) {
+                $toolbarList.append($toolbarElement.clone().append($btnURLs));
+            }
+
+            /* code */
+            if(settings.removeStyles === true) {
+                $toolbarList.append($toolbarElement.clone().append($btnRemoveStyles));
+            }
+            if(settings.code === true) {
+                $toolbarList.append($toolbarElement.clone().append($btnCode));
+            }
 
 
             $editor.append($toolbar);
