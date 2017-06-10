@@ -91,6 +91,17 @@
         $titles.append($('<li />', {html: '<a data-command="formatBlock" data-option="h4">Title #4</a>'}));
         $btnHeading.append($dropdownOuter.clone().append($titles));
 
+        /* font colors */
+        var $fontColors = $dropdownList.clone();
+        $fontColors.html(__loadColors("forecolor"));
+        $btnFontColor.append($dropdownOuter.clone().append($fontColors));
+
+
+        /* background colors */
+        //var $bgColors = $dropdownList.clone();
+        //$bgColors.html(__loadColors("hiliteColor"));
+        //$btnBGColor.append($dropdownOuter.clone().append($bgColors));
+
         /* box dropdown for links */
         var $linksDropdown = $dropdownBox.clone();
         var $linksForm = $form.clone();
@@ -437,6 +448,41 @@
                 // IE < 9
                 document.selection.createRange().pasteHTML(html);
             }
+        }
+
+
+        /**
+         * Load colors for font or background
+         * @param {string} command Command
+         * @returns {string}
+         * @private
+         */
+        function __loadColors(command) {
+            var colors = [];
+            var result = '';
+
+            colors["#FFFFFF"] = 'White';
+            colors["#000000"] = 'Black';
+            colors["#7F6000"] = 'Brown';
+            colors["#938953"] = 'Beige';
+            colors["#1F497D"] = 'Dark Blue';
+            colors["blue"] = 'Blue';
+            colors["#4F81BD"] = 'Light blue';
+            colors["#953734"] = 'Dark red';
+            colors["red"] = 'Red';
+            colors["#4F6128"] = 'Dark green';
+            colors["green"] = 'Green';
+            colors["#3F3151"] = 'Purple';
+            colors["#31859B"] = 'Dark Turquois';
+            colors["#4BACC6"] = 'Turquois';
+            colors["#E36C09"] = 'Dark orange';
+            colors["#F79646"] = 'Orange';
+            colors["#FFFF00"] = 'Yellow';
+
+            for (var i in colors) {
+                result += '<li class="inline"><a data-command="' + command + '" data-option="' + i + '" style="text-align:left;" title="' + colors[i] + '"><span class="box-color" style="background-color:' + i + '"></span></a></li>';
+            }
+            return result;
         }
 
 
