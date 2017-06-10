@@ -6,6 +6,12 @@
 }
 
 
+/* general */
+body {
+    background-color: #EFEFEF;
+}
+
+
 /* page */
 .page-wrapper {
     margin: 0 auto;
@@ -17,7 +23,7 @@
 /* box */
 .box-content {
     padding:20px;
-    background-color: #FFF;
+    background-color: #EFEFEF;
 }
 
 
@@ -27,4 +33,13 @@ textarea {
     color:#333;
     height:150px;
     width:100%;
+}
+
+
+/* richtext custom style */
+.richText {
+    margin-top: 40px;
+    -webkit-box-shadow: 0 0 20px 0 #999;
+    -moz-box-shadow: 0 0 20px 0 #999;
+    box-shadow: 0 0 20px 0 #999;
 }
