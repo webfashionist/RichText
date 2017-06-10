@@ -152,7 +152,7 @@ $highlight: #3498db;
                 }
             }
 
-            li:hover:not([data-disable="true"]) .richText-dropdown-outer {
+            li:not([data-disable="true"]).is-selected .richText-dropdown-outer {
                 display: block;
             }
         }

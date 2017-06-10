@@ -224,6 +224,31 @@
             doSave();
         });
 
+        // opening toolbar dropdown
+        $(document).on("click", ".richText-toolbar li a", function() {
+            var $link = $(this);
+            var $editor = $link.closest('.richText-toolbar').siblings('.richText-editor');
+            if($editor.attr("id") === editorID) {
+                // only for the current editor
+                var $li = $link.parent('li');
+                var $dropdown = $link.children('.richText-dropdown-outer');
+                if ($dropdown.length > 0 && !$li.hasClass("is-selected")) {
+                    $li.addClass("is-selected");
+                }
+            }
+        });
+
+        // closing toolbar dropdown
+        $(document).on("click", function(event) {
+            if($(event.target).hasClass("richText-dropdown-outer")) {
+                // closing dropdown by clicking inside the editor
+                $(event.target).parent('a').parent('li').removeClass("is-selected");
+            } else if($(event.target).find(".richText").length > 0) {
+                // closing dropdown by clicking outside of the editor
+                $('.richText-toolbar li').removeClass("is-selected");
+            }
+        });
+
         // Executing editor commands
         $(document).on("click", ".richText-toolbar a[data-command]", function(event) {
             var $button = $(this);
