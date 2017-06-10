@@ -193,9 +193,9 @@
         init();
 
 
-        /**
-         * Toolbar button actions
-         */
+        /** EVENT HANDLERS */
+
+        // Toolbar button actions
         $(document).on("click", ".richText-btn", function(event) {
             event.preventDefault();
 
@@ -203,6 +203,20 @@
                 // toggle displaying code
                 __toggleCode();
             }
+        });
+
+        // Saving changes from editor to textarea
+        $(document).on("keyup keydown change focus blur", ".richText-editor", function() {
+            var $editor = $(this);
+            var content = $editor.html();
+            $editor.siblings('.richText-initial').val(content);
+        });
+
+        // Saving changes from textarea to editor
+        $(document).on("keyup keydown focus blur", ".richText-initial", function() {
+            var $textarea = $(this);
+            var content = $textarea.val();
+            $textarea.siblings('.richText-editor').html(content);
         });
 
 
