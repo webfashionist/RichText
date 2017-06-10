@@ -85,10 +85,10 @@
 
         /* list dropdown for titles */
         var $titles = $dropdownList.clone();
-        $titles.append($('<li />', {html: '<a data-title="1" data-command="formatBlock" data-option="h1">Title #1</a>'}));
-        $titles.append($('<li />', {html: '<a data-title="2" data-command="formatBlock" data-option="h2">Title #2</a>'}));
-        $titles.append($('<li />', {html: '<a data-title="3" data-command="formatBlock" data-option="h3">Title #3</a>'}));
-        $titles.append($('<li />', {html: '<a data-title="4" data-command="formatBlock" data-option="h4">Title #4</a>'}));
+        $titles.append($('<li />', {html: '<a data-command="formatBlock" data-option="h1">Title #1</a>'}));
+        $titles.append($('<li />', {html: '<a data-command="formatBlock" data-option="h2">Title #2</a>'}));
+        $titles.append($('<li />', {html: '<a data-command="formatBlock" data-option="h3">Title #3</a>'}));
+        $titles.append($('<li />', {html: '<a data-command="formatBlock" data-option="h4">Title #4</a>'}));
         $btnHeading.append($dropdownOuter.clone().append($titles));
 
         /* box dropdown for links */
