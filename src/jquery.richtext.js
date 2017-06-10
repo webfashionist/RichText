@@ -49,22 +49,22 @@
         var $editor,
             $toolbarList = $('<ul />'),
             $toolbarElement = $('<li />'),
-            $btnBold = $('<a />', {class: "richText-btn fa fa-bold"}), // bold
-            $btnItalic = $('<a />', {class: "richText-btn fa fa-italic"}), // italic
-            $btnUnderline = $('<a />', {class: "richText-btn fa fa-underline"}), // underline
-            $btnLeftAlign = $('<a />', {class: "richText-btn fa fa-align-left"}), // left align
-            $btnCenterAlign = $('<a />', {class: "richText-btn fa fa-align-center"}), // centered
-            $btnRightAlign = $('<a />', {class: "richText-btn fa fa-align-right"}), // right align
-            $btnOL = $('<a />', {class: "richText-btn fa fa-list-ol"}), // ordered list
-            $btnUL = $('<a />', {class: "richText-btn fa fa-list"}), // unordered list
+            $btnBold = $('<a />', {class: "richText-btn fa fa-bold", "data-command": "bold"}), // bold
+            $btnItalic = $('<a />', {class: "richText-btn fa fa-italic", "data-command": "italic"}), // italic
+            $btnUnderline = $('<a />', {class: "richText-btn fa fa-underline", "data-command": "underline"}), // underline
+            $btnLeftAlign = $('<a />', {class: "richText-btn fa fa-align-left", "data-command": "justifyLeft"}), // left align
+            $btnCenterAlign = $('<a />', {class: "richText-btn fa fa-align-center", "data-command": "justifyCenter"}), // centered
+            $btnRightAlign = $('<a />', {class: "richText-btn fa fa-align-right", "data-command": "justifyRight"}), // right align
+            $btnOL = $('<a />', {class: "richText-btn fa fa-list-ol", "data-command": "insertOrderedList"}), // ordered list
+            $btnUL = $('<a />', {class: "richText-btn fa fa-list", "data-command": "insertUnorderedList"}), // unordered list
             $btnHeading = $('<a />', {class: "richText-btn fa fa-header"}), // title/header
             $btnFontColor = $('<a />', {class: "richText-btn fa fa-paint-brush"}), // font color
             $btnImageUpload = $('<a />', {class: "richText-btn fa fa-image"}), // image
             $btnFileUpload = $('<a />', {class: "richText-btn fa fa-file-text-o"}), // file
             $btnURLs = $('<a />', {class: "richText-btn fa fa-link"}), // urls/links
             $btnTable = $('<a />', {class: "richText-btn fa fa-table"}), // table
-            $btnRemoveStyles = $('<a />', {class: "richText-btn fa fa-recycle"}), // clean up styles
-            $btnCode = $('<a />', {class: "richText-btn fa fa-code"}); // code
+            $btnRemoveStyles = $('<a />', {class: "richText-btn fa fa-recycle", "data-command": "removeFormat"}), // clean up styles
+            $btnCode = $('<a />', {class: "richText-btn fa fa-code", "data-command": "toggleCode"}); // code
 
         
         /* prepare toolbar dropdowns */
@@ -76,21 +76,24 @@
             $formLabel = $('<label />'), // form label
             $formInput = $('<input />', {type: "text"}), //form input field
             $formInputFile = $('<input />', {type: "file"}), // form file input field
-            $formInputSelect = $('<select />');
+            $formInputSelect = $('<select />'),
             $formButton = $('<button />', {text: "Einfügen", class: "btn"}); // button
 
+        /* internal settings */
+        var saveSelection, restoreSelection, savedSelection; // caret position/selection
+        var editorID = "richText-" + Math.random().toString(36).substring(7);
 
         /* list dropdown for titles */
-        $titles = $dropdownList.clone();
-        $titles.append($('<li />', {html: '<a data-title="1">Title #1</a>'}));
-        $titles.append($('<li />', {html: '<a data-title="2">Title #2</a>'}));
-        $titles.append($('<li />', {html: '<a data-title="3">Title #3</a>'}));
-        $titles.append($('<li />', {html: '<a data-title="4">Title #4</a>'}));
+        var $titles = $dropdownList.clone();
+        $titles.append($('<li />', {html: '<a data-title="1" data-command="formatBlock" data-option="h1">Title #1</a>'}));
+        $titles.append($('<li />', {html: '<a data-title="2" data-command="formatBlock" data-option="h2">Title #2</a>'}));
+        $titles.append($('<li />', {html: '<a data-title="3" data-command="formatBlock" data-option="h3">Title #3</a>'}));
+        $titles.append($('<li />', {html: '<a data-title="4" data-command="formatBlock" data-option="h4">Title #4</a>'}));
         $btnHeading.append($dropdownOuter.clone().append($titles));
 
         /* box dropdown for links */
-        $linksDropdown = $dropdownBox.clone();
-        $linksForm = $form.clone();
+        var $linksDropdown = $dropdownBox.clone();
+        var $linksForm = $form.clone();
         $linksForm.append(
             $formItem.clone()
                 .append($formLabel.clone().text("URL").attr("for", "url"))
@@ -119,7 +122,7 @@
         var init = function() {
             $editor = $('<div />', {class: "richText"});
             var $toolbar = $('<div />', {class: "richText-toolbar"});
-            var $editorView = $('<div />', {class: "richText-editor", contenteditable: true});
+            var $editorView = $('<div />', {class: "richText-editor", id: editorID, contenteditable: true});
             $toolbar.append($toolbarList);
 
             /* text formatting */
@@ -175,6 +178,10 @@
                 $toolbarList.append($toolbarElement.clone().append($btnURLs));
             }
 
+            if(settings.table === true) {
+                $toolbarList.append($toolbarElement.clone().append($btnTable));
+            }
+
             /* code */
             if(settings.removeStyles === true) {
                 $toolbarList.append($toolbarElement.clone().append($btnRemoveStyles));
@@ -194,35 +201,248 @@
 
 
         /** EVENT HANDLERS */
-
-        // Toolbar button actions
-        $(document).on("click", ".richText-btn", function(event) {
-            event.preventDefault();
-
-            if($(this).hasClass("fa-code")) {
-                // toggle displaying code
-                __toggleCode();
-            }
-        });
-
         // Saving changes from editor to textarea
-        $(document).on("keyup keydown change focus blur", ".richText-editor", function() {
-            var $editor = $(this);
-            var content = $editor.html();
-            $editor.siblings('.richText-initial').val(content);
+        $(document).on("keyup keydown change blur paste copy cut", ".richText-editor", function() {
+            __updateTextarea();
+            doSave();
         });
 
         // Saving changes from textarea to editor
-        $(document).on("keyup keydown focus blur", ".richText-initial", function() {
-            var $textarea = $(this);
-            var content = $textarea.val();
-            $textarea.siblings('.richText-editor').html(content);
+        $(document).on("keyup keydown blur paste copy cut", ".richText-initial", function() {
+            __updateEditor();
+            doSave();
         });
+
+        // Executing editor commands
+        $(document).on("click", ".richText-toolbar a[data-command]", function(event) {
+            var $button = $(this);
+            var $toolbar = $button.closest('.richText-toolbar');
+            if($toolbar.siblings("#" + editorID).length > 0 && (!$button.parent("li").attr('data-disable') || $button.parent("li").attr('data-disable') === "false")) {
+                event.preventDefault();
+                var command = $(this).data("command");
+
+                if(command === "toggleCode") {
+                    __toggleCode();
+                } else {
+                    var option = null;
+                    if ($(this).data('option')) {
+                        option = $(this).data('option');
+                        if (option.match(/^h[1-6]$/)) {
+                            command = "heading";
+                        }
+                    }
+                    __formatText(command, option);
+                    if (command === "removeFormat") {
+                        __formatText('formatBlock', 'div');
+                    }
+                }
+            }
+
+        });
+
+
+
+        /** INTERNAL METHODS **/
+
+        /**
+         * Format text in editor
+         * @param {string} command
+         * @param {string|null} option
+         * @private
+         */
+        function __formatText(command, option) {
+            if (typeof option === "undefined") {
+                option = null;
+            }
+            // restore selection from before clicking on any button
+            doRestore();
+            // Temporarily enable designMode so that
+            // document.execCommand() will work
+            document.designMode = "ON";
+            // Execute the command
+            if(command === "heading" && __getSelectedText()) {
+                // IE workaround
+                __pasteHtmlAtCaret('<' + option + '>' + __getSelectedText() + '</' + option + '>');
+            } else {
+                document.execCommand(command, false, option);
+            }
+            // Disable designMode
+            document.designMode = "OFF";
+        }
+
+
+        /**
+         * Update textarea when updating editor
+         * @private
+         */
+        function __updateTextarea() {
+            var $editor = $('#' + editorID);
+            var content = $editor.html();
+            $editor.siblings('.richText-initial').val(content);
+        }
+
+
+        /**
+         * Update editor when updating textarea
+         * @private
+         */
+        function __updateEditor() {
+            var $editor = $('#' + editorID);
+            var content = $editor.siblings('.richText-initial').val();
+            $editor.html(content);
+        }
+
+        /** save caret position **/
+        if (window.getSelection && document.createRange) {
+            saveSelection = function() {
+                var containerEl = document.getElementById(editorID);
+                var range = window.getSelection().getRangeAt(0);
+                var preSelectionRange = range.cloneRange();
+                preSelectionRange.selectNodeContents(containerEl);
+                preSelectionRange.setEnd(range.startContainer, range.startOffset);
+                var start = preSelectionRange.toString().length;
+
+                return {
+                    start: start,
+                    end: start + range.toString().length
+                }
+            };
+            restoreSelection = function() {
+                var containerEl = document.getElementById(editorID);
+                var savedSel = savedSelection;
+                var charIndex = 0, range = document.createRange();
+                range.setStart(containerEl, 0);
+                range.collapse(true);
+                var nodeStack = [containerEl], node, foundStart = false, stop = false;
+
+                while (!stop && (node = nodeStack.pop())) {
+                    if (node.nodeType === 3) {
+                        var nextCharIndex = charIndex + node.length;
+                        if (!foundStart && savedSel.start >= charIndex && savedSel.start <= nextCharIndex) {
+                            range.setStart(node, savedSel.start - charIndex);
+                            foundStart = true;
+                        }
+                        if (foundStart && savedSel.end >= charIndex && savedSel.end <= nextCharIndex) {
+                            range.setEnd(node, savedSel.end - charIndex);
+                            stop = true;
+                        }
+                        charIndex = nextCharIndex;
+                    } else {
+                        var i = node.childNodes.length;
+                        while (i--) {
+                            nodeStack.push(node.childNodes[i]);
+                        }
+                    }
+                }
+
+                var sel = window.getSelection();
+                sel.removeAllRanges();
+                sel.addRange(range);
+            };
+        } else if (document.selection && document.body.createTextRange) {
+            saveSelection = function() {
+                var containerEl = document.getElementById(editorID);
+                var selectedTextRange = document.selection.createRange();
+                var preSelectionTextRange = document.body.createTextRange();
+                preSelectionTextRange.moveToElementText(containerEl);
+                preSelectionTextRange.setEndPoint("EndToStart", selectedTextRange);
+                var start = preSelectionTextRange.text.length;
+
+                return {
+                    start: start,
+                    end: start + selectedTextRange.text.length
+                };
+            };
+            restoreSelection = function() {
+                var containerEl = document.getElementById(editorID);
+                var savedSel = savedSelection;
+                var textRange = document.body.createTextRange();
+                textRange.moveToElementText(containerEl);
+                textRange.collapse(true);
+                textRange.moveEnd("character", savedSel.end);
+                textRange.moveStart("character", savedSel.start);
+                textRange.select();
+            };
+        }
+
+        /**
+         * Returns the text from the current selection
+         * @private
+         * @return {string|boolean}
+         */
+        function __getSelectedText () {
+            var range;
+            if (window.getSelection) {  // all browsers, except IE before version 9
+                range = window.getSelection ();
+                return range.toString();
+            } else  if (document.selection.createRange) { // Internet Explorer
+                range = document.selection.createRange ();
+                return range.text;
+            }
+            return false;
+        }
+
+        /**
+         * Save selection
+         */
+        function doSave() {
+            savedSelection = saveSelection();
+        }
+
+        /**
+         * Restore selection
+         */
+        function doRestore() {
+            if(savedSelection) {
+                restoreSelection();
+            }
+        }
+
+        /**
+         * Paste HTML at caret position
+         * @param {string} html HTML code
+         * @private
+         */
+        function __pasteHtmlAtCaret(html) {
+            // add HTML code for Internet Explorer
+            var sel, range;
+            if (window.getSelection) {
+                // IE9 and non-IE
+                sel = window.getSelection();
+                if (sel.getRangeAt && sel.rangeCount) {
+                    range = sel.getRangeAt(0);
+                    range.deleteContents();
+
+                    // Range.createContextualFragment() would be useful here but is
+                    // only relatively recently standardized and is not supported in
+                    // some browsers (IE9, for one)
+                    var el = document.createElement("div");
+                    el.innerHTML = html;
+                    var frag = document.createDocumentFragment(), node, lastNode;
+                    while ( (node = el.firstChild) ) {
+                        lastNode = frag.appendChild(node);
+                    }
+                    range.insertNode(frag);
+
+                    // Preserve the selection
+                    if (lastNode) {
+                        range = range.cloneRange();
+                        range.setStartAfter(lastNode);
+                        range.collapse(true);
+                        sel.removeAllRanges();
+                        sel.addRange(range);
+                    }
+                }
+            } else if (document.selection && document.selection.type !== "Control") {
+                // IE < 9
+                document.selection.createRange().pasteHTML(html);
+            }
+        }
 
 
         /**
          * Toggle (show/hide) code or editor
-         * @return {void}
+         * @private
          */
         function __toggleCode() {
 
