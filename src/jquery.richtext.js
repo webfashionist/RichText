@@ -307,15 +307,23 @@
         if (window.getSelection && document.createRange) {
             saveSelection = function() {
                 var containerEl = document.getElementById(editorID);
-                var range = window.getSelection().getRangeAt(0);
-                var preSelectionRange = range.cloneRange();
-                preSelectionRange.selectNodeContents(containerEl);
-                preSelectionRange.setEnd(range.startContainer, range.startOffset);
-                var start = preSelectionRange.toString().length;
+                var sel = window.getSelection && window.getSelection();
+                if (sel && sel.rangeCount > 0) {
+                    var range = window.getSelection().getRangeAt(0);
+                    var preSelectionRange = range.cloneRange();
+                    preSelectionRange.selectNodeContents(containerEl);
+                    preSelectionRange.setEnd(range.startContainer, range.startOffset);
+                    var start = preSelectionRange.toString().length;
 
-                return {
-                    start: start,
-                    end: start + range.toString().length
+                    return {
+                        start: start,
+                        end: start + range.toString().length
+                    }
+                } else {
+                    return {
+                        start: 0,
+                        end: 0
+                    }
                 }
             };
             restoreSelection = function() {
