@@ -104,7 +104,7 @@
 
         /* box dropdown for links */
         var $linksDropdown = $dropdownBox.clone();
-        var $linksForm = $form.clone();
+        var $linksForm = $form.clone().attr("id", "richText-URL").attr("data-editor", editorID);
         $linksForm.append(
             $formItem.clone()
                 .append($formLabel.clone().text("URL").attr("for", "url"))
@@ -224,21 +224,46 @@
             doSave();
         });
 
-        // opening toolbar dropdown
-        $(document).on("click", ".richText-toolbar li a", function() {
-            var $link = $(this);
-            var $editor = $link.closest('.richText-toolbar').siblings('.richText-editor');
-            if($editor.attr("id") === editorID) {
-                // only for the current editor
-                var $li = $link.parent('li');
-                var $dropdown = $link.children('.richText-dropdown-outer');
-                if ($dropdown.length > 0 && !$li.hasClass("is-selected")) {
-                    $li.addClass("is-selected");
+        // adding URL
+        $(document).on("click", "#richText-URL button.btn", function(event) {
+            event.preventDefault();
+            var $button = $(this);
+            var $form = $button.parent('.richText-form-item').parent('.richText-form');
+            if($form.attr("data-editor") === editorID) {
+                // only for currently selected editor
+                var url = $form.find('input#url').val();
+                var text = $form.find('input#urlText').val();
+                var target = $form.find('#openIn').val();
+
+                // set default values
+                if(!target) {
+                    target = '_self';
+                }
+                if(!text) {
+                    text = url;
+                }
+                if(!url) {
+                    // no url set
+                    $form.prepend($('<div />', {style: 'color:red;display:none;', class: 'form-item is-error', text: 'Please enter an URL'}));
+                    $form.children('.form-item.is-error').slideDown();
+                    setTimeout(function() {
+                        $form.children('.form-item.is-error').slideUp(function () {
+                            $(this).remove();
+                        });
+                    }, 5000);
+                } else {
+                    var html = '<a href="' + url + '" target="' + target + '">' + text + '</a>';
+                    restoreSelection();
+                    __pasteHtmlAtCaret(html);
+                    $form.find('input#url').val('');
+                    $form.find('input#urlText').val('');
+                    $form.find('#openIn').val('');
+                    $('.richText-toolbar li.is-selected').removeClass("is-selected");
                 }
             }
         });
 
-        // closing toolbar dropdown
+        // opening / closing toolbar dropdown
         $(document).on("click", function(event) {
             if($(event.target).hasClass("richText-dropdown-outer")) {
                 // closing dropdown by clicking inside the editor
@@ -246,6 +271,9 @@
             } else if($(event.target).find(".richText").length > 0) {
                 // closing dropdown by clicking outside of the editor
                 $('.richText-toolbar li').removeClass("is-selected");
+            } else if($(event.target).hasClass("richText-btn") && $(event.target).children('.richText-dropdown-outer').length > 0) {
+                // opening dropdown by clicking on toolbar button
+                $(event.target).parent('li').addClass("is-selected");
             }
         });
 
