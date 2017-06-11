@@ -252,12 +252,13 @@
                         });
                     }, 5000);
                 } else {
+                    // write html in editor
                     var html = '<a href="' + url + '" target="' + target + '">' + text + '</a>';
                     restoreSelection();
                     __pasteHtmlAtCaret(html);
+                    // reset input values
                     $form.find('input#url').val('');
                     $form.find('input#urlText').val('');
-                    $form.find('#openIn').val('');
                     $('.richText-toolbar li.is-selected').removeClass("is-selected");
                 }
             }
@@ -276,11 +277,11 @@
                 $(event.target).parent('li').addClass("is-selected");
 
                 if($(event.target).hasClass("fa-link")) {
+                    // put currently selected text in URL form to replace it
                     restoreSelection();
                     var selectedText = __getSelectedText();
                     $(event.target).find("input#urlText").val('');
                     $(event.target).find("input#url").val('');
-                    $(event.target).find("input#openIn").val('');
                     if(selectedText) {
                         $(event.target).find("input#urlText").val(selectedText);
                     }
