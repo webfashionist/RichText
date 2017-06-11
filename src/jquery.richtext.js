@@ -334,7 +334,7 @@
             doRestore();
             // Temporarily enable designMode so that
             // document.execCommand() will work
-            document.designMode = "ON";
+            // document.designMode = "ON";
             // Execute the command
             if(command === "heading" && __getSelectedText()) {
                 // IE workaround
@@ -343,7 +343,7 @@
                 document.execCommand(command, false, option);
             }
             // Disable designMode
-            document.designMode = "OFF";
+            // document.designMode = "OFF";
         }
 
 
