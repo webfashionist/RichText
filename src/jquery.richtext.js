@@ -274,6 +274,17 @@
             } else if($(event.target).hasClass("richText-btn") && $(event.target).children('.richText-dropdown-outer').length > 0) {
                 // opening dropdown by clicking on toolbar button
                 $(event.target).parent('li').addClass("is-selected");
+
+                if($(event.target).hasClass("fa-link")) {
+                    restoreSelection();
+                    var selectedText = __getSelectedText();
+                    $(event.target).find("input#urlText").val('');
+                    $(event.target).find("input#url").val('');
+                    $(event.target).find("input#openIn").val('');
+                    if(selectedText) {
+                        $(event.target).find("input#urlText").val(selectedText);
+                    }
+                }
             }
         });
 
