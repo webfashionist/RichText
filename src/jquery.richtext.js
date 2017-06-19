@@ -155,6 +155,22 @@
         $imageDropdown.append($imageForm);
         $btnImageUpload.append($dropdownOuter.clone().append($imageDropdown));
 
+        /* box dropdown for file upload/file selection */
+        var $fileDropdown = $dropdownBox.clone();
+        var $fileForm = $form.clone().attr("id", "richText-File").attr("data-editor", editorID);
+        $fileForm.append(
+            $formItem.clone()
+                .append($formLabel.clone().text("File URL").attr("for", "fileURL"))
+                .append($formInput.clone().attr("id", "fileURL"))
+               );
+        $fileForm.append(
+            $formItem.clone()
+                .append($formLabel.clone().text("Link text").attr("for", "fileText"))
+                .append($formInput.clone().attr("id", "fileText"))
+               );
+        $fileForm.append( $formItem.clone().append($formButton.clone()) );
+        $fileDropdown.append($fileForm);
+        $btnFileUpload.append($dropdownOuter.clone().append($fileDropdown));
 
         /* initizalize editor */
         var init = function() {
@@ -331,6 +347,41 @@
             }
         });
 
+        // adding file
+        $(document).on("click", "#richText-File button.btn", function(event) {
+            event.preventDefault();
+            var $button = $(this);
+            var $form = $button.parent('.richText-form-item').parent('.richText-form');
+            if($form.attr("data-editor") === editorID) {
+                // only for currently selected editor
+                var url = $form.find('input#fileURL').val();
+                var text = $form.find('input#fileText').val();
+
+                // set default values
+                if(!text) {
+                    text = url;
+                }
+                if(!url) {
+                    // no url set
+                    $form.prepend($('<div />', {style: 'color:red;display:none;', class: 'form-item is-error', text: 'Please select a file.'}));
+                    $form.children('.form-item.is-error').slideDown();
+                    setTimeout(function() {
+                        $form.children('.form-item.is-error').slideUp(function () {
+                            $(this).remove();
+                        });
+                    }, 5000);
+                } else {
+                    // write html in editor
+                    var html = '<a href="' + url + '" target="_blank">' + text + '</a>';
+                    restoreSelection();
+                    __pasteHtmlAtCaret(html);
+                    // reset input values
+                    $form.find('input#fileURL').val('');
+                    $form.find('input#fileText').val('');
+                    $('.richText-toolbar li.is-selected').removeClass("is-selected");
+                }
+            }
+        });
 
         // opening / closing toolbar dropdown
         $(document).on("click", function(event) {
