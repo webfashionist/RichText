@@ -128,7 +128,7 @@
                         .append($("<option />", {value: '_blank', text: 'New tab'}))
                     )
                );
-        $linksForm.append( $formItem.clone().append($formButton) );
+        $linksForm.append( $formItem.clone().append($formButton.clone()) );
         $linksDropdown.append($linksForm);
         $btnURLs.append($dropdownOuter.clone().append($linksDropdown));
 
@@ -151,7 +151,7 @@
                         .append($("<option />", {value: 'right', text: 'Right'}))
                     )
                );
-        $imageForm.append( $formItem.clone().append($formButton) );
+        $imageForm.append( $formItem.clone().append($formButton.clone()) );
         $imageDropdown.append($imageForm);
         $btnImageUpload.append($dropdownOuter.clone().append($imageDropdown));
 
