@@ -132,6 +132,30 @@
         $linksDropdown.append($linksForm);
         $btnURLs.append($dropdownOuter.clone().append($linksDropdown));
 
+        /* box dropdown for image upload/image selection */
+        var $imageDropdown = $dropdownBox.clone();
+        var $imageForm = $form.clone().attr("id", "richText-Image").attr("data-editor", editorID);
+        $imageForm.append(
+            $formItem.clone()
+                .append($formLabel.clone().text("Image URL").attr("for", "imageURL"))
+                .append($formInput.clone().attr("id", "imageURL"))
+               );
+        $imageForm.append(
+            $formItem.clone()
+                .append($formLabel.clone().text("Align").attr("for", "align"))
+                .append(
+                    $formInputSelect
+                        .clone().attr("id", "align")
+                        .append($("<option />", {value: 'left', text: 'Left'}))
+                        .append($("<option />", {value: 'center', text: 'Center'}))
+                        .append($("<option />", {value: 'right', text: 'Right'}))
+                    )
+               );
+        $imageForm.append( $formItem.clone().append($formButton) );
+        $imageDropdown.append($imageForm);
+        $btnImageUpload.append($dropdownOuter.clone().append($imageDropdown));
+
+
         /* initizalize editor */
         var init = function() {
             $editor = $('<div />', {class: "richText"});
@@ -267,27 +291,77 @@
             }
         });
 
+        // adding image
+        $(document).on("click", "#richText-Image button.btn", function(event) {
+            event.preventDefault();
+            var $button = $(this);
+            var $form = $button.parent('.richText-form-item').parent('.richText-form');
+            if($form.attr("data-editor") === editorID) {
+                // only for currently selected editor
+                var url = $form.find('input#imageURL').val();
+                var align = $form.find('select#align').val();
+
+                // set default values
+                if(!align) {
+                    align = 'center';
+                }
+                if(!url) {
+                    // no url set
+                    $form.prepend($('<div />', {style: 'color:red;display:none;', class: 'form-item is-error', text: 'Please select an image.'}));
+                    $form.children('.form-item.is-error').slideDown();
+                    setTimeout(function() {
+                        $form.children('.form-item.is-error').slideUp(function () {
+                            $(this).remove();
+                        });
+                    }, 5000);
+                } else {
+                    // write html in editor
+                    var html = '';
+                    if(align === "center") {
+                        html = '<div style="text-align:center;"><img src="' + url + '"></div>';
+                    } else {
+                        html = '<img src="' + url + '" align="' + align + '">';
+                    }
+                    restoreSelection();
+                    __pasteHtmlAtCaret(html);
+                    // reset input values
+                    $form.find('input#imageURL').val('');
+                    $('.richText-toolbar li.is-selected').removeClass("is-selected");
+                }
+            }
+        });
+
+
         // opening / closing toolbar dropdown
         $(document).on("click", function(event) {
-            if($(event.target).hasClass("richText-dropdown-outer")) {
+            var $clickedElement = $(event.target);
+
+            if($clickedElement.parents('.richText-toolbar').length === 0) {
+                // element not in toolbar
+                return false;
+            }
+
+            if($clickedElement.hasClass("richText-dropdown-outer")) {
                 // closing dropdown by clicking inside the editor
-                $(event.target).parent('a').parent('li').removeClass("is-selected");
-            } else if($(event.target).find(".richText").length > 0) {
+                $clickedElement.parent('a').parent('li').removeClass("is-selected");
+            } else if($clickedElement.find(".richText").length > 0) {
                 // closing dropdown by clicking outside of the editor
                 $('.richText-toolbar li').removeClass("is-selected");
-            } else if($(event.target).hasClass("richText-btn") && $(event.target).children('.richText-dropdown-outer').length > 0) {
+            } else if($clickedElement.hasClass("richText-btn") && $(event.target).children('.richText-dropdown-outer').length > 0) {
                 // opening dropdown by clicking on toolbar button
-                $(event.target).parent('li').addClass("is-selected");
+                $clickedElement.parent('li').addClass("is-selected");
 
-                if($(event.target).hasClass("fa-link")) {
+                if($clickedElement.hasClass("fa-link")) {
                     // put currently selected text in URL form to replace it
                     restoreSelection();
                     var selectedText = __getSelectedText();
-                    $(event.target).find("input#urlText").val('');
-                    $(event.target).find("input#url").val('');
+                    $clickedElement.find("input#urlText").val('');
+                    $clickedElement.find("input#url").val('');
                     if(selectedText) {
-                        $(event.target).find("input#urlText").val(selectedText);
+                        $clickedElement.find("input#urlText").val(selectedText);
                     }
+                } else if($clickedElement.hasClass("fa-image")) {
+                    // image
                 }
             }
         });
@@ -317,7 +391,7 @@
                 }
             }
         });
-        
+
 
 
         /** INTERNAL METHODS **/
