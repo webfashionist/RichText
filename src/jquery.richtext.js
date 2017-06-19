@@ -38,7 +38,10 @@
 
             // code
             removeStyles: true,
-            code: true
+            code: true,
+
+            // colors
+            colors: []
 
         }, options );
 
@@ -313,9 +316,8 @@
                     }
                 }
             }
-
         });
-
+        
 
 
         /** INTERNAL METHODS **/
@@ -454,7 +456,7 @@
          * @private
          * @return {string|boolean}
          */
-        function __getSelectedText () {
+        function __getSelectedText() {
             var range;
             if (window.getSelection) {  // all browsers, except IE before version 9
                 range = window.getSelection ();
@@ -551,6 +553,10 @@
             colors["#E36C09"] = 'Dark orange';
             colors["#F79646"] = 'Orange';
             colors["#FFFF00"] = 'Yellow';
+
+            if(settings.colors && settings.colors.length > 0) {
+                colors = settings.colors;
+            }
 
             for (var i in colors) {
                 result += '<li class="inline"><a data-command="' + command + '" data-option="' + i + '" style="text-align:left;" title="' + colors[i] + '"><span class="box-color" style="background-color:' + i + '"></span></a></li>';
