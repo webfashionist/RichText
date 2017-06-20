@@ -14,7 +14,7 @@ $highlight: #3498db;
             padding: 10px 15px;
         }
 
-        input[type="text"], input[type="file"], select {
+        input[type="text"], input[type="file"], input[type="number"], select {
             padding: 10px 15px;
             border: #999999 solid 1px;
             min-width: 200px;
@@ -176,6 +176,17 @@ $highlight: #3498db;
 
         ul, ol {
             margin: 10px 25px;
+        }
+
+        table {
+            margin:10px 0;
+            border-spacing:0;
+            width:100%;
+
+            td, th {
+                padding: 10px;
+                border:#EFEFEF solid 1px;
+            }
         }
     }
 

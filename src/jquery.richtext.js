@@ -162,15 +162,33 @@
             $formItem.clone()
                 .append($formLabel.clone().text("File URL").attr("for", "fileURL"))
                 .append($formInput.clone().attr("id", "fileURL"))
-               );
+            );
         $fileForm.append(
             $formItem.clone()
                 .append($formLabel.clone().text("Link text").attr("for", "fileText"))
                 .append($formInput.clone().attr("id", "fileText"))
-               );
+            );
         $fileForm.append( $formItem.clone().append($formButton.clone()) );
         $fileDropdown.append($fileForm);
         $btnFileUpload.append($dropdownOuter.clone().append($fileDropdown));
+
+        /* box dropdown for tables */
+        var $tableDropdown = $dropdownBox.clone();
+        var $tableForm = $form.clone().attr("id", "richText-Table").attr("data-editor", editorID);
+        $tableForm.append(
+            $formItem.clone()
+                .append($formLabel.clone().text("Rows").attr("for", "tableRows"))
+                .append($formInput.clone().attr("id", "tableRows").attr("type", "number"))
+            );
+        $tableForm.append(
+            $formItem.clone()
+                .append($formLabel.clone().text("Columns").attr("for", "tableColumns"))
+                .append($formInput.clone().attr("id", "tableColumns").attr("type", "number"))
+            );
+        $tableForm.append( $formItem.clone().append($formButton.clone()) );
+        $tableDropdown.append($tableForm);
+        $btnTable.append($dropdownOuter.clone().append($tableDropdown));
+
 
         /* initizalize editor */
         var init = function() {
@@ -380,6 +398,48 @@
                     $form.find('input#fileText').val('');
                     $('.richText-toolbar li.is-selected').removeClass("is-selected");
                 }
+            }
+        });
+
+
+        // adding table
+        $(document).on("click", "#richText-Table button.btn", function(event) {
+            event.preventDefault();
+            var $button = $(this);
+            var $form = $button.parent('.richText-form-item').parent('.richText-form');
+            if($form.attr("data-editor") === editorID) {
+                // only for currently selected editor
+                var rows = $form.find('input#tableRows').val();
+                var columns = $form.find('input#tableColumns').val();
+
+                // set default values
+                if(!rows || rows <= 0) {
+                    rows = 2;
+                }
+                if(!columns || columns <= 0) {
+                    columns = 2;
+                }
+                
+                // generate table
+                var html = '<table class="table-1"><tbody>';
+                for(var i = 1; i <= rows; i++) {
+                    // start new row
+                    html += '<tr>';
+                    for(var n = 1; n <= columns; n++) {
+                        // start new column in row
+                        html += '<td> </td>';
+                    }
+                    html += '</tr>';
+                }
+                html += '</tbod></table>';
+
+                // write html in editor
+                restoreSelection();
+                __pasteHtmlAtCaret(html);
+                // reset input values
+                $form.find('input#tableColumns').val('');
+                $form.find('input#tableRows').val('');
+                $('.richText-toolbar li.is-selected').removeClass("is-selected");
             }
         });
 
