@@ -41,7 +41,10 @@
             code: true,
 
             // colors
-            colors: []
+            colors: [],
+            // dropdowns
+            fileHTML: '',
+            imageHTML: ''
 
         }, options );
 
@@ -135,22 +138,30 @@
         /* box dropdown for image upload/image selection */
         var $imageDropdown = $dropdownBox.clone();
         var $imageForm = $form.clone().attr("id", "richText-Image").attr("data-editor", editorID);
-        $imageForm.append(
-            $formItem.clone()
-                .append($formLabel.clone().text("Image URL").attr("for", "imageURL"))
-                .append($formInput.clone().attr("id", "imageURL"))
-               );
-        $imageForm.append(
-            $formItem.clone()
-                .append($formLabel.clone().text("Align").attr("for", "align"))
-                .append(
-                    $formInputSelect
-                        .clone().attr("id", "align")
-                        .append($("<option />", {value: 'left', text: 'Left'}))
-                        .append($("<option />", {value: 'center', text: 'Center'}))
-                        .append($("<option />", {value: 'right', text: 'Right'}))
-                    )
-               );
+
+        if(settings.imageHTML 
+            && ($(settings.imageHTML).find('#imageURL').length > 0 || $(settings.imageHTML).attr("id") === "imageURL")) {
+            // custom image form
+            $imageForm.html(settings.imageHTML);
+        } else {
+            // default image form
+            $imageForm.append(
+                $formItem.clone()
+                    .append($formLabel.clone().text("Image URL").attr("for", "imageURL"))
+                    .append($formInput.clone().attr("id", "imageURL"))
+                   );
+            $imageForm.append(
+                $formItem.clone()
+                    .append($formLabel.clone().text("Align").attr("for", "align"))
+                    .append(
+                        $formInputSelect
+                            .clone().attr("id", "align")
+                            .append($("<option />", {value: 'left', text: 'Left'}))
+                            .append($("<option />", {value: 'center', text: 'Center'}))
+                            .append($("<option />", {value: 'right', text: 'Right'}))
+                        )
+                   );
+        }
         $imageForm.append( $formItem.clone().append($formButton.clone()) );
         $imageDropdown.append($imageForm);
         $btnImageUpload.append($dropdownOuter.clone().append($imageDropdown));
@@ -158,16 +169,24 @@
         /* box dropdown for file upload/file selection */
         var $fileDropdown = $dropdownBox.clone();
         var $fileForm = $form.clone().attr("id", "richText-File").attr("data-editor", editorID);
-        $fileForm.append(
-            $formItem.clone()
-                .append($formLabel.clone().text("File URL").attr("for", "fileURL"))
-                .append($formInput.clone().attr("id", "fileURL"))
-            );
-        $fileForm.append(
-            $formItem.clone()
-                .append($formLabel.clone().text("Link text").attr("for", "fileText"))
-                .append($formInput.clone().attr("id", "fileText"))
-            );
+
+        if(settings.fileHTML 
+            && ($(settings.fileHTML).find('#fileURL').length > 0 || $(settings.fileHTML).attr("id") === "fileURL")) {
+            // custom file form
+            $fileForm.html(settings.fileHTML);
+        } else {
+            // default file form
+            $fileForm.append(
+                $formItem.clone()
+                    .append($formLabel.clone().text("File URL").attr("for", "fileURL"))
+                    .append($formInput.clone().attr("id", "fileURL"))
+                );
+            $fileForm.append(
+                $formItem.clone()
+                    .append($formLabel.clone().text("Link text").attr("for", "fileText"))
+                    .append($formInput.clone().attr("id", "fileText"))
+                );
+        }
         $fileForm.append( $formItem.clone().append($formButton.clone()) );
         $fileDropdown.append($fileForm);
         $btnFileUpload.append($dropdownOuter.clone().append($fileDropdown));
@@ -192,6 +211,47 @@
 
         /* initizalize editor */
         var init = function() {
+            var value, attributes, attributes_html = '';
+            // reformat $inputElement to textarea
+            if($inputElement.prop("tagName") === "TEXTAREA") {
+                // everything perfect
+            } else if($inputElement.val()) {
+                value = $inputElement.val();
+                attributes = $inputElement.prop("attributes");
+                // loop through <select> attributes and apply them on <div>
+                $.each(attributes, function() {
+                    if(this.name) {
+                        attributes_html += ' ' + this.name + '="' + this.value + '"';
+                    }
+                });
+                $inputElement.replaceWith($('<textarea' + attributes_html + ' data-richtext="init">' + value + '</textarea>'));
+                $inputElement = $('[data-richtext="init"]');
+                $inputElement.removeAttr("data-richtext");
+            } else if($inputElement.html()) {
+                value = $inputElement.html();
+                attributes = $inputElement.prop("attributes");
+                // loop through <select> attributes and apply them on <div>
+                $.each(attributes, function() {
+                    if(this.name) {
+                        attributes_html += ' ' + this.name + '="' + this.value + '"';
+                    }
+                });
+                $inputElement.replaceWith($('<textarea' + attributes_html + ' data-richtext="init">' + value + '</textarea>'));
+                $inputElement = $('[data-richtext="init"]');
+                $inputElement.removeAttr("data-richtext");
+            } else {
+                attributes = $inputElement.prop("attributes");
+                // loop through <select> attributes and apply them on <div>
+                $.each(attributes, function() {
+                    if(this.name) {
+                        attributes_html += ' ' + this.name + '="' + this.value + '"';
+                    }
+                });
+                $inputElement.replaceWith($('<textarea' + attributes_html + ' data-richtext="init"></textarea>'));
+                $inputElement = $('[data-richtext="init"]');
+                $inputElement.removeAttr("data-richtext");
+            }
+
             $editor = $('<div />', {class: "richText"});
             var $toolbar = $('<div />', {class: "richText-toolbar"});
             var $editorView = $('<div />', {class: "richText-editor", id: editorID, contenteditable: true});
@@ -262,6 +322,8 @@
                 $toolbarList.append($toolbarElement.clone().append($btnCode));
             }
 
+            // set current textarea value to editor
+            $editorView.html($inputElement.val());
 
             $editor.append($toolbar);
             $editor.append($editorView);
@@ -332,7 +394,7 @@
             var $form = $button.parent('.richText-form-item').parent('.richText-form');
             if($form.attr("data-editor") === editorID) {
                 // only for currently selected editor
-                var url = $form.find('input#imageURL').val();
+                var url = $form.find('#imageURL').val();
                 var align = $form.find('select#align').val();
 
                 // set default values
@@ -372,8 +434,8 @@
             var $form = $button.parent('.richText-form-item').parent('.richText-form');
             if($form.attr("data-editor") === editorID) {
                 // only for currently selected editor
-                var url = $form.find('input#fileURL').val();
-                var text = $form.find('input#fileText').val();
+                var url = $form.find('#fileURL').val();
+                var text = $form.find('#fileText').val();
 
                 // set default values
                 if(!text) {
