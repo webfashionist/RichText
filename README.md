@@ -4,7 +4,7 @@ WYSIWYG editor developed as jQuery plugin.
 ## Requirements
 
 - jQuery
-- `src/jquery.richtext.js`
+- `src/jquery.richtext.min.js`
 - `src/richtext.min.css`
 
 
