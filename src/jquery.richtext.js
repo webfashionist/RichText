@@ -511,10 +511,8 @@
 
             if($clickedElement.parents('.richText-toolbar').length === 0) {
                 // element not in toolbar
-                return false;
-            }
-
-            if($clickedElement.hasClass("richText-dropdown-outer")) {
+                // ignore
+            } else if($clickedElement.hasClass("richText-dropdown-outer")) {
                 // closing dropdown by clicking inside the editor
                 $clickedElement.parent('a').parent('li').removeClass("is-selected");
             } else if($clickedElement.find(".richText").length > 0) {
