@@ -140,7 +140,7 @@
         var $imageForm = $form.clone().attr("id", "richText-Image").attr("data-editor", editorID);
 
         if(settings.imageHTML 
-            && ($(settings.imageHTML).find('#imageURL').length > 0 || $(settings.imageHTML).attr("id") === "imageURL")) {
+            && ($(settings.imageHTML).find('#imageURL').length > 0 || $(settings.imageHTML).attr("id") === "imageURL")) {
             // custom image form
             $imageForm.html(settings.imageHTML);
         } else {
@@ -171,7 +171,7 @@
         var $fileForm = $form.clone().attr("id", "richText-File").attr("data-editor", editorID);
 
         if(settings.fileHTML 
-            && ($(settings.fileHTML).find('#fileURL').length > 0 || $(settings.fileHTML).attr("id") === "fileURL")) {
+            && ($(settings.fileHTML).find('#fileURL').length > 0 || $(settings.fileHTML).attr("id") === "fileURL")) {
             // custom file form
             $fileForm.html(settings.fileHTML);
         } else {
@@ -475,10 +475,10 @@
                 var columns = $form.find('input#tableColumns').val();
 
                 // set default values
-                if(!rows || rows <= 0) {
+                if(!rows || rows <= 0) {
                     rows = 2;
                 }
-                if(!columns || columns <= 0) {
+                if(!columns || columns <= 0) {
                     columns = 2;
                 }
                 
