@@ -15,7 +15,52 @@ Simply call `.richText()` on your `jQuery('textarea')` or `jQuery('input')` fiel
 
 ## Options
 
-`.richText()` allows several options to be set:
+`.richText()` allows several options to be set, the default option object is:
+
+```javascript
+$(element).richText({
+
+  // text formatting
+  bold: true,
+  italic: true,
+  underline: true,
+
+  // text alignment
+  leftAlign: true,
+  centerAlign: true,
+  rightAlign: true,
+
+  // lists
+  ol: true,
+  ul: true,
+
+  // title
+  heading: true,
+
+  // colors
+  fontColor: true,
+
+  // uploads
+  imageUpload: true,
+  fileUpload: true,
+
+  // link
+  urls: true,
+
+  // tables
+  table: true,
+
+  // code
+  removeStyles: true,
+  code: true,
+
+  // colors
+  colors: [],
+  // dropdowns
+  fileHTML: '',
+  imageHTML: ''
+});
+```
 
 **Text formatting**
 - `bold` (default: `(boolean) true`) :: Defines if the bold button should be displayed in the editor toolbar
@@ -66,3 +111,10 @@ Custom dropdowns allow to customize in a restricted way the dropdowns in the edi
 - `imageHTML` :: HTML string of the image dropdown. MUST include an input field (`select`, `input` or `textarea`) with the `id` equal to `imageURL`.
 
 
+
+## Planned changes
+
+- Scale images
+- Add/remove columns/cells in table after it was created
+- Jump through table cells by pressing `TAB`
+- Add modal close button
