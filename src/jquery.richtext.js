@@ -336,7 +336,7 @@
 
         /** EVENT HANDLERS */
         // Saving changes from editor to textarea
-        $(document).on("keyup keydown change blur paste copy cut", ".richText-editor", function() {
+        $(document).on("keyup keydown blur paste copy cut", ".richText-editor", function() {
             __updateTextarea();
             doSave();
         });
@@ -344,6 +344,11 @@
         // Saving changes from textarea to editor
         $(document).on("keyup keydown blur paste copy cut", ".richText-initial", function() {
             __updateEditor();
+            doSave();
+        });
+
+        // Save selection seperately (mainly needed for Safari)
+        $(document).on("dblclick mouseup", ".richText-editor", function() {
             doSave();
         });
 
@@ -632,10 +637,10 @@
                         end: start + range.toString().length
                     }
                 } else {
-                    return {
+                    return (savedSelection ? savedSelection : {
                         start: 0,
                         end: 0
-                    }
+                    });
                 }
             };
             restoreSelection = function() {
