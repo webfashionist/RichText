@@ -341,7 +341,13 @@
 
         /** EVENT HANDLERS */
         // Saving changes from editor to textarea
-        $(document).on("keyup keydown blur paste copy cut", ".richText-editor", function() {
+        $(document).on("keyup keydown blur paste copy cut", ".richText-editor", function(e) {
+            if((e.keyCode === 9 || e.keyCode === "9") && e.type === "keydown") {
+                // tab through table cells
+                e.preventDefault();
+                tabifyEditableTable(window, e);
+                return false;
+            }
             __updateTextarea();
             doSave();
         });
@@ -731,6 +737,66 @@
                 textRange.moveStart("character", savedSel.start);
                 textRange.select();
             };
+        }
+
+
+        /**
+         * Enables tabbing/shift-tabbing between contentEditable table cells
+         * @param {Window} win - Active window context.
+         * @param {Event} e - jQuery Event object for the keydown that fired.
+         */
+        function tabifyEditableTable(win, e) {
+
+            if (e.keyCode !== 9) {
+                return false;
+            }
+
+            var sel;
+
+            if (win.getSelection) {
+
+            sel = win.getSelection();
+                if (sel.rangeCount > 0) {
+
+                    var textNode = null;
+
+                    if (!e.shiftKey) {
+                        textNode = (sel.focusNode.nodeName === "TD") 
+                            ? (sel.focusNode.nextSibling != null) 
+                                ? sel.focusNode.nextSibling 
+                                : (sel.focusNode.parentNode.nextSibling != null) 
+                                    ? sel.focusNode.parentNode.nextSibling.childNodes[0] 
+                                    : null 
+                                : (sel.focusNode.parentNode.nextSibling != null) 
+                                ? sel.focusNode.parentNode.nextSibling 
+                                : (sel.focusNode.parentNode.parentNode.nextSibling != null) 
+                            ? sel.focusNode.parentNode.parentNode.nextSibling.childNodes[0] 
+                            : null;
+                    } else {
+                        textNode = (sel.focusNode.nodeName === "TD") 
+                            ? (sel.focusNode.previousSibling != null) 
+                                ? sel.focusNode.previousSibling 
+                                : (sel.focusNode.parentNode.previousSibling != null) 
+                                    ? sel.focusNode.parentNode.previousSibling.childNodes[sel.focusNode.parentNode.previousSibling.childNodes.length - 1] 
+                                    : null 
+                                : (sel.focusNode.parentNode.previousSibling != null) 
+                            ? sel.focusNode.parentNode.previousSibling 
+                            : (sel.focusNode.parentNode.parentNode.previousSibling != null) 
+                        ? sel.focusNode.parentNode.parentNode.previousSibling.childNodes[sel.focusNode.parentNode.parentNode.previousSibling.childNodes.length - 1] 
+                        : null;
+                    }
+
+                    if (textNode != null) {
+                        sel.collapse(textNode, Math.min(textNode.length, sel.focusOffset + 1));
+                        if (textNode.textContent != null) {
+                            sel.selectAllChildren(textNode);
+                        }
+                        e.preventDefault();
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         /**
