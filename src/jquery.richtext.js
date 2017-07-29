@@ -105,13 +105,13 @@
 
         /* font colors */
         var $fontColors = $dropdownList.clone();
-        $fontColors.html(__loadColors("forecolor"));
+        $fontColors.html(loadColors("forecolor"));
         $btnFontColor.append($dropdownOuter.clone().append($fontColors.prepend($dropdownClose.clone())));
 
 
         /* background colors */
         //var $bgColors = $dropdownList.clone();
-        //$bgColors.html(__loadColors("hiliteColor"));
+        //$bgColors.html(loadColors("hiliteColor"));
         //$btnBGColor.append($dropdownOuter.clone().append($bgColors));
 
         /* box dropdown for links */
@@ -349,13 +349,13 @@
                 tabifyEditableTable(window, e);
                 return false;
             }
-            __updateTextarea();
+            updateTextarea();
             doSave();
         });
 
         // Saving changes from textarea to editor
         $(document).on("keyup keydown blur paste copy cut", ".richText-initial", function() {
-            __updateEditor();
+            updateEditor();
             doSave();
         });
 
@@ -400,7 +400,7 @@
                         html = '<a href="' + url + '" target="' + target + '">' + text + '</a>';
                     }
                     restoreSelection();
-                    __pasteHtmlAtCaret(html);
+                    pasteHTMLAtCaret(html);
                     // reset input values
                     $form.find('input#url').val('');
                     $form.find('input#urlText').val('');
@@ -450,7 +450,7 @@
                         }
                     }
                     restoreSelection();
-                    __pasteHtmlAtCaret(html);
+                    pasteHTMLAtCaret(html);
                     // reset input values
                     $form.find('input#imageURL').val('');
                     $('.richText-toolbar li.is-selected').removeClass("is-selected");
@@ -490,7 +490,7 @@
                         html = '<a href="' + url + '" target="_blank">' + text + '</a>';
                     }
                     restoreSelection();
-                    __pasteHtmlAtCaret(html);
+                    pasteHTMLAtCaret(html);
                     // reset input values
                     $form.find('input#fileURL').val('');
                     $form.find('input#fileText').val('');
@@ -538,7 +538,7 @@
 
                 // write html in editor
                 restoreSelection();
-                __pasteHtmlAtCaret(html);
+                pasteHTMLAtCaret(html);
                 // reset input values
                 $form.find('input#tableColumns').val('');
                 $form.find('input#tableRows').val('');
@@ -569,7 +569,7 @@
                 if($clickedElement.hasClass("fa-link")) {
                     // put currently selected text in URL form to replace it
                     restoreSelection();
-                    var selectedText = __getSelectedText();
+                    var selectedText = getSelectedText();
                     $clickedElement.find("input#urlText").val('');
                     $clickedElement.find("input#url").val('');
                     if(selectedText) {
@@ -590,7 +590,7 @@
                 var command = $(this).data("command");
 
                 if(command === "toggleCode") {
-                    __toggleCode();
+                    toggleCode();
                 } else {
                     var option = null;
                     if ($(this).data('option')) {
@@ -599,9 +599,9 @@
                             command = "heading";
                         }
                     }
-                    __formatText(command, option);
+                    formatText(command, option);
                     if (command === "removeFormat") {
-                        __formatText('formatBlock', 'div');
+                        formatText('formatBlock', 'div');
                     }
                 }
             }
@@ -617,7 +617,7 @@
          * @param {string|null} option
          * @private
          */
-        function __formatText(command, option) {
+        function formatText(command, option) {
             if (typeof option === "undefined") {
                 option = null;
             }
@@ -627,9 +627,9 @@
             // document.execCommand() will work
             // document.designMode = "ON";
             // Execute the command
-            if(command === "heading" && __getSelectedText()) {
+            if(command === "heading" && getSelectedText()) {
                 // IE workaround
-                __pasteHtmlAtCaret('<' + option + '>' + __getSelectedText() + '</' + option + '>');
+                pasteHTMLAtCaret('<' + option + '>' + getSelectedText() + '</' + option + '>');
             } else {
                 document.execCommand(command, false, option);
             }
@@ -642,7 +642,7 @@
          * Update textarea when updating editor
          * @private
          */
-        function __updateTextarea() {
+        function updateTextarea() {
             var $editor = $('#' + editorID);
             var content = $editor.html();
             if(settings.useSingleQuotes === true) {
@@ -656,7 +656,7 @@
          * Update editor when updating textarea
          * @private
          */
-        function __updateEditor() {
+        function updateEditor() {
             var $editor = $('#' + editorID);
             var content = $editor.siblings('.richText-initial').val();
             $editor.html(content);
@@ -808,7 +808,7 @@
          * @private
          * @return {string|boolean}
          */
-        function __getSelectedText() {
+        function getSelectedText() {
             var range;
             if (window.getSelection) {  // all browsers, except IE before version 9
                 range = window.getSelection ();
@@ -841,7 +841,7 @@
          * @param {string} html HTML code
          * @private
          */
-        function __pasteHtmlAtCaret(html) {
+        function pasteHTMLAtCaret(html) {
             // add HTML code for Internet Explorer
             var sel, range;
             if (window.getSelection) {
@@ -913,7 +913,7 @@
          * @returns {string}
          * @private
          */
-        function __loadColors(command) {
+        function loadColors(command) {
             var colors = [];
             var result = '';
 
@@ -950,7 +950,7 @@
          * Toggle (show/hide) code or editor
          * @private
          */
-        function __toggleCode() {
+        function toggleCode() {
 
             if($editor.find('.richText-editor').is(":visible")) {
                 // show code
