@@ -71,6 +71,7 @@ $highlight: #3498db;
                         cursor: default;
                         
                         .richText-dropdown {
+                            position:relative;
                             display: block;
                             margin: 3% auto 0 auto;
                             background-color: #FAFAFA;
@@ -81,6 +82,18 @@ $highlight: #3498db;
                             -webkit-box-shadow:0 0 5px 0 #333;
                             -moz-box-shadow:0 0 5px 0 #333;
                             box-shadow:0 0 5px 0 #333;
+
+                            .richText-dropdown-close {
+                                position: absolute;
+                                top: 0;
+                                right: -23px;
+                                background: #FFF;
+                                color: #333;
+                                cursor: pointer;
+                                font-size: 20px;
+                                text-align: center;
+                                width: 20px;
+                            }
                         }
 
 

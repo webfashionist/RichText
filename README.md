@@ -123,4 +123,3 @@ Custom dropdowns allow to customize in a restricted way the dropdowns in the edi
 
 - Scale images
 - Add/remove columns/cells in table after it was created
-- Add modal close button
