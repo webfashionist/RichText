@@ -57,9 +57,13 @@ $(element).richText({
 
   // colors
   colors: [],
+
   // dropdowns
   fileHTML: '',
-  imageHTML: ''
+  imageHTML: '',
+  
+  // developer settings
+  useSingleQuotes: false
 });
 ```
 
@@ -111,7 +115,9 @@ Custom dropdowns allow to customize in a restricted way the dropdowns in the edi
 - `fileHTML` :: HTML string of the file dropdown. MUST include an input field (`select`, `input` or `textarea`) with the `id` equal to `fileURL`.
 - `imageHTML` :: HTML string of the image dropdown. MUST include an input field (`select`, `input` or `textarea`) with the `id` equal to `imageURL`.
 
+**Developer settings**
 
+- `useSingleQuotes` (default: `(boolean) false`) :: Replaces all double quotes from HTML attributes to single quotes, if set to `(boolean) true`.
 
 ## Planned changes
 
