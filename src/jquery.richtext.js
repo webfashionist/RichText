@@ -42,9 +42,13 @@
 
             // colors
             colors: [],
+
             // dropdowns
             fileHTML: '',
-            imageHTML: ''
+            imageHTML: '',
+
+            // dev settings
+            useSingleQuotes: false
 
         }, options );
 
@@ -88,6 +92,7 @@
         /* internal settings */
         var saveSelection, restoreSelection, savedSelection; // caret position/selection
         var editorID = "richText-" + Math.random().toString(36).substring(7);
+        var ignoreSave = false;
 
         /* list dropdown for titles */
         var $titles = $dropdownList.clone();
@@ -381,7 +386,12 @@
                     }, 5000);
                 } else {
                     // write html in editor
-                    var html = '<a href="' + url + '" target="' + target + '">' + text + '</a>';
+                    var html = '';
+                    if(settings.useSingleQuotes === true) {
+                        html = "<a href='" + url + "' target='" + target + "'>" + text + "</a>";
+                    } else {
+                        html = '<a href="' + url + '" target="' + target + '">' + text + '</a>';
+                    }
                     restoreSelection();
                     __pasteHtmlAtCaret(html);
                     // reset input values
@@ -418,10 +428,19 @@
                 } else {
                     // write html in editor
                     var html = '';
-                    if(align === "center") {
-                        html = '<div style="text-align:center;"><img src="' + url + '"></div>';
+                    if(settings.useSingleQuotes === true) {
+                        console.log("image");
+                        if(align === "center") {
+                            html = "<div style='text-align:center;'><img src='" + url + "'></div>";
+                        } else {
+                            html = "<img src='" + url + "' align='" + align + "'>";
+                        }
                     } else {
-                        html = '<img src="' + url + '" align="' + align + '">';
+                        if(align === "center") {
+                            html = '<div style="text-align:center;"><img src="' + url + '"></div>';
+                        } else {
+                            html = '<img src="' + url + '" align="' + align + '">';
+                        }
                     }
                     restoreSelection();
                     __pasteHtmlAtCaret(html);
@@ -457,7 +476,12 @@
                     }, 5000);
                 } else {
                     // write html in editor
-                    var html = '<a href="' + url + '" target="_blank">' + text + '</a>';
+                    var html = '';
+                    if(settings.useSingleQuotes === true) {
+                        html = "<a href='" + url + "' target='_blank'>" + text + "</a>";
+                    } else {
+                        html = '<a href="' + url + '" target="_blank">' + text + '</a>';
+                    }
                     restoreSelection();
                     __pasteHtmlAtCaret(html);
                     // reset input values
@@ -488,7 +512,12 @@
                 }
                 
                 // generate table
-                var html = '<table class="table-1"><tbody>';
+                var html = '';
+                if(settings.useSingleQuotes === true) {
+                    html = "<table class='table-1'><tbody>";
+                } else {
+                    html = '<table class="table-1"><tbody>';
+                }
                 for(var i = 1; i <= rows; i++) {
                     // start new row
                     html += '<tr>';
@@ -606,6 +635,9 @@
         function __updateTextarea() {
             var $editor = $('#' + editorID);
             var content = $editor.html();
+            if(settings.useSingleQuotes === true) {
+                content = changeAttributeQuotes(content);
+            }
             $editor.siblings('.richText-initial').val(content);
         }
 
@@ -773,6 +805,35 @@
                 // IE < 9
                 document.selection.createRange().pasteHTML(html);
             }
+        }
+
+
+        /**
+         * Change quotes around HTML attributes
+         * @param  {string} string
+         * @return {string}
+         */
+        function changeAttributeQuotes(string) {
+            if(!string) {
+                return '';
+            }
+
+            var regex;
+            var rstring;
+            if(settings.useSingleQuotes === true) {
+                regex = /\s+(\w+\s*=\s*(["][^"]*["])|(['][^']*[']))+/g;
+                rstring = string.replace(regex, function($0,$1,$2){
+                    if(!$2) {return $0;}
+                    return $0.replace($2, $2.replace(/\"/g, "'"));
+                });
+            } else {
+                regex = /\s+(\w+\s*=\s*(['][^']*['])|(["][^"]*["]))+/g;
+                rstring = string.replace(regex, function($0,$1,$2){
+                    if(!$2) {return $0;}
+                    return $0.replace($2, $2.replace(/'/g, '"'));
+                });
+            }
+            return rstring;
         }
 
 
