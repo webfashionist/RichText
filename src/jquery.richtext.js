@@ -342,7 +342,7 @@
 
         /** EVENT HANDLERS */
         // Saving changes from editor to textarea
-        $(document).on("keyup keydown blur paste copy cut", ".richText-editor", function(e) {
+        $(document).on("input change blur keydown", ".richText-editor", function(e) {
             if((e.keyCode === 9 || e.keyCode === "9") && e.type === "keydown") {
                 // tab through table cells
                 e.preventDefault();
@@ -354,7 +354,10 @@
         });
 
         // Saving changes from textarea to editor
-        $(document).on("keyup keydown blur paste copy cut", ".richText-initial", function() {
+        $(document).on("input change blur", ".richText-initial", function() {
+            if(settings.useSingleQuotes === true) {
+                $(this).val(changeAttributeQuotes($(this).val()));
+            }
             updateEditor();
             doSave();
         });
