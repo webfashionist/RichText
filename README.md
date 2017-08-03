@@ -119,6 +119,13 @@ Custom dropdowns allow to customize in a restricted way the dropdowns in the edi
 
 - `useSingleQuotes` (default: `(boolean) false`) :: Replaces all double quotes from HTML attributes to single quotes, if set to `(boolean) true`.
 
+
+## Contributing
+
+If you have any ideas, suggestions, issues or bugfixes, feel free to contribute.
+
+Check out the [contributing guidelines](CONTRIBUTING.md) for ways to offer feedback and contribute.
+
 ## Planned changes
 
 - Add/remove columns/cells in table after it was created
