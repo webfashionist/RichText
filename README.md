@@ -121,5 +121,4 @@ Custom dropdowns allow to customize in a restricted way the dropdowns in the edi
 
 ## Planned changes
 
-- Scale images
 - Add/remove columns/cells in table after it was created

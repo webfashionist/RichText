@@ -93,7 +93,7 @@
         /* internal settings */
         var saveSelection, restoreSelection, savedSelection; // caret position/selection
         var editorID = "richText-" + Math.random().toString(36).substring(7);
-        var ignoreSave = false;
+        var ignoreSave = false, $resizeImage = null;
 
         /* list dropdown for titles */
         var $titles = $dropdownList.clone();
@@ -366,6 +366,48 @@
         $(document).on("dblclick mouseup", ".richText-editor", function() {
             doSave();
         });
+
+        // Resize images
+        $(document).on('mousedown', function(e) {
+            var $target = $(e.target);
+            if($target.prop("tagName") === "IMG" && $target.parents("#" + editorID)) {
+                $resizeImage = $target;
+                startX = e.pageX;
+                startY = e.pageY;
+                $resizeImage.css({'cursor' : 'nw-resize'});
+                startW = $resizeImage.innerWidth();
+                startH = $resizeImage.innerHeight();
+                if(!$resizeImage.data("width")) {
+                    $resizeImage.data("width", $target.parents("#" + editorID).innerWidth());
+                    $resizeImage.data("height", $target.parents("#" + editorID).innerHeight()*3);
+
+                }
+                return false;
+            }
+        });
+        $(document)
+            .mouseup(function(){
+                $resizeImage = null;
+            })
+            .mousemove(function(e){
+                if($resizeImage!==null){
+                    var maxWidth = $resizeImage.data('width');
+                    var currentWidth = $resizeImage.width();
+                    var maxHeight = $resizeImage.data('height');
+                    var currentHeight = $resizeImage.height();
+                    console.log(maxHeight);
+                    if((startW + e.pageX-startX) <= maxWidth && (startH + e.pageY-startY) <= maxHeight) {
+                        // only resize if new size is smaller than the original image size
+                        $resizeImage.innerWidth (startW + e.pageX-startX); // only resize width to adapt height proportionally
+                        // $box.innerHeight(startH + e.pageY-startY);
+                        updateTextarea();
+                    } else if((startW + e.pageX-startX) <= currentWidth && (startH + e.pageY-startY) <= currentHeight) {
+                        // only resize if new size is smaller than the previous size
+                        $resizeImage.innerWidth (startW + e.pageX-startX); // only resize width to adapt height proportionally
+                        updateTextarea();
+                    }
+                }
+            });
 
         // adding URL
         $(document).on("click", "#richText-URL button.btn", function(event) {
