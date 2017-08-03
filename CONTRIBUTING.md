@@ -14,7 +14,7 @@ I've put together the following guidelines to help you figure out where you can 
 ## Types of contributions
 
 Currently, there's no specific documentation or style guide for the code. 
-Therefore, it would probably be easier to create [issues](issues) rather than [pull requests](pulls).
+Therefore, it would probably be easier to create [issues](https://github.com/webfashionist/RichText/issues) rather than [pull requests](https://github.com/webfashionist/RichText/pulls).
 
 However, there are still many ways you can contribute to RichText:
 
@@ -35,7 +35,7 @@ Before we get started, here are a few expectations (and that you should expect f
 
 ## How to contribute
 
-If you'd like to contribute, start by searching through the [issues](issues) and [pull requests](pulls) to see whether someone else has raised a similar idea or question.
+If you'd like to contribute, start by searching through the [issues](https://github.com/webfashionist/RichText/issues) and [pull requests](https://github.com/webfashionist/RichText/pulls) to see whether someone else has raised a similar idea or question.
 
 If you don't see your idea listed, and you think it fits into the goals of this guide, do one of the following:
 
