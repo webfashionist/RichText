@@ -395,7 +395,6 @@
                     var currentWidth = $resizeImage.width();
                     var maxHeight = $resizeImage.data('height');
                     var currentHeight = $resizeImage.height();
-                    console.log(maxHeight);
                     if((startW + e.pageX-startX) <= maxWidth && (startH + e.pageY-startY) <= maxHeight) {
                         // only resize if new size is smaller than the original image size
                         $resizeImage.innerWidth (startW + e.pageX-startX); // only resize width to adapt height proportionally
@@ -481,7 +480,6 @@
                     // write html in editor
                     var html = '';
                     if(settings.useSingleQuotes === true) {
-                        console.log("image");
                         if(align === "center") {
                             html = "<div style='text-align:center;'><img src='" + url + "'></div>";
                         } else {
