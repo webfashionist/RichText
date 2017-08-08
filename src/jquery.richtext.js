@@ -30,6 +30,9 @@
             imageUpload: true,
             fileUpload: true,
 
+            // media
+            videoEmbed: true,
+
             // link
             urls: true,
 
@@ -70,6 +73,7 @@
             $btnHeading = $('<a />', {class: "richText-btn fa fa-header"}), // title/header
             $btnFontColor = $('<a />', {class: "richText-btn fa fa-paint-brush"}), // font color
             $btnImageUpload = $('<a />', {class: "richText-btn fa fa-image"}), // image
+            $btnVideoEmbed = $('<a />', {class: "richText-btn fa fa-video-camera"}), // video
             $btnFileUpload = $('<a />', {class: "richText-btn fa fa-file-text-o"}), // file
             $btnURLs = $('<a />', {class: "richText-btn fa fa-link"}), // urls/links
             $btnTable = $('<a />', {class: "richText-btn fa fa-table"}), // table
@@ -140,6 +144,31 @@
         $linksForm.append( $formItem.clone().append($formButton.clone()) );
         $linksDropdown.append($linksForm);
         $btnURLs.append($dropdownOuter.clone().append($linksDropdown.prepend($dropdownClose.clone())));
+
+        /* box dropdown for video embedding */
+        var $videoDropdown = $dropdownBox.clone();
+        var $videoForm = $form.clone().attr("id", "richText-Video").attr("data-editor", editorID);
+        $videoForm.append(
+            $formItem.clone()
+                .append($formLabel.clone().text("URL").attr("for", "videoURL"))
+                .append($formInput.clone().attr("id", "videoURL"))
+            );
+        $videoForm.append(
+            $formItem.clone()
+                .append($formLabel.clone().text("Size").attr("for", "size"))
+                .append(
+                        $formInputSelect
+                            .clone().attr("id", "size")
+                            .append($("<option />", {value: 'responsive', text: 'Responsive'}))
+                            .append($("<option />", {value: '640x360', text: '640x360'}))
+                            .append($("<option />", {value: '560x315', text: '560x315'}))
+                            .append($("<option />", {value: '480x270', text: '480x270'}))
+                            .append($("<option />", {value: '320x180', text: '320x180'}))
+                        )
+                   );
+        $videoForm.append( $formItem.clone().append($formButton.clone()) );
+        $videoDropdown.append($videoForm);
+        $btnVideoEmbed.append($dropdownOuter.clone().append($videoDropdown.prepend($dropdownClose.clone())));
 
         /* box dropdown for image upload/image selection */
         var $imageDropdown = $dropdownBox.clone();
@@ -311,6 +340,11 @@
                 $toolbarList.append($toolbarElement.clone().append($btnFileUpload));
             }
 
+            /* media */
+            if(settings.videoEmbed === true) {
+                $toolbarList.append($toolbarElement.clone().append($btnVideoEmbed));
+            }
+
             /* urls */
             if(settings.urls === true) {
                 $toolbarList.append($toolbarElement.clone().append($btnURLs));
@@ -365,6 +399,55 @@
         // Save selection seperately (mainly needed for Safari)
         $(document).on("dblclick mouseup", ".richText-editor", function() {
             doSave();
+        });
+
+
+        // embedding video
+        $(document).on("click", "#richText-Video button.btn", function(event) {
+            event.preventDefault();
+            var $button = $(this);
+            var $form = $button.parent('.richText-form-item').parent('.richText-form');
+            if($form.attr("data-editor") === editorID) {
+                // only for the currently selected editor
+                var url = $form.find('input#videoURL').val();
+                var size = $form.find('select#size').val();
+
+                if(!url) {
+                    // no url set
+                    $form.prepend($('<div />', {style: 'color:red;display:none;', class: 'form-item is-error', text: 'Please enter an URL'}));
+                    $form.children('.form-item.is-error').slideDown();
+                    setTimeout(function() {
+                        $form.children('.form-item.is-error').slideUp(function () {
+                            $(this).remove();
+                        });
+                    }, 5000);
+                } else {
+                    // write html in editor
+                    var html = '';
+                    html = getVideoCode(url, size);
+                    if(!html) {
+                        $form.prepend($('<div />', {style: 'color:red;display:none;', class: 'form-item is-error', text: 'Video URL not supported'}));
+                        $form.children('.form-item.is-error').slideDown();
+                        setTimeout(function() {
+                            $form.children('.form-item.is-error').slideUp(function () {
+                                $(this).remove();
+                            });
+                        }, 5000);
+                    } else {
+                        if(settings.useSingleQuotes === true) {
+
+                        } else {
+
+                        }
+                        restoreSelection();
+                        pasteHTMLAtCaret(html);
+                        updateTextarea();
+                        // reset input values
+                        $form.find('input#videoURL').val('');
+                        $('.richText-toolbar li.is-selected').removeClass("is-selected");
+                    }
+                }
+            }
         });
 
         // adding URL
@@ -973,6 +1056,105 @@
                 $('.richText-toolbar').find('li').removeAttr("data-disable");
             }
 
+        }
+
+
+        /**
+         * Get video embed code from URL
+         * @param {string} url Video URL
+         * @param {string} size Size in the form of widthxheight
+         * @return {string|boolean}
+         * @private
+         **/
+        function getVideoCode(url, size) {
+            var video = getVideoID(url);
+            var responsive = false, success = false;
+
+            if(!video) {
+                // video URL not supported
+                return false;
+            }
+
+            if(!size) {
+                size = "640x360";
+                size = size.split("x");
+            } else if(size !== "responsive") {
+                size = size.split("x");
+            } else {
+                responsive = true;
+                size = "640x360";
+                size = size.split("x");
+            }
+
+            var html = '<br><br>';
+            if(responsive === true) {
+                html += '<div style="position:relative;height:0;padding-bottom:56.25%">';
+            }
+            var allowfullscreen = 'webkitallowfullscreen mozallowfullscreen allowfullscreen';
+
+            if(video.platform === "YouTube") {
+                html += '<iframe src="https://www.youtube.com/embed/' + video.id + '?ecver=2" width="' + size[0] + '" height="' + size[1] + '" frameborder="0"' + (responsive === true ? ' style="position:absolute;width:100%;height:100%;left:0"' : '') + ' ' + allowfullscreen + '></iframe>';
+                success = true;
+            } else if(video.platform === "Vimeo") {
+                html += '<iframe src="https://player.vimeo.com/video/' + video.id + '" width="' + size[0] + '" height="' + size[1] + '" frameborder="0"' + (responsive === true ? ' style="position:absolute;width:100%;height:100%;left:0"' : '') + ' ' + allowfullscreen + '></iframe>';
+                success = true;
+            } else if(video.platform === "Facebook") {
+                html += '<iframe src="https://www.facebook.com/plugins/video.php?href=' + encodeURI(url) + '&show_text=0&width=' + size[0] + '" width="' + size[0] + '" height="' + size[1] + '" style="' + (responsive === true ? 'position:absolute;width:100%;height:100%;left:0;border:none;overflow:hidden"' : 'border:none;overflow:hidden') + '" scrolling="no" frameborder="0" allowTransparency="true" ' + allowfullscreen + '></iframe>';
+                success = true;
+            } else if(video.platform === "Dailymotion") {
+                html += '<iframe frameborder="0" width="' + size[0] + '" height="' + size[1] + '" src="//www.dailymotion.com/embed/video/' + video.id + '"' + (responsive === true ? ' style="position:absolute;width:100%;height:100%;left:0"' : '') + ' ' + allowfullscreen + '></iframe>';
+                success = true;
+            }
+
+            if(responsive === true) {
+                html += '</div>';
+            }
+            html += '<br><br>';
+
+            if(success) {
+                return html;
+            }
+            return false;
+        }
+
+        /**
+         * Returns the unique video ID
+         * @param {string} url
+         * return {object|boolean}
+         **/
+        function getVideoID(url) {
+            var vimeoRegExp = /(?:http?s?:\/\/)?(?:www\.)?(?:vimeo\.com)\/?(.+)/;
+            var youtubeRegExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            var facebookRegExp = /(?:http?s?:\/\/)?(?:www\.)?(?:facebook\.com)\/.*\/videos\/[0-9]+/;
+            var dailymotionRegExp = /(?:http?s?:\/\/)?(?:www\.)?(?:dailymotion\.com)\/video\/([a-zA-Z0-9]+)/;
+            var youtubeMatch = url.match(youtubeRegExp);
+            var vimeoMatch = url.match(vimeoRegExp);
+            var facebookMatch = url.match(facebookRegExp);
+            var dailymotionMatch = url.match(dailymotionRegExp);
+
+            if (youtubeMatch && youtubeMatch[2].length === 11) {
+                return {
+                    "platform": "YouTube", 
+                    "id": youtubeMatch[2]
+                };
+            } else if(vimeoMatch && vimeoMatch[1]) {
+                return {
+                    "platform": "Vimeo",
+                    "id": vimeoMatch[1]
+                };
+            } else if(facebookMatch && facebookMatch[0]) {
+                return {
+                    "platform": "Facebook",
+                    "id" : facebookMatch[0]
+                };
+            } else if(dailymotionMatch && dailymotionMatch[1]) {
+                return {
+                    "platform": "Dailymotion",
+                    "id" : dailymotionMatch[1]
+                };
+            }
+
+            return false;
         }
 
         return $(this);

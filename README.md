@@ -45,6 +45,9 @@ $(element).richText({
   imageUpload: true,
   fileUpload: true,
 
+  // media
+  videoEmbed: true,
+
   // link
   urls: true,
 
@@ -97,6 +100,9 @@ colors["#000000"] = 'Black';
 **Uploads/Files**
 - `imageUpload` (default: `(boolean) true`)
 - `fileUpload` (default: `(boolean) true`)
+
+**Media/Videos**
+- `videoEmbed` (default: `(boolean) true`) :: Simplify embedding videos from YouTube, Facebook, Vimeo and Dailymotion
 
 **Links**
 - `urls` (default: `(boolean) true`)
