@@ -97,7 +97,7 @@
         /* internal settings */
         var saveSelection, restoreSelection, savedSelection; // caret position/selection
         var editorID = "richText-" + Math.random().toString(36).substring(7);
-        var ignoreSave = false, $resizeImage = null;
+        var ignoreSave = false, $resizeImage = null, history = [], historyPosition = 0;
 
         /* list dropdown for titles */
         var $titles = $dropdownList.clone();
@@ -369,12 +369,57 @@
             $editor.append($editorView);
             $editor.append($inputElement.clone().hide());
             $inputElement.replaceWith($editor);
+
+            // append bottom toolbar
+            $editor.append(
+                $('<div />', {class: 'richText-toolbar'})
+                    .append($('<a />', {class: 'richText-undo is-disabled', html: '<span class="fa fa-undo"></span>'}))
+                    .append($('<a />', {class: 'richText-redo is-disabled', html: '<span class="fa fa-repeat"></span>'}))
+                    .append($('<a />', {class: 'richText-help', html: '<span class="fa fa-question-circle"></span>'}))
+            );
+
+            // save history
+            history.push($editor.find("textarea").val());
+            console.log(history);
         };
 
         init();
 
 
         /** EVENT HANDLERS */
+
+        // Help popup
+        $(document).on("click", ".richText-help", function() {
+
+            var $editor = $(this).parents(".richText");
+            if($editor) {
+                var $outer = $('<div />', {class: 'richText-help-popup', style: 'position:absolute;top:0;right:0;bottom:0;left:0;background-color: rgba(0,0,0,0.3);'});
+                var $inner = $('<div />', {style: 'position:relative;margin:60px auto;padding:20px;background-color:#FAFAFA;width:70%;font-family:Calibri,Verdana,Helvetica,sans-serif;font-size:small;'});
+                var $content = $('<div />', {html: '<span id="closeHelp" style="display:block;position:absolute;top:0;right:0;padding:10px;cursor:pointer;" class="fa fa-times" title="Close"></span>'});
+                $content.append('<b>RichText</b>');
+                $content.append('<hr>Powered by <a href="https://github.com/webfashionist/RichText" target="_blank">webfashionist/RichText</a> (Github) <br>License: <a href="https://github.com/webfashionist/RichText/blob/master/LICENSE" target="_blank">AGPL-3.0</a>');
+
+                $outer.append($inner.append($content));
+                $editor.append($outer);
+
+                $('#closeHelp').on("click", function() {
+                    $('.richText-help-popup').remove();
+                });
+            }
+
+        });
+
+        // undo / redo
+        $(document).on("click", ".richText-undo, .richText-redo", function(e) {
+             var $this = $(this);
+             if($this.hasClass("richText-undo") && !$this.hasClass("is-disabled")) {
+                 undo();
+             } else if($this.hasClass("richText-redo") && !$this.hasClass("is-disabled")) {
+                 redo();
+             }
+        });
+
+
         // Saving changes from editor to textarea
         $(document).on("input change blur keydown", ".richText-editor", function(e) {
             if((e.keyCode === 9 || e.keyCode === "9") && e.type === "keydown") {
@@ -949,7 +994,61 @@
          * Save selection
          */
         function doSave() {
+            addHistory($editor.find("textarea").val());
             savedSelection = saveSelection();
+        }
+
+        /**
+         * Add to history
+         * @param val
+         */
+        function addHistory(val) {
+            if(history.length-1 > historyPosition) {
+                history.length  = historyPosition + 1;
+            }
+
+            if(history[history.length-1] !== val) {
+                history.push(val);
+            }
+
+            historyPosition = history.length-1;
+            setHistoryButtons();
+        }
+
+        function setHistoryButtons() {
+            if(historyPosition <= 0) {
+                $editor.find(".richText-undo").addClass("is-disabled");
+            } else {
+                $editor.find(".richText-undo").removeClass("is-disabled");
+            }
+
+            if(historyPosition >= history.length-1 || history.length === 0) {
+                $editor.find(".richText-redo").addClass("is-disabled");
+            } else {
+                $editor.find(".richText-redo").removeClass("is-disabled");
+            }
+        }
+
+        /**
+         * Undo
+         */
+        function undo() {
+            historyPosition--;
+            var value = history[historyPosition];
+            $editor.find('textarea').val(value);
+            $editor.find('.richText-editor').html(value);
+            setHistoryButtons();
+        }
+
+        /**
+         * Undo
+         */
+        function redo() {
+            historyPosition++;
+            var value = history[historyPosition];
+            $editor.find('textarea').val(value);
+            $editor.find('.richText-editor').html(value);
+            setHistoryButtons();
         }
 
         /**

@@ -177,6 +177,16 @@ $highlight: #3498db;
         }
     }
 
+    .richText-toolbar:last-child {
+        font-size: 12px;
+    }
+
+    .richText-toolbar:after{
+        display: block;
+        clear: both;
+        content:"";
+    }
+
     .richText-editor {
         padding: 20px;
         background-color: #FFFFFF;
@@ -222,6 +232,37 @@ $highlight: #3498db;
         height: 400px;
     }
 
+    .richText-help {
+        float: right;
+        display: block;
+        padding: 10px 15px;
+        cursor: pointer;
+    }
 
+    .richText-undo,
+    .richText-redo {
+        float: left;
+        display: block;
+        padding: 10px 15px;
+        border-right: #EFEFEF solid 1px;
+        cursor: pointer;
+    }
+    .richText-undo.is-disabled,
+    .richText-redo.is-disabled {
+        opacity: 0.4;
+    }
+
+    .richText-help-popup {
+        a {
+            color:#3498db;
+            text-decoration:underline;
+        }
+
+        hr {
+            margin: 10px auto 5px auto;
+            border:none;
+            border-top: #EFEFEF solid 1px;
+        }
+    }
 }
 
