@@ -380,7 +380,6 @@
 
             // save history
             history.push($editor.find("textarea").val());
-            console.log(history);
         };
 
         init();
