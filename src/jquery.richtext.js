@@ -497,22 +497,45 @@
         $(document).on('mousedown', function(e) {
             var $target = $(e.target);
             if($target.prop("tagName") === "IMG" && $target.parents("#" + editorID)) {
-                $resizeImage = $target;
                 startX = e.pageX;
                 startY = e.pageY;
-                $resizeImage.css({'cursor' : 'nw-resize'});
-                startW = $resizeImage.innerWidth();
-                startH = $resizeImage.innerHeight();
-                if(!$resizeImage.data("width")) {
+                startW = $target.innerWidth();
+                startH = $target.innerHeight();
+
+                var left = $target.offset().left;
+                var right = $target.offset().left + $target.innerWidth();
+                var bottom = $target.offset().top + $target.innerHeight();
+                var top = $target.offset().top;
+                var resize = false;
+                $target.css({'cursor' : 'default'});
+
+                if(startY <= bottom && startY >= bottom-20 && startX >= right-20 && startX <= right) {
+                    // bottom right corner
+                    $resizeImage = $target;
+                    $resizeImage.css({'cursor' : 'nwse-resize'});
+                    resize = true;
+                }
+
+                if((resize === true || $resizeImage) && !$resizeImage.data("width")) {
+                    // set initial image size and prevent dragging image while resizing
                     $resizeImage.data("width", $target.parents("#" + editorID).innerWidth());
                     $resizeImage.data("height", $target.parents("#" + editorID).innerHeight()*3);
-
+                    e.preventDefault();
+                } else if(resize === true || $resizeImage) {
+                    // resizing active, prevent other events
+                    e.preventDefault();
+                } else {
+                    // resizing disabled, allow dragging image
+                    $resizeImage = null;
                 }
-                return false;
+                
             }
         });
         $(document)
             .mouseup(function(){
+                if($resizeImage) {
+                    $resizeImage.css({'cursor' : 'default'});
+                }
                 $resizeImage = null;
             })
             .mousemove(function(e){
