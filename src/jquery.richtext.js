@@ -51,7 +51,8 @@
             imageHTML: '',
 
             // dev settings
-            useSingleQuotes: false
+            useSingleQuotes: false,
+            height: 0
 
         }, options );
 
@@ -377,6 +378,12 @@
                     .append($('<a />', {class: 'richText-redo is-disabled', html: '<span class="fa fa-repeat"></span>'}))
                     .append($('<a />', {class: 'richText-help', html: '<span class="fa fa-question-circle"></span>'}))
             );
+
+            if(settings.height && settings.height > 0) {
+                // set custom editor height
+                $editor.children(".richText-editor, .richText-initial").css({'min-height' : settings.height + 'px', 'height' : settings.height + 'px'});
+            }
+
 
             // save history
             history.push($editor.find("textarea").val());
