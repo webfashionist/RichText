@@ -52,7 +52,8 @@
 
             // dev settings
             useSingleQuotes: false,
-            height: 0
+            height: 0,
+            heightPercentage: 0
 
         }, options );
 
@@ -382,6 +383,16 @@
             if(settings.height && settings.height > 0) {
                 // set custom editor height
                 $editor.children(".richText-editor, .richText-initial").css({'min-height' : settings.height + 'px', 'height' : settings.height + 'px'});
+            } else if(settings.heightPercentage && settings.heightPercentage > 0) {
+                // set custom editor height in percentage
+                var parentHeight = $editor.parent().innerHeight(); // get editor parent height
+                var height = (settings.heightPercentage/100) * parentHeight; // calculate pixel value from percentage
+                height -= $toolbar.outerHeight()*2; // remove toolbar size
+                height -= parseInt($editor.css("margin-top")); // remove margins
+                height -= parseInt($editor.css("margin-bottom")); // remove margins
+                height -= parseInt($editor.find(".richText-editor").css("padding-top")); // remove paddings
+                height -= parseInt($editor.find(".richText-editor").css("padding-bottom")); // remove paddings
+                $editor.children(".richText-editor, .richText-initial").css({'min-height' : height + 'px', 'height' : height + 'px'});
             }
 
 
