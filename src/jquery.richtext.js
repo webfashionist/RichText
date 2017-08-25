@@ -53,7 +53,9 @@
             // dev settings
             useSingleQuotes: false,
             height: 0,
-            heightPercentage: 0
+            heightPercentage: 0,
+            id: "",
+            class: ""
 
         }, options );
 
@@ -393,6 +395,15 @@
                 height -= parseInt($editor.find(".richText-editor").css("padding-top")); // remove paddings
                 height -= parseInt($editor.find(".richText-editor").css("padding-bottom")); // remove paddings
                 $editor.children(".richText-editor, .richText-initial").css({'min-height' : height + 'px', 'height' : height + 'px'});
+            }
+
+
+            // add custom class
+            if(settings.class) {
+                $editor.addClass(settings.class);
+            }
+            if(settings.id) {
+                $editor.attr("id", settings.id);
             }
 
 

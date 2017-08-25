@@ -68,7 +68,9 @@ $(element).richText({
   // developer settings
   useSingleQuotes: false,
   height: 0,
-  heightPercentage: 0
+  heightPercentage: 0,
+  id: "",
+  class: ""
 });
 ```
 
@@ -128,6 +130,8 @@ Custom dropdowns allow to customize in a restricted way the dropdowns in the edi
 - `useSingleQuotes` (default: `(boolean) false`) :: Replaces all double quotes from HTML attributes to single quotes, if set to `(boolean) true`.
 - `height` (default: `(int) 0`) :: Sets a custom height for the editor frame and code view. The default value `0` uses the initial height set with CSS. To overwrite the height without using this setting (and without using inline CSS), use the CSS selectors `.richText .richText-editor` and `.richText .richText-initial` to change the height.
 - `heightPercentage` (default: `(int) 0`) :: Sets a custom percentage height based on the editor's parent element. This won't work if the `height` option is used as well.
+- `id` (default: `(string) ""`) :: Sets a custom ID for the editor
+- `class` (default: `(string) ""`) :: Sets additional custom classes for the editor
 
 ## Contributing
 
