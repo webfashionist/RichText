@@ -982,9 +982,11 @@
             sel = win.getSelection();
                 if (sel.rangeCount > 0) {
 
-                    var textNode = null;
+                    var textNode = null,
+                        direction = null;
 
                     if (!e.shiftKey) {
+                        direction = "next";
                         textNode = (sel.focusNode.nodeName === "TD") 
                             ? (sel.focusNode.nextSibling != null) 
                                 ? sel.focusNode.nextSibling 
@@ -997,6 +999,7 @@
                             ? sel.focusNode.parentNode.parentNode.nextSibling.childNodes[0] 
                             : null;
                     } else {
+                        direction = "previous";
                         textNode = (sel.focusNode.nodeName === "TD") 
                             ? (sel.focusNode.previousSibling != null) 
                                 ? sel.focusNode.previousSibling 
@@ -1017,6 +1020,18 @@
                         }
                         e.preventDefault();
                         return true;
+                    } else if(textNode === null && direction === "next" && sel.focusNode.nodeName === "TD") {
+                        // add new row on TAB if arrived at the end of the row
+                        var $table = $(sel.focusNode).parents("table");
+                        var cellsPerLine = $table.find("tr").first().children("td").length;
+                        var $tr = $("<tr />");
+                        var $td = $("<td />");
+                        for(var i = 1; i <= cellsPerLine; i++) {
+                            $tr.append($td.clone());
+                        }
+                        $table.append($tr);
+                        // simulate tabing through table
+                        tabifyEditableTable(window, {keyCode: 9, shiftKey: false, preventDefault: function(){}});
                     }
                 }
             }
