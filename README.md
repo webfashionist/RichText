@@ -38,7 +38,21 @@ $(element).richText({
   // title
   heading: true,
 
-  // colors
+  // fonts
+  fonts: true,
+  fontList: [ "Arial", 
+              "Arial Black", 
+              "Comic Sans MS", 
+              "Courier New", 
+              "Geneva", 
+              "Georgia", 
+              "Helvetica", 
+              "Impact", 
+              "Lucida Console", 
+              "Tahoma", 
+              "Times New Roman",
+              "Verdana"
+              ],
   fontColor: true,
 
   // uploads
@@ -78,6 +92,10 @@ $(element).richText({
 - `bold` (default: `(boolean) true`) :: Defines if the bold button should be displayed in the editor toolbar
 - `italic` (default: `(boolean) true`) :: Defines if the italic button should be displayed
 - `underline` (default: `(boolean) true`) :: Displays the underline button
+
+**Fonts**
+- `fonts` (default: `(boolean) true`) :: Enables font formatting
+- `fontList` :: Array of allowed fonts. The fonts set by default are fonts which should work on Windows, Mac and Linux by default. Setting fonts manually will overwrite the array.
 
 **Text alignment**
 - `leftAlign` (default: `(boolean) true`)

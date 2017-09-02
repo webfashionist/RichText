@@ -23,7 +23,21 @@
             // title
             heading: true,
 
-            // colors
+            // fonts
+            fonts: true,
+            fontList: ["Arial", 
+                    "Arial Black", 
+                    "Comic Sans MS", 
+                    "Courier New", 
+                    "Geneva", 
+                    "Georgia", 
+                    "Helvetica", 
+                    "Impact", 
+                    "Lucida Console", 
+                    "Tahoma", 
+                    "Times New Roman",
+                    "Verdana"
+                    ],
             fontColor: true,
 
             // uploads
@@ -75,6 +89,7 @@
             $btnOL = $('<a />', {class: "richText-btn fa fa-list-ol", "data-command": "insertOrderedList"}), // ordered list
             $btnUL = $('<a />', {class: "richText-btn fa fa-list", "data-command": "insertUnorderedList"}), // unordered list
             $btnHeading = $('<a />', {class: "richText-btn fa fa-header"}), // title/header
+            $btnFont = $('<a />', {class: "richText-btn fa fa-font"}), // font color
             $btnFontColor = $('<a />', {class: "richText-btn fa fa-paint-brush"}), // font color
             $btnImageUpload = $('<a />', {class: "richText-btn fa fa-image"}), // image
             $btnVideoEmbed = $('<a />', {class: "richText-btn fa fa-video-camera"}), // video
@@ -110,6 +125,14 @@
         $titles.append($('<li />', {html: '<a data-command="formatBlock" data-option="h3">Title #3</a>'}));
         $titles.append($('<li />', {html: '<a data-command="formatBlock" data-option="h4">Title #4</a>'}));
         $btnHeading.append($dropdownOuter.clone().append($titles.prepend($dropdownClose.clone())));
+
+        /* list dropdown for fonts */
+        var fonts = settings.fontList;
+        var $fonts = $dropdownList.clone();
+        for(var i = 0; i < fonts.length; i++) {
+            $fonts.append($('<li />', {html: '<a style="font-family:' + fonts[i] + ';" data-command="fontName" data-option="' + fonts[i] + '">' + fonts[i] + '</a>'}));
+        }
+        $btnFont.append($dropdownOuter.clone().append($fonts.prepend($dropdownClose.clone())));
 
         /* font colors */
         var $fontColors = $dropdownList.clone();
@@ -324,6 +347,11 @@
             }
             if(settings.ul === true) {
                 $toolbarList.append($toolbarElement.clone().append($btnUL));
+            }
+
+            /* font list */
+            if(settings.fonts === true && settings.fontList.length > 0) {
+                $toolbarList.append($toolbarElement.clone().append($btnFont));
             }
 
             /* heading */
@@ -825,6 +853,8 @@
                     }
                 }
             }
+            // close dropdown after click
+            $button.parents('li.is-selected').removeClass('is-selected');
         });
 
 
