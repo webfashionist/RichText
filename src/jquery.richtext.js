@@ -69,7 +69,8 @@
             height: 0,
             heightPercentage: 0,
             id: "",
-            class: ""
+            class: "",
+            useParagraph: false
 
         }, options );
 
@@ -274,6 +275,13 @@
         /* initizalize editor */
         var init = function() {
             var value, attributes, attributes_html = '';
+
+            if(settings.useParagraph !== false) {
+                // set default tag when pressing ENTER to <p> instead of <div>
+                document.execCommand("DefaultParagraphSeparator", false, 'p');
+            }
+
+
             // reformat $inputElement to textarea
             if($inputElement.prop("tagName") === "TEXTAREA") {
                 // everything perfect

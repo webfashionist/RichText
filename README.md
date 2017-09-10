@@ -84,7 +84,8 @@ $(element).richText({
   height: 0,
   heightPercentage: 0,
   id: "",
-  class: ""
+  class: "",
+  useParagraph: false
 });
 ```
 
@@ -150,6 +151,7 @@ Custom dropdowns allow to customize in a restricted way the dropdowns in the edi
 - `heightPercentage` (default: `(int) 0`) :: Sets a custom percentage height based on the editor's parent element. This won't work if the `height` option is used as well.
 - `id` (default: `(string) ""`) :: Sets a custom ID for the editor
 - `class` (default: `(string) ""`) :: Sets additional custom classes for the editor
+- `useParagraph` (default: `(boolean) false`) :: Uses paragraph tags instead of div containers (browser default) when pressing ENTER, if set to `true`.
 
 ## Contributing
 
