@@ -433,7 +433,6 @@
                 $editor.children(".richText-editor, .richText-initial").css({'min-height' : height + 'px', 'height' : height + 'px'});
             }
 
-
             // add custom class
             if(settings.class) {
                 $editor.addClass(settings.class);
@@ -442,11 +441,14 @@
                 $editor.attr("id", settings.id);
             }
 
+            // fix the first line
+            fixFirstLine();
 
             // save history
             history.push($editor.find("textarea").val());
         };
 
+        // initialize editor
         init();
 
 
@@ -491,6 +493,7 @@
                 tabifyEditableTable(window, e);
                 return false;
             }
+            fixFirstLine();
             updateTextarea();
             doSave();
         });
@@ -1396,6 +1399,21 @@
             }
 
             return false;
+        }
+
+
+        /**
+         * Fix the first line as by default the first line has no tag container
+         */
+        function fixFirstLine() {
+            if($editor && !$editor.find(".richText-editor").html()) {
+                if(settings.useParagraph !== false) {
+                    $editor.find(".richText-editor").html('<p><br></p>');
+                } else {
+                    $editor.find(".richText-editor").html('<div><br></div>');
+                }
+                updateTextarea();
+            }
         }
 
         return $(this);
