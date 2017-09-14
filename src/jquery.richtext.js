@@ -115,8 +115,9 @@
             $formButton = $('<button />', {text: "Einfügen", class: "btn"}); // button
 
         /* internal settings */
-        var saveSelection, restoreSelection, savedSelection; // caret position/selection
+        var savedSelection; // caret position/selection
         var editorID = "richText-" + Math.random().toString(36).substring(7);
+        console.log(editorID);
         var ignoreSave = false, $resizeImage = null, history = [], historyPosition = 0;
 
         /* list dropdown for titles */
@@ -273,7 +274,7 @@
 
 
         /* initizalize editor */
-        var init = function() {
+        function init() {
             var value, attributes, attributes_html = '';
 
             if(settings.useParagraph !== false) {
@@ -495,7 +496,7 @@
             }
             fixFirstLine();
             updateTextarea();
-            doSave();
+            doSave($(this).attr("id"));
         });
 
         // Saving changes from textarea to editor
@@ -503,13 +504,15 @@
             if(settings.useSingleQuotes === true) {
                 $(this).val(changeAttributeQuotes($(this).val()));
             }
-            updateEditor();
-            doSave();
+            var editorID = $(this).siblings('.richText-editor').attr("id");
+            updateEditor(editorID);
+            doSave(editorID);
         });
 
         // Save selection seperately (mainly needed for Safari)
         $(document).on("dblclick mouseup", ".richText-editor", function() {
-            doSave();
+            var editorID = $(this).attr("id");
+            doSave(editorID);
         });
 
         // embedding video
@@ -917,16 +920,21 @@
          * Update editor when updating textarea
          * @private
          */
-        function updateEditor() {
+        function updateEditor(editorID) {
             var $editor = $('#' + editorID);
             var content = $editor.siblings('.richText-initial').val();
             $editor.html(content);
         }
 
-        /** save caret position **/
-        if (window.getSelection && document.createRange) {
-            saveSelection = function() {
-                var containerEl = document.getElementById(editorID);
+
+
+        /**
+         * Save caret position and selection
+         * @return object
+         **/
+        function saveSelection(editorID) {
+            var containerEl = document.getElementById(editorID);
+            if (window.getSelection && document.createRange) {
                 var sel = window.getSelection && window.getSelection();
                 if (sel && sel.rangeCount > 0) {
                     var range = window.getSelection().getRangeAt(0);
@@ -945,10 +953,28 @@
                         end: 0
                     });
                 }
-            };
-            restoreSelection = function() {
-                var containerEl = document.getElementById(editorID);
-                var savedSel = savedSelection;
+            } else if (document.selection && document.body.createTextRange) {
+                var selectedTextRange = document.selection.createRange();
+                var preSelectionTextRange = document.body.createTextRange();
+                preSelectionTextRange.moveToElementText(containerEl);
+                preSelectionTextRange.setEndPoint("EndToStart", selectedTextRange);
+                var start = preSelectionTextRange.text.length;
+
+                return {
+                    start: start,
+                    end: start + selectedTextRange.text.length
+                };
+            }
+        }
+
+
+        /**
+         * Restore selection
+         **/
+        function restoreSelection() {
+            var containerEl = document.getElementById(editorID);
+            var savedSel = savedSelection;
+            if (window.getSelection && document.createRange) {
                 var charIndex = 0, range = document.createRange();
                 range.setStart(containerEl, 0);
                 range.collapse(true);
@@ -973,35 +999,17 @@
                         }
                     }
                 }
-
                 var sel = window.getSelection();
                 sel.removeAllRanges();
                 sel.addRange(range);
-            };
-        } else if (document.selection && document.body.createTextRange) {
-            saveSelection = function() {
-                var containerEl = document.getElementById(editorID);
-                var selectedTextRange = document.selection.createRange();
-                var preSelectionTextRange = document.body.createTextRange();
-                preSelectionTextRange.moveToElementText(containerEl);
-                preSelectionTextRange.setEndPoint("EndToStart", selectedTextRange);
-                var start = preSelectionTextRange.text.length;
-
-                return {
-                    start: start,
-                    end: start + selectedTextRange.text.length
-                };
-            };
-            restoreSelection = function() {
-                var containerEl = document.getElementById(editorID);
-                var savedSel = savedSelection;
+            } else if (document.selection && document.body.createTextRange) {
                 var textRange = document.body.createTextRange();
                 textRange.moveToElementText(containerEl);
                 textRange.collapse(true);
                 textRange.moveEnd("character", savedSel.end);
                 textRange.moveStart("character", savedSel.start);
                 textRange.select();
-            };
+            }
         }
 
 
@@ -1099,9 +1107,10 @@
         /**
          * Save selection
          */
-        function doSave() {
-            addHistory($editor.find("textarea").val());
-            savedSelection = saveSelection();
+        function doSave(editorID) {
+            var $textarea = $('.richText-editor#' + editorID).siblings('.richText-initial');
+            addHistory($textarea.val());
+            savedSelection = saveSelection(editorID);
         }
 
         /**
@@ -1281,7 +1290,7 @@
          * @private
          */
         function toggleCode() {
-
+            console.log($editor.find('.richText-editor').attr("id"));
             if($editor.find('.richText-editor').is(":visible")) {
                 // show code
                 $editor.find('.richText-initial').show();
