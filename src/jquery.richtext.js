@@ -117,7 +117,6 @@
         /* internal settings */
         var savedSelection; // caret position/selection
         var editorID = "richText-" + Math.random().toString(36).substring(7);
-        console.log(editorID);
         var ignoreSave = false, $resizeImage = null, history = [], historyPosition = 0;
 
         /* list dropdown for titles */
@@ -1290,7 +1289,6 @@
          * @private
          */
         function toggleCode() {
-            console.log($editor.find('.richText-editor').attr("id"));
             if($editor.find('.richText-editor').is(":visible")) {
                 // show code
                 $editor.find('.richText-initial').show();
