@@ -846,12 +846,13 @@
         $(document).on("click", ".richText-toolbar a[data-command]", function(event) {
             var $button = $(this);
             var $toolbar = $button.closest('.richText-toolbar');
-            if($toolbar.siblings("#" + editorID).length > 0 && (!$button.parent("li").attr('data-disable') || $button.parent("li").attr('data-disable') === "false")) {
+            var $editor = $toolbar.siblings('.richText-editor');
+            if($editor.length > 0 && (!$button.parent("li").attr('data-disable') || $button.parent("li").attr('data-disable') === "false")) {
                 event.preventDefault();
                 var command = $(this).data("command");
 
                 if(command === "toggleCode") {
-                    toggleCode();
+                    toggleCode($editor.attr("id"));
                 } else {
                     var option = null;
                     if ($(this).data('option')) {
@@ -1288,7 +1289,8 @@
          * Toggle (show/hide) code or editor
          * @private
          */
-        function toggleCode() {
+        function toggleCode(editorID) {
+            doRestore();
             if($editor.find('.richText-editor').is(":visible")) {
                 // show code
                 $editor.find('.richText-initial').show();
@@ -1299,6 +1301,7 @@
                         $(this).parent('li').attr("data-disable", "true");
                     }
                 });
+                convertCaretPosition(editorID, savedSelection);
             } else {
                 // show editor
                 $editor.find('.richText-initial').hide();
@@ -1306,7 +1309,74 @@
                 // enable all buttons again
                 $('.richText-toolbar').find('li').removeAttr("data-disable");
             }
+        }
 
+
+        /**
+         * Convert caret position from editor to code view
+         * @param {string} editorID
+         * @param {object} selection
+         **/ 
+        function convertCaretPosition(editorID, selection) {
+            var $editor = $('#' + editorID);
+            var $textarea = $editor.siblings(".richText-initial");
+            var code = $textarea.val();
+            if(!selection || !code) {
+                return {start: 0, end: 0};
+            }
+            selection.node = $textarea[0];
+            var states = {start: false, end: false, tag: false, isTag: false, tagsCount: 0};
+            for(var i = 0; i < code.length; i++) {
+                if(code[i] === "<") {
+                    // HTML tag starts
+                    states.isTag = true;
+                    states.tag = false;
+                    states.tagsCount++;
+                } else if(states.isTag === true && code[i] !== ">") {
+                    states.tagsCount++;
+                } else if(states.isTag === true && code[i] === ">") {
+                    states.isTag = false;
+                    states.tag = true;
+                    states.tagsCount++;
+                } else if(states.tag === true) {
+                    states.tag = false;
+                }
+                if((selection.start + states.tagsCount) <= i && states.isTag === false && states.tag === false && states.start === false) {
+                    selection.start = i;
+                    states.start = true;
+                }
+
+                if((selection.end + states.tagsCount) <= i+1 && states.isTag === false && states.tag === false && states.end === false) {
+                    selection.end = i+1;
+                    states.end = true;
+                }
+            }
+            createSelection(selection.node, selection.start, selection.end);
+            return selection;
+        }
+
+        /**
+         * Create selection on node element
+         * @param {Node} field
+         * @param {int} start
+         * @param {int} end
+         **/ 
+        function createSelection(field, start, end) {
+            if( field.createTextRange ) {
+                var selRange = field.createTextRange();
+                selRange.collapse(true);
+                selRange.moveStart('character', start);
+                selRange.moveEnd('character', end);
+                selRange.select();
+                field.focus();
+            } else if( field.setSelectionRange ) {
+                field.focus();
+                field.setSelectionRange(start, end);
+            } else if( typeof field.selectionStart != 'undefined' ) {
+                field.selectionStart = start;
+                field.selectionEnd = end;
+                field.focus();
+            }
         }
 
 
