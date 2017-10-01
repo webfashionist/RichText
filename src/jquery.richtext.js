@@ -551,7 +551,7 @@
                         } else {
 
                         }
-                        restoreSelection();
+                        restoreSelection(editorID);
                         pasteHTMLAtCaret(html);
                         updateTextarea();
                         // reset input values
@@ -661,7 +661,7 @@
                     } else {
                         html = '<a href="' + url + '" target="' + target + '">' + text + '</a>';
                     }
-                    restoreSelection();
+                    restoreSelection(editorID);
                     pasteHTMLAtCaret(html);
                     // reset input values
                     $form.find('input#url').val('');
@@ -710,7 +710,7 @@
                             html = '<img src="' + url + '" align="' + align + '">';
                         }
                     }
-                    restoreSelection();
+                    restoreSelection(editorID);
                     pasteHTMLAtCaret(html);
                     // reset input values
                     $form.find('input#imageURL').val('');
@@ -750,7 +750,7 @@
                     } else {
                         html = '<a href="' + url + '" target="_blank">' + text + '</a>';
                     }
-                    restoreSelection();
+                    restoreSelection(editorID);
                     pasteHTMLAtCaret(html);
                     // reset input values
                     $form.find('input#fileURL').val('');
@@ -798,7 +798,7 @@
                 html += '</tbod></table>';
 
                 // write html in editor
-                restoreSelection();
+                restoreSelection(editorID);
                 pasteHTMLAtCaret(html);
                 // reset input values
                 $form.find('input#tableColumns').val('');
@@ -829,7 +829,7 @@
 
                 if($clickedElement.hasClass("fa-link")) {
                     // put currently selected text in URL form to replace it
-                    restoreSelection();
+                    restoreSelection(editorID);
                     var selectedText = getSelectedText();
                     $clickedElement.find("input#urlText").val('');
                     $clickedElement.find("input#url").val('');
@@ -946,7 +946,8 @@
 
                     return {
                         start: start,
-                        end: start + range.toString().length
+                        end: start + range.toString().length,
+                        editorID: editorID
                     }
                 } else {
                     return (savedSelection ? savedSelection : {
@@ -963,7 +964,8 @@
 
                 return {
                     start: start,
-                    end: start + selectedTextRange.text.length
+                    end: start + selectedTextRange.text.length,
+                    editorID: editorID
                 };
             }
         }
@@ -972,9 +974,12 @@
         /**
          * Restore selection
          **/
-        function restoreSelection() {
+        function restoreSelection(editorID) {
             var containerEl = document.getElementById(editorID);
             var savedSel = savedSelection;
+            if(savedSel.editorID !== editorID) {
+                return false;
+            }
             if (window.getSelection && document.createRange) {
                 var charIndex = 0, range = document.createRange();
                 range.setStart(containerEl, 0);
@@ -1170,7 +1175,7 @@
          */
         function doRestore() {
             if(savedSelection) {
-                restoreSelection();
+                restoreSelection(savedSelection.editorID);
             }
         }
 
@@ -1328,8 +1333,8 @@
             }
 
             if(reverse === true) {
-                savedSelection = {start: $editor.text().length, end: $editor.text().length};
-                restoreSelection();
+                savedSelection = {start: $editor.text().length, end: $editor.text().length, editorID: editorID};
+                restoreSelection(editorID);
                 return true;
             }
             selection.node = $textarea[0];
