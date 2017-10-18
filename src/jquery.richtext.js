@@ -927,11 +927,98 @@
         }
 
 
+        /**
+         * Save caret position and selection
+         * @return object
+         **/
+        function saveSelection(editorID) {
+            var containerEl = document.getElementById(editorID);
+            var range, start, end, type;
+            if(window.getSelection && document.createRange) {
+                var sel = window.getSelection && window.getSelection();
+                if (sel && sel.rangeCount > 0 && $(sel.anchorNode).parents('#' + editorID).length > 0) {
+                    var range = window.getSelection().getRangeAt(0);
+                    var preSelectionRange = range.cloneRange();
+                    preSelectionRange.selectNodeContents(containerEl);
+                    preSelectionRange.setEnd(range.startContainer, range.startOffset);
+                    
+                    start = preSelectionRange.toString().length;
+                    end = (start + range.toString().length);
+
+                    type = (start === end ? 'caret' : 'selection');
+                    anchor = (type === "caret" && sel.anchorNode.tagName ? sel.anchorNode : false);
+
+                    start = (type === 'caret' && anchor !== false ? 0 : preSelectionRange.toString().length);
+                    end = (type === 'caret' && anchor !== false ? 0 : (start + range.toString().length));
+
+
+                    return {
+                        start: start,
+                        end: end,
+                        type: type,
+                        anchor: anchor,
+                        editorID: editorID
+                    }
+                }
+            }
+            return (savedSelection ? savedSelection : {
+                        start: 0,
+                        end: 0
+                    });
+        }
+
+
+        /**
+         * Restore selection
+         **/
+        function restoreSelection(editorID) {
+            var containerEl = document.getElementById(editorID);
+            var savedSel = savedSelection;
+
+            if(savedSel.editorID !== editorID) {
+                return false;
+            }
+
+            containerEl = (savedSel.anchor ? savedSel.anchor : containerEl);
+
+            if (window.getSelection && document.createRange) {
+                var charIndex = 0, range = document.createRange();
+                range.setStart(containerEl, 0);
+                range.collapse(true);
+                var nodeStack = [containerEl], node, foundStart = false, stop = false;
+
+                while (!stop && (node = nodeStack.pop())) {
+                    if (node.nodeType === 3) {
+                        var nextCharIndex = charIndex + node.length;
+                        if (!foundStart && savedSel.start >= charIndex && savedSel.start <= nextCharIndex) {
+                            range.setStart(node, savedSel.start - charIndex);
+                            foundStart = true;
+                        }
+                        if (foundStart && savedSel.end >= charIndex && savedSel.end <= nextCharIndex) {
+                            range.setEnd(node, savedSel.end - charIndex);
+                            stop = true;
+                        }
+                        charIndex = nextCharIndex;
+                    } else {
+                        var i = node.childNodes.length;
+                        while (i--) {
+                            nodeStack.push(node.childNodes[i]);
+                        }
+                    }
+                }
+                var sel = window.getSelection();
+                sel.removeAllRanges();
+                sel.addRange(range);
+            }
+        }
+
+
 
         /**
          * Save caret position and selection
          * @return object
          **/
+         /*
         function saveSelection(editorID) {
             var containerEl = document.getElementById(editorID);
             var start;
@@ -969,11 +1056,12 @@
                 };
             }
         }
-
+        */
 
         /**
          * Restore selection
          **/
+         /*
         function restoreSelection(editorID) {
             var containerEl = document.getElementById(editorID);
             var savedSel = savedSelection;
@@ -1017,7 +1105,7 @@
                 textRange.select();
             }
         }
-
+        */
 
         /**
          * Enables tabbing/shift-tabbing between contentEditable table cells
