@@ -847,7 +847,8 @@
             var $button = $(this);
             var $toolbar = $button.closest('.richText-toolbar');
             var $editor = $toolbar.siblings('.richText-editor');
-            if($editor.length > 0 && (!$button.parent("li").attr('data-disable') || $button.parent("li").attr('data-disable') === "false")) {
+            var id = $editor.attr("id");
+            if($editor.length > 0 && id === editorID && (!$button.parent("li").attr('data-disable') || $button.parent("li").attr('data-disable') === "false")) {
                 event.preventDefault();
                 var command = $(this).data("command");
 
