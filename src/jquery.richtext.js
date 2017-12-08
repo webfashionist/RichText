@@ -984,6 +984,7 @@
 
             if (window.getSelection && document.createRange) {
                 var charIndex = 0, range = document.createRange();
+                if(!range || !containerEl) { window.getSelection().removeAllRanges(); return true; }
                 range.setStart(containerEl, 0);
                 range.collapse(true);
                 var nodeStack = [containerEl], node, foundStart = false, stop = false;
