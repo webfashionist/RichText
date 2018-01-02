@@ -8,6 +8,11 @@ WYSIWYG editor developed as jQuery plugin.
 - `src/jquery.richtext.min.js`
 - `src/richtext.min.css`
 
+## Demo
+
+To see the latest demo version, you may use the following URL:
+[Demo from htmlpreview.github.io](https://htmlpreview.github.io/?https://github.com/webfashionist/RichText/blob/master/examples/index.html)
+
 
 ## Initialize editor
 
