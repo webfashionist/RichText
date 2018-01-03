@@ -446,7 +446,7 @@
 
             // save history
             history.push($editor.find("textarea").val());
-        };
+        }
 
         // initialize editor
         init();
@@ -461,8 +461,8 @@
                 var $outer = $('<div />', {class: 'richText-help-popup', style: 'position:absolute;top:0;right:0;bottom:0;left:0;background-color: rgba(0,0,0,0.3);'});
                 var $inner = $('<div />', {style: 'position:relative;margin:60px auto;padding:20px;background-color:#FAFAFA;width:70%;font-family:Calibri,Verdana,Helvetica,sans-serif;font-size:small;'});
                 var $content = $('<div />', {html: '<span id="closeHelp" style="display:block;position:absolute;top:0;right:0;padding:10px;cursor:pointer;" class="fa fa-times" title="Close"></span>'});
-                $content.append('<h3>RichText</h3>');
-                $content.append('<hr>Powered by <a href="https://github.com/webfashionist/RichText" target="_blank">webfashionist/RichText</a> (Github) <br>License: <a href="https://github.com/webfashionist/RichText/blob/master/LICENSE" target="_blank">AGPL-3.0</a>');
+                $content.append('<h3 style="margin:0;">RichText</h3>');
+                $content.append('<hr><br>Powered by <a href="https://github.com/webfashionist/RichText" target="_blank">webfashionist/RichText</a> (Github) <br>License: <a href="https://github.com/webfashionist/RichText/blob/master/LICENSE" target="_blank">AGPL-3.0</a>');
 
                 $outer.append($inner.append($content));
                 $editor.append($outer);
@@ -471,7 +471,6 @@
                     $(this).parents('.richText-help-popup').remove();
                 });
             }
-
         });
 
         // undo / redo
