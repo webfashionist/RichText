@@ -971,6 +971,20 @@
                     }
                     formatText(command, option);
                     if (command === "removeFormat") {
+                        // remove HTML/CSS formatting
+                        $editor.find('*').each(function() {
+                            // remove all, but very few, attributes from the nodes
+                            var attributes = $.map(this.attributes, function(item) {
+                                return item.name;
+                            });
+                            var keepAttributes = ["id", "class", "name", "action", "method"];
+                            var element = $(this);
+                            $.each(attributes, function(i, item) {
+                                if(keepAttributes.indexOf(item) < 0 && item.substr(0, 5) !== 'data-') {
+                                    element.removeAttr(item);
+                                }
+                            });
+                        });
                         formatText('formatBlock', 'div');
                     }
                 }
