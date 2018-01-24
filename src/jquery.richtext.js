@@ -987,6 +987,9 @@
                         });
                         formatText('formatBlock', 'div');
                     }
+                    // clean up empty tags, which can be created while replacing formatting or when copy-pasting from other tools
+                    $editor.find('*:empty').remove();
+                    $editor.find('h1,h2,h3,h4,h5,h6').unwrap('h1,h2,h3,h4,h5,h6');
                 }
             }
             // close dropdown after click
