@@ -83,6 +83,45 @@ $(element).richText({
   // dropdowns
   fileHTML: '',
   imageHTML: '',
+
+  // translations
+  translations: {
+      'title': 'Title',
+      'white': 'White',
+      'black': 'Black',
+      'brown': 'Brown',
+      'beige': 'Beige',
+      'darkBlue': 'Dark Blue',
+      'blue': 'Blue',
+      'lightBlue': 'Light Blue',
+      'darkRed': 'Dark Red',
+      'red': 'Red',
+      'darkGreen': 'Dark Green',
+      'green': 'Green',
+      'purple': 'Purple',
+      'darkTurquois': 'Dark Turquois',
+      'turquois': 'Turquois',
+      'darkOrange': 'Dark Orange',
+      'orange': 'Orange',
+      'yellow': 'Yellow',
+      'imageURL': 'Image URL',
+      'fileURL': 'File URL',
+      'linkText': 'Link text',
+      'url': 'URL',
+      'size': 'Size',
+      'responsive': 'Responsive',
+      'text': 'Text',
+      'openIn': 'Open in',
+      'sameTab': 'Same tab',
+      'newTab': 'New tab',
+      'align': 'Align',
+      'left': 'Left',
+      'center': 'Center',
+      'right': 'Right',
+      'rows': 'Rows',
+      'columns': 'Columns',
+      'add': 'Add'
+  },
   
   // developer settings
   useSingleQuotes: false,
@@ -148,6 +187,10 @@ Custom dropdowns allow to customize in a restricted way the dropdowns in the edi
 
 - `fileHTML` :: HTML string of the file dropdown. MUST include an input field (`select`, `input` or `textarea`) with the `id` equal to `fileURL`.
 - `imageHTML` :: HTML string of the image dropdown. MUST include an input field (`select`, `input` or `textarea`) with the `id` equal to `imageURL`.
+
+**Translations**
+
+- `translations` :: An object of key-value entries allowing to set other texts/translations for the editor. The keys must stay the same as in the default translation object.
 
 **Developer settings**
 

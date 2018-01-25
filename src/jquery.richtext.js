@@ -64,6 +64,45 @@
             fileHTML: '',
             imageHTML: '',
 
+            // translations
+            translations: {
+                'title': 'Title',
+                'white': 'White',
+                'black': 'Black',
+                'brown': 'Brown',
+                'beige': 'Beige',
+                'darkBlue': 'Dark Blue',
+                'blue': 'Blue',
+                'lightBlue': 'Light Blue',
+                'darkRed': 'Dark Red',
+                'red': 'Red',
+                'darkGreen': 'Dark Green',
+                'green': 'Green',
+                'purple': 'Purple',
+                'darkTurquois': 'Dark Turquois',
+                'turquois': 'Turquois',
+                'darkOrange': 'Dark Orange',
+                'orange': 'Orange',
+                'yellow': 'Yellow',
+                'imageURL': 'Image URL',
+                'fileURL': 'File URL',
+                'linkText': 'Link text',
+                'url': 'URL',
+                'size': 'Size',
+                'responsive': 'Responsive',
+                'text': 'Text',
+                'openIn': 'Open in',
+                'sameTab': 'Same tab',
+                'newTab': 'New tab',
+                'align': 'Align',
+                'left': 'Left',
+                'center': 'Center',
+                'right': 'Right',
+                'rows': 'Rows',
+                'columns': 'Columns',
+                'add': 'Add'
+            },
+
             // dev settings
             useSingleQuotes: false,
             height: 0,
@@ -112,7 +151,7 @@
             $formInput = $('<input />', {type: "text"}), //form input field
             $formInputFile = $('<input />', {type: "file"}), // form file input field
             $formInputSelect = $('<select />'),
-            $formButton = $('<button />', {text: "Einfügen", class: "btn"}); // button
+            $formButton = $('<button />', {text: settings.translations.add, class: "btn"}); // button
 
         /* internal settings */
         var savedSelection; // caret position/selection
@@ -121,10 +160,10 @@
 
         /* list dropdown for titles */
         var $titles = $dropdownList.clone();
-        $titles.append($('<li />', {html: '<a data-command="formatBlock" data-option="h1">Title #1</a>'}));
-        $titles.append($('<li />', {html: '<a data-command="formatBlock" data-option="h2">Title #2</a>'}));
-        $titles.append($('<li />', {html: '<a data-command="formatBlock" data-option="h3">Title #3</a>'}));
-        $titles.append($('<li />', {html: '<a data-command="formatBlock" data-option="h4">Title #4</a>'}));
+        $titles.append($('<li />', {html: '<a data-command="formatBlock" data-option="h1">' + settings.translations.title + ' #1</a>'}));
+        $titles.append($('<li />', {html: '<a data-command="formatBlock" data-option="h2">' + settings.translations.title + ' #2</a>'}));
+        $titles.append($('<li />', {html: '<a data-command="formatBlock" data-option="h3">' + settings.translations.title + ' #3</a>'}));
+        $titles.append($('<li />', {html: '<a data-command="formatBlock" data-option="h4">' + settings.translations.title + ' #4</a>'}));
         $btnHeading.append($dropdownOuter.clone().append($titles.prepend($dropdownClose.clone())));
 
         /* list dropdown for fonts */
@@ -151,22 +190,22 @@
         var $linksForm = $form.clone().attr("id", "richText-URL").attr("data-editor", editorID);
         $linksForm.append(
             $formItem.clone()
-                .append($formLabel.clone().text("URL").attr("for", "url"))
+                .append($formLabel.clone().text(settings.translations.url).attr("for", "url"))
                 .append($formInput.clone().attr("id", "url"))
                );
         $linksForm.append(
             $formItem.clone()
-                .append($formLabel.clone().text("Text").attr("for", "urlText"))
+                .append($formLabel.clone().text(settings.translations.text).attr("for", "urlText"))
                 .append($formInput.clone().attr("id", "urlText"))
                );
         $linksForm.append(
             $formItem.clone()
-                .append($formLabel.clone().text("Open in").attr("for", "openIn"))
+                .append($formLabel.clone().text(settings.translations.openIn).attr("for", "openIn"))
                 .append(
                     $formInputSelect
                         .clone().attr("id", "openIn")
-                        .append($("<option />", {value: '_self', text: 'Same tab'}))
-                        .append($("<option />", {value: '_blank', text: 'New tab'}))
+                        .append($("<option />", {value: '_self', text: settings.translations.sameTab}))
+                        .append($("<option />", {value: '_blank', text: settings.translations.newTab}))
                     )
                );
         $linksForm.append( $formItem.clone().append($formButton.clone()) );
@@ -178,16 +217,16 @@
         var $videoForm = $form.clone().attr("id", "richText-Video").attr("data-editor", editorID);
         $videoForm.append(
             $formItem.clone()
-                .append($formLabel.clone().text("URL").attr("for", "videoURL"))
+                .append($formLabel.clone().text(settings.translations.url).attr("for", "videoURL"))
                 .append($formInput.clone().attr("id", "videoURL"))
             );
         $videoForm.append(
             $formItem.clone()
-                .append($formLabel.clone().text("Size").attr("for", "size"))
+                .append($formLabel.clone().text(settings.translations.size).attr("for", "size"))
                 .append(
                         $formInputSelect
                             .clone().attr("id", "size")
-                            .append($("<option />", {value: 'responsive', text: 'Responsive'}))
+                            .append($("<option />", {value: 'responsive', text: settings.translations.responsive}))
                             .append($("<option />", {value: '640x360', text: '640x360'}))
                             .append($("<option />", {value: '560x315', text: '560x315'}))
                             .append($("<option />", {value: '480x270', text: '480x270'}))
@@ -210,18 +249,18 @@
             // default image form
             $imageForm.append(
                 $formItem.clone()
-                    .append($formLabel.clone().text("Image URL").attr("for", "imageURL"))
+                    .append($formLabel.clone().text(settings.translations.imageURL).attr("for", "imageURL"))
                     .append($formInput.clone().attr("id", "imageURL"))
                    );
             $imageForm.append(
                 $formItem.clone()
-                    .append($formLabel.clone().text("Align").attr("for", "align"))
+                    .append($formLabel.clone().text(settings.translations.align).attr("for", "align"))
                     .append(
                         $formInputSelect
                             .clone().attr("id", "align")
-                            .append($("<option />", {value: 'left', text: 'Left'}))
-                            .append($("<option />", {value: 'center', text: 'Center'}))
-                            .append($("<option />", {value: 'right', text: 'Right'}))
+                            .append($("<option />", {value: 'left', text: settings.translations.left}))
+                            .append($("<option />", {value: 'center', text: settings.translations.center}))
+                            .append($("<option />", {value: 'right', text: settings.translations.right}))
                         )
                    );
         }
@@ -241,12 +280,12 @@
             // default file form
             $fileForm.append(
                 $formItem.clone()
-                    .append($formLabel.clone().text("File URL").attr("for", "fileURL"))
+                    .append($formLabel.clone().text(settings.translations.fileURL).attr("for", "fileURL"))
                     .append($formInput.clone().attr("id", "fileURL"))
                 );
             $fileForm.append(
                 $formItem.clone()
-                    .append($formLabel.clone().text("Link text").attr("for", "fileText"))
+                    .append($formLabel.clone().text(settings.translations.linkText).attr("for", "fileText"))
                     .append($formInput.clone().attr("id", "fileText"))
                 );
         }
@@ -259,12 +298,12 @@
         var $tableForm = $form.clone().attr("id", "richText-Table").attr("data-editor", editorID);
         $tableForm.append(
             $formItem.clone()
-                .append($formLabel.clone().text("Rows").attr("for", "tableRows"))
+                .append($formLabel.clone().text(settings.translations.rows).attr("for", "tableRows"))
                 .append($formInput.clone().attr("id", "tableRows").attr("type", "number"))
             );
         $tableForm.append(
             $formItem.clone()
-                .append($formLabel.clone().text("Columns").attr("for", "tableColumns"))
+                .append($formLabel.clone().text(settings.translations.columns).attr("for", "tableColumns"))
                 .append($formInput.clone().attr("id", "tableColumns").attr("type", "number"))
             );
         $tableForm.append( $formItem.clone().append($formButton.clone()) );
@@ -1474,23 +1513,23 @@
             var colors = [];
             var result = '';
 
-            colors["#FFFFFF"] = 'White';
-            colors["#000000"] = 'Black';
-            colors["#7F6000"] = 'Brown';
-            colors["#938953"] = 'Beige';
-            colors["#1F497D"] = 'Dark Blue';
-            colors["blue"] = 'Blue';
-            colors["#4F81BD"] = 'Light blue';
-            colors["#953734"] = 'Dark red';
-            colors["red"] = 'Red';
-            colors["#4F6128"] = 'Dark green';
-            colors["green"] = 'Green';
-            colors["#3F3151"] = 'Purple';
-            colors["#31859B"] = 'Dark Turquois';
-            colors["#4BACC6"] = 'Turquois';
-            colors["#E36C09"] = 'Dark orange';
-            colors["#F79646"] = 'Orange';
-            colors["#FFFF00"] = 'Yellow';
+            colors["#FFFFFF"] = settings.translations.white;
+            colors["#000000"] = settings.translations.black;
+            colors["#7F6000"] = settings.translations.brown;
+            colors["#938953"] = settings.translations.beige;
+            colors["#1F497D"] = settings.translations.darkBlue;
+            colors["blue"] = settings.translations.blue;
+            colors["#4F81BD"] = settings.translations.lightBlue;
+            colors["#953734"] = settings.translations.darkRed;
+            colors["red"] = settings.translations.red;
+            colors["#4F6128"] = settings.translations.darkGreen;
+            colors["green"] = settings.translations.green;
+            colors["#3F3151"] = settings.translations.purple;
+            colors["#31859B"] = settings.translations.darkTurquois;
+            colors["#4BACC6"] = settings.translations.turquois;
+            colors["#E36C09"] = settings.translations.darkOrange;
+            colors["#F79646"] = settings.translations.orange;
+            colors["#FFFF00"] = settings.translations.yellow;
 
             if(settings.colors && settings.colors.length > 0) {
                 colors = settings.colors;
