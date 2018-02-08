@@ -1126,7 +1126,7 @@
             if(window.getSelection && document.createRange) {
                 var sel = window.getSelection && window.getSelection();
                 if (sel && sel.rangeCount > 0 && $(sel.anchorNode).parents('#' + editorID).length > 0) {
-                    var range = window.getSelection().getRangeAt(0);
+                    range = window.getSelection().getRangeAt(0);
                     var preSelectionRange = range.cloneRange();
                     preSelectionRange.selectNodeContents(containerEl);
                     preSelectionRange.setEnd(range.startContainer, range.startOffset);
@@ -1163,6 +1163,16 @@
         function restoreSelection(editorID) {
             var containerEl = document.getElementById(editorID);
             var savedSel = savedSelection;
+            if(!savedSel) {
+                // fix selection if editor has not been focused
+                savedSel = {
+                    'start': 0,
+                    'end': 0,
+                    'type': 'caret',
+                    'editorID': editorID,
+                    'anchor': $('#' + editorID).children('div')[0]
+                };
+            }
 
             if(savedSel.editorID !== editorID) {
                 return false;
