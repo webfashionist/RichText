@@ -1052,7 +1052,7 @@
                         formatText('formatBlock', 'div');
                     }
                     // clean up empty tags, which can be created while replacing formatting or when copy-pasting from other tools
-                    $editor.find('*:empty').remove();
+                    $editor.find('div:empty,p:empty,li:empty,h1:empty,h2:empty,h3:empty,h4:empty,h5:empty,h6:empty').remove();
                     $editor.find('h1,h2,h3,h4,h5,h6').unwrap('h1,h2,h3,h4,h5,h6');
                 }
             }
