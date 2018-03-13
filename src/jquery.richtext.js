@@ -1033,7 +1033,8 @@
                             command = "heading";
                         }
                     }
-                    formatText(command, option);
+
+                    formatText(command, option, id);
                     if (command === "removeFormat") {
                         // remove HTML/CSS formatting
                         $editor.find('*').each(function() {
@@ -1049,7 +1050,7 @@
                                 }
                             });
                         });
-                        formatText('formatBlock', 'div');
+                        formatText('formatBlock', 'div', id);
                     }
                     // clean up empty tags, which can be created while replacing formatting or when copy-pasting from other tools
                     $editor.find('div:empty,p:empty,li:empty,h1:empty,h2:empty,h3:empty,h4:empty,h5:empty,h6:empty').remove();
@@ -1068,14 +1069,15 @@
          * Format text in editor
          * @param {string} command
          * @param {string|null} option
+         * @param {string} editorID
          * @private
          */
-        function formatText(command, option) {
+        function formatText(command, option, editorID) {
             if (typeof option === "undefined") {
                 option = null;
             }
             // restore selection from before clicking on any button
-            doRestore();
+            doRestore(editorID);
             // Temporarily enable designMode so that
             // document.execCommand() will work
             // document.designMode = "ON";
@@ -1176,7 +1178,7 @@
                 return false;
             }
 
-            containerEl = (savedSel.anchor ? savedSel.anchor : containerEl);
+            //containerEl = (savedSel.anchor ? savedSel.anchor : containerEl); // fix selection issue
 
             if (window.getSelection && document.createRange) {
                 var charIndex = 0, range = document.createRange();
@@ -1385,10 +1387,10 @@
         function getSelectedText() {
             var range;
             if (window.getSelection) {  // all browsers, except IE before version 9
-                range = window.getSelection ();
-                return range.toString();
+                range = window.getSelection();
+                return range.toString() ? range.toString() : range.focusNode.nodeValue;
             } else  if (document.selection.createRange) { // Internet Explorer
-                range = document.selection.createRange ();
+                range = document.selection.createRange();
                 return range.text;
             }
             return false;
@@ -1459,9 +1461,9 @@
         /**
          * Restore selection
          */
-        function doRestore() {
+        function doRestore(id) {
             if(savedSelection) {
-                restoreSelection(savedSelection.editorID);
+                restoreSelection((id ? id : savedSelection.editorID));
             }
         }
 
@@ -1580,7 +1582,7 @@
          * @private
          */
         function toggleCode(editorID) {
-            doRestore();
+            doRestore(editorID);
             if($editor.find('.richText-editor').is(":visible")) {
                 // show code
                 $editor.find('.richText-initial').show();
