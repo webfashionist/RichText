@@ -60,6 +60,10 @@ $highlight: #3498db;
                     -moz-transition: background-color 0.4s;
                     transition: background-color 0.4s;
 
+                    .fa, .fas, .far, svg {
+                        pointer-events: none;
+                    }
+
                     .richText-dropdown-outer {
                         display: none;
                         position: absolute;

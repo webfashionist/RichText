@@ -145,29 +145,29 @@
         var $editor,
             $toolbarList = $('<ul />'),
             $toolbarElement = $('<li />'),
-            $btnBold = $('<a />', {class: "richText-btn fa fa-bold", "data-command": "bold", "title": settings.translations.bold}), // bold
-            $btnItalic = $('<a />', {class: "richText-btn fa fa-italic", "data-command": "italic", "title": settings.translations.italic}), // italic
-            $btnUnderline = $('<a />', {class: "richText-btn fa fa-underline", "data-command": "underline", "title": settings.translations.underline}), // underline
-            $btnLeftAlign = $('<a />', {class: "richText-btn fa fa-align-left", "data-command": "justifyLeft", "title": settings.translations.alignLeft}), // left align
-            $btnCenterAlign = $('<a />', {class: "richText-btn fa fa-align-center", "data-command": "justifyCenter", "title": settings.translations.alignCenter}), // centered
-            $btnRightAlign = $('<a />', {class: "richText-btn fa fa-align-right", "data-command": "justifyRight", "title": settings.translations.alignRight}), // right align
-            $btnOL = $('<a />', {class: "richText-btn fa fa-list-ol", "data-command": "insertOrderedList", "title": settings.translations.addOrderedList}), // ordered list
-            $btnUL = $('<a />', {class: "richText-btn fa fa-list", "data-command": "insertUnorderedList", "title": settings.translations.addUnorderedList}), // unordered list
-            $btnHeading = $('<a />', {class: "richText-btn fa fa-header", "title": settings.translations.addHeading}), // title/header
-            $btnFont = $('<a />', {class: "richText-btn fa fa-font", "title": settings.translations.addFont}), // font color
-            $btnFontColor = $('<a />', {class: "richText-btn fa fa-paint-brush", "title": settings.translations.addFontColor}), // font color
-            $btnImageUpload = $('<a />', {class: "richText-btn fa fa-image", "title": settings.translations.addImage}), // image
-            $btnVideoEmbed = $('<a />', {class: "richText-btn fa fa-video-camera", "title": settings.translations.addVideo}), // video
-            $btnFileUpload = $('<a />', {class: "richText-btn fa fa-file-text-o", "title": settings.translations.addFile}), // file
-            $btnURLs = $('<a />', {class: "richText-btn fa fa-link", "title": settings.translations.addURL}), // urls/links
-            $btnTable = $('<a />', {class: "richText-btn fa fa-table", "title": settings.translations.addTable}), // table
-            $btnRemoveStyles = $('<a />', {class: "richText-btn fa fa-recycle", "data-command": "removeFormat", "title": settings.translations.removeStyles}), // clean up styles
-            $btnCode = $('<a />', {class: "richText-btn fa fa-code", "data-command": "toggleCode", "title": settings.translations.code}); // code
+            $btnBold = $('<a />', {class: "richText-btn", "data-command": "bold", "title": settings.translations.bold, html: '<span class="fa fa-bold"></span>'}), // bold
+            $btnItalic = $('<a />', {class: "richText-btn", "data-command": "italic", "title": settings.translations.italic, html: '<span class="fa fa-italic"></span>'}), // italic
+            $btnUnderline = $('<a />', {class: "richText-btn", "data-command": "underline", "title": settings.translations.underline, html: '<span class="fa fa-underline"></span>'}), // underline
+            $btnLeftAlign = $('<a />', {class: "richText-btn", "data-command": "justifyLeft", "title": settings.translations.alignLeft, html: '<span class="fa fa-align-left"></span>'}), // left align
+            $btnCenterAlign = $('<a />', {class: "richText-btn", "data-command": "justifyCenter", "title": settings.translations.alignCenter, html: '<span class="fa fa-align-center"></span>'}), // centered
+            $btnRightAlign = $('<a />', {class: "richText-btn", "data-command": "justifyRight", "title": settings.translations.alignRight, html: '<span class="fa fa-align-right"></span>'}), // right align
+            $btnOL = $('<a />', {class: "richText-btn", "data-command": "insertOrderedList", "title": settings.translations.addOrderedList, html: '<span class="fa fa-list-ol"></span>'}), // ordered list
+            $btnUL = $('<a />', {class: "richText-btn", "data-command": "insertUnorderedList", "title": settings.translations.addUnorderedList, html: '<span class="fa fa-list"></span>'}), // unordered list
+            $btnHeading = $('<a />', {class: "richText-btn", "title": settings.translations.addHeading, html: '<span class="fa fa-header fa-heading"></span>'}), // title/header
+            $btnFont = $('<a />', {class: "richText-btn", "title": settings.translations.addFont, html: '<span class="fa fa-font"></span>'}), // font color
+            $btnFontColor = $('<a />', {class: "richText-btn", "title": settings.translations.addFontColor, html: '<span class="fa fa-paint-brush"></span>'}), // font color
+            $btnImageUpload = $('<a />', {class: "richText-btn", "title": settings.translations.addImage, html: '<span class="fa fa-image"></span>'}), // image
+            $btnVideoEmbed = $('<a />', {class: "richText-btn", "title": settings.translations.addVideo, html: '<span class="fa fa-video-camera fa-video"></span>'}), // video
+            $btnFileUpload = $('<a />', {class: "richText-btn", "title": settings.translations.addFile, html: '<span class="fa fa-file-text-o far fa-file-alt"></span>'}), // file
+            $btnURLs = $('<a />', {class: "richText-btn", "title": settings.translations.addURL, html: '<span class="fa fa-link"></span>'}), // urls/links
+            $btnTable = $('<a />', {class: "richText-btn", "title": settings.translations.addTable, html: '<span class="fa fa-table"></span>'}), // table
+            $btnRemoveStyles = $('<a />', {class: "richText-btn", "data-command": "removeFormat", "title": settings.translations.removeStyles, html: '<span class="fa fa-recycle"></span>'}), // clean up styles
+            $btnCode = $('<a />', {class: "richText-btn", "data-command": "toggleCode", "title": settings.translations.code, html: '<span class="fa fa-code"></span>'}); // code
 
         
         /* prepare toolbar dropdowns */
         var $dropdownOuter = $('<div />', {class: "richText-dropdown-outer"});
-        var $dropdownClose = $('<span />', {class: "richText-dropdown-close", html: '<span class="fa fa-times" title="' + settings.translations.close + '"></span>'});
+        var $dropdownClose = $('<span />', {class: "richText-dropdown-close", html: '<span title="' + settings.translations.close + '"><span class="fa fa-times"></span></span>'});
         var $dropdownList = $('<ul />', {class: "richText-dropdown"}), // dropdown lists
             $dropdownBox = $('<div />', {class: "richText-dropdown"}), // dropdown boxes / custom dropdowns
             $form = $('<div />', {class: "richText-form"}), // symbolic form
@@ -478,7 +478,7 @@
             $editor.append(
                 $('<div />', {class: 'richText-toolbar'})
                     .append($('<a />', {class: 'richText-undo is-disabled', html: '<span class="fa fa-undo"></span>', 'title': settings.translations.undo}))
-                    .append($('<a />', {class: 'richText-redo is-disabled', html: '<span class="fa fa-repeat"></span>', 'title': settings.translations.redo}))
+                    .append($('<a />', {class: 'richText-redo is-disabled', html: '<span class="fa fa-repeat fa-redo"></span>', 'title': settings.translations.redo}))
                     .append($('<a />', {class: 'richText-help', html: '<span class="fa fa-question-circle"></span>'}))
             );
 
@@ -524,7 +524,7 @@
             if($editor) {
                 var $outer = $('<div />', {class: 'richText-help-popup', style: 'position:absolute;top:0;right:0;bottom:0;left:0;background-color: rgba(0,0,0,0.3);'});
                 var $inner = $('<div />', {style: 'position:relative;margin:60px auto;padding:20px;background-color:#FAFAFA;width:70%;font-family:Calibri,Verdana,Helvetica,sans-serif;font-size:small;'});
-                var $content = $('<div />', {html: '<span id="closeHelp" style="display:block;position:absolute;top:0;right:0;padding:10px;cursor:pointer;" class="fa fa-times" title="' + settings.translations.close + '"></span>'});
+                var $content = $('<div />', {html: '<span id="closeHelp" style="display:block;position:absolute;top:0;right:0;padding:10px;cursor:pointer;" title="' + settings.translations.close + '"><span class="fa fa-times"></span></span>'});
                 $content.append('<h3 style="margin:0;">RichText</h3>');
                 $content.append('<hr><br>Powered by <a href="https://github.com/webfashionist/RichText" target="_blank">webfashionist/RichText</a> (Github) <br>License: <a href="https://github.com/webfashionist/RichText/blob/master/LICENSE" target="_blank">AGPL-3.0</a>');
 
@@ -998,7 +998,7 @@
                 // opening dropdown by clicking on toolbar button
                 $clickedElement.parent('li').addClass("is-selected");
 
-                if($clickedElement.hasClass("fa-link")) {
+                if($clickedElement.children('.fa,svg').hasClass("fa-link")) {
                     // put currently selected text in URL form to replace it
                     restoreSelection(editorID);
                     var selectedText = getSelectedText();
@@ -1587,7 +1587,7 @@
                 $editor.find('.richText-editor').hide(); 
                 // disable non working buttons
                 $('.richText-toolbar').find('.richText-btn').each(function() {
-                    if(!$(this).hasClass("fa-code")) {
+                    if($(this).children('.fa-code').length === 0) {
                         $(this).parent('li').attr("data-disable", "true");
                     }
                 });

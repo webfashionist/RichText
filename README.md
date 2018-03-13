@@ -4,7 +4,7 @@ WYSIWYG editor developed as jQuery plugin.
 ## Requirements
 
 - jQuery
-- FontAwesome
+- FontAwesome (tested with v.4.7.0 and v.5.0.8)
 - `src/jquery.richtext.min.js`
 - `src/richtext.min.css`
 
