@@ -966,7 +966,7 @@
                     }
                     html += '</tr>';
                 }
-                html += '</tbod></table>';
+                html += '</tbody></table>';
 
                 // write html in editor
                 restoreSelection(editorID);
