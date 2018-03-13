@@ -1100,7 +1100,9 @@
                 // IE workaround
                 pasteHTMLAtCaret('<' + option + '>' + getSelectedText() + '</' + option + '>');
             } else if(command === "fontSize" && parseInt(option) > 0) {
-                var html = (settings.useSingleQuotes ? "<span style='font-size:" + option + "px;'>" + getSelectedText() + "</span>" : '<span style="font-size:' + option + 'px;">' + getSelectedText() + '</span>')
+                var selection = getSelectedText();
+                selection = (selection + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2');
+                var html = (settings.useSingleQuotes ? "<span style='font-size:" + option + "px;'>" + selection + "</span>" : '<span style="font-size:' + option + 'px;">' + selection + '</span>');
                 pasteHTMLAtCaret(html);
             } else {
                 document.execCommand(command, false, option);
