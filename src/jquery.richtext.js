@@ -39,6 +39,7 @@
                     "Verdana"
                     ],
             fontColor: true,
+            fontSize: true,
 
             // uploads
             imageUpload: true,
@@ -116,6 +117,7 @@
                 'addHeading': 'Add Heading/title',
                 'addFont': 'Add font',
                 'addFontColor': 'Add font color',
+                'addFontSize' : 'Add font size',
                 'addImage': 'Add image',
                 'addVideo': 'Add video',
                 'addFile': 'Add file',
@@ -156,6 +158,7 @@
             $btnHeading = $('<a />', {class: "richText-btn", "title": settings.translations.addHeading, html: '<span class="fa fa-header fa-heading"></span>'}), // title/header
             $btnFont = $('<a />', {class: "richText-btn", "title": settings.translations.addFont, html: '<span class="fa fa-font"></span>'}), // font color
             $btnFontColor = $('<a />', {class: "richText-btn", "title": settings.translations.addFontColor, html: '<span class="fa fa-paint-brush"></span>'}), // font color
+            $btnFontSize = $('<a />', {class: "richText-btn", "title": settings.translations.addFontSize, html: '<span class="fa fa-text-height"></span>'}), // font color
             $btnImageUpload = $('<a />', {class: "richText-btn", "title": settings.translations.addImage, html: '<span class="fa fa-image"></span>'}), // image
             $btnVideoEmbed = $('<a />', {class: "richText-btn", "title": settings.translations.addVideo, html: '<span class="fa fa-video-camera fa-video"></span>'}), // video
             $btnFileUpload = $('<a />', {class: "richText-btn", "title": settings.translations.addFile, html: '<span class="fa fa-file-text-o far fa-file-alt"></span>'}), // file
@@ -198,6 +201,14 @@
             $fonts.append($('<li />', {html: '<a style="font-family:' + fonts[i] + ';" data-command="fontName" data-option="' + fonts[i] + '">' + fonts[i] + '</a>'}));
         }
         $btnFont.append($dropdownOuter.clone().append($fonts.prepend($dropdownClose.clone())));
+
+        /* list dropdown for font sizes */
+        var fontSizes = [24,18,16,14,12];
+        var $fontSizes = $dropdownList.clone();
+        for(var i = 0; i < fontSizes.length; i++) {
+            $fontSizes.append($('<li />', {html: '<a style="font-size:' + fontSizes[i] + 'px;" data-command="fontSize" data-option="' + fontSizes[i] + '">Text '  + fontSizes[i] + 'px</a>'}));
+        }
+        $btnFontSize.append($dropdownOuter.clone().append($fontSizes.prepend($dropdownClose.clone())));
 
         /* font colors */
         var $fontColors = $dropdownList.clone();
@@ -421,9 +432,12 @@
                 $toolbarList.append($toolbarElement.clone().append($btnUL));
             }
 
-            /* font list */
+            /* fonts */
             if(settings.fonts === true && settings.fontList.length > 0) {
                 $toolbarList.append($toolbarElement.clone().append($btnFont));
+            }
+            if(settings.fontSize === true) {
+                $toolbarList.append($toolbarElement.clone().append($btnFontSize));
             }
 
             /* heading */
@@ -1028,7 +1042,7 @@
                 } else {
                     var option = null;
                     if ($(this).data('option')) {
-                        option = $(this).data('option');
+                        option = $(this).data('option').toString();
                         if (option.match(/^h[1-6]$/)) {
                             command = "heading";
                         }
@@ -1085,6 +1099,9 @@
             if(command === "heading" && getSelectedText()) {
                 // IE workaround
                 pasteHTMLAtCaret('<' + option + '>' + getSelectedText() + '</' + option + '>');
+            } else if(command === "fontSize" && parseInt(option) > 0) {
+                var html = (settings.useSingleQuotes ? "<span style='font-size:" + option + "px;'>" + getSelectedText() + "</span>" : '<span style="font-size:' + option + 'px;">' + getSelectedText() + '</span>')
+                pasteHTMLAtCaret(html);
             } else {
                 document.execCommand(command, false, option);
             }

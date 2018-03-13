@@ -59,6 +59,7 @@ $(element).richText({
               "Verdana"
               ],
   fontColor: true,
+  fontSize: true,
 
   // uploads
   imageUpload: true,
@@ -136,6 +137,7 @@ $(element).richText({
       'addHeading': 'Add Heading/title',
       'addFont': 'Add font',
       'addFontColor': 'Add font color',
+      'addFontSize' : 'Add font size',
       'addImage': 'Add image',
       'addVideo': 'Add video',
       'addFile': 'Add file',
@@ -166,6 +168,7 @@ $(element).richText({
 **Fonts**
 - `fonts` (default: `(boolean) true`) :: Enables font formatting
 - `fontList` :: Array of allowed fonts. The fonts set by default are fonts which should work on Windows, Mac and Linux by default. Setting fonts manually will overwrite the array.
+- `fontSize` (default: `(boolean) true`) :: Allows to use different font sizes
 
 **Text alignment**
 - `leftAlign` (default: `(boolean) true`)
