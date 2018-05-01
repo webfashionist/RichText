@@ -4,6 +4,10 @@ Thank you for your interest in contributing to RichText!
 
 I've put together the following guidelines to help you figure out where you can best be helpful to the project.
 
+## Quick start
+
+- [Request a new feature](https://github.com/webfashionist/RichText/issues/new??title=Feature%20request:feature-name&template=feature-request.md)
+- [Submit a bug report](https://github.com/webfashionist/RichText/issues/new?template=bug-report.md)
 
 ## Table of Contents
 
@@ -18,9 +22,9 @@ Therefore, it would probably be easier to create [issues](https://github.com/web
 
 However, there are still many ways you can contribute to RichText:
 
-1. Suggest new ideas on how to extend the editor
-2. Suggest any update that would simplify the usage of the editor
-3. Fix or suggest a fix for issues/bugs that occur
+1. Suggest new ideas on how to extend the editor: ([https://github.com/webfashionist/RichText/issues/new??title=Feature%20request:feature-name&template=feature-request.md](Request a new feature))
+2. Suggest any update that would simplify the usage of the editor: [https://github.com/webfashionist/RichText/issues/new??title=Feature%20request:feature-name&template=feature-request.md](Request a new feature)
+3. Fix or suggest a fix for issues/bugs that occur: [https://github.com/webfashionist/RichText/issues/new?template=bug-report.md](Submit a bug report)
 
 
 ## Ground rules & expectations
@@ -41,4 +45,6 @@ If you don't see your idea listed, and you think it fits into the goals of this 
 
 - If your contribution is **minor**, such as a typo fix, or self-contained, such as writing a translation, open a pull request.
 - If your contribution is **major**, such as a new guide, start by opening an issue first. That way, other people can weigh in on the discussion before you do any work.
+
+Have a look at [Quick start](#quick-start) to directly open a new issue.
 
