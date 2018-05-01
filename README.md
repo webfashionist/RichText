@@ -229,6 +229,16 @@ Custom dropdowns allow to customize in a restricted way the dropdowns in the edi
 - `class` (default: `(string) ""`) :: Sets additional custom classes for the editor
 - `useParagraph` (default: `(boolean) false`) :: Uses paragraph tags instead of div containers (browser default) when pressing ENTER, if set to `true`.
 
+
+## Undo RichText
+
+There's now the possibility to undo the RichText editor to the state before `.richText()` has been called.
+
+For this to work, simply call `.unRichText()` on the initial textarea, on which `.richText()` has previously been called.
+
+It is possible to delay `unRichText()` by a given amount of milliseconds with the parameter: `{delay: 2000}`. 
+
+
 ## Contributing
 
 If you have any ideas, suggestions, issues or bugfixes, feel free to contribute.
