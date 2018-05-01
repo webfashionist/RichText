@@ -22,9 +22,9 @@ Therefore, it would probably be easier to create [issues](https://github.com/web
 
 However, there are still many ways you can contribute to RichText:
 
-1. Suggest new ideas on how to extend the editor: ([https://github.com/webfashionist/RichText/issues/new??title=Feature%20request:feature-name&template=feature-request.md](Request a new feature))
-2. Suggest any update that would simplify the usage of the editor: [https://github.com/webfashionist/RichText/issues/new??title=Feature%20request:feature-name&template=feature-request.md](Request a new feature)
-3. Fix or suggest a fix for issues/bugs that occur: [https://github.com/webfashionist/RichText/issues/new?template=bug-report.md](Submit a bug report)
+1. Suggest new ideas on how to extend the editor: ([Request a new feature](https://github.com/webfashionist/RichText/issues/new??title=Feature%20request:feature-name&template=feature-request.md))
+2. Suggest any update that would simplify the usage of the editor: ([Request a new feature](https://github.com/webfashionist/RichText/issues/new??title=Feature%20request:feature-name&template=feature-request.md))
+3. Fix or suggest a fix for issues/bugs that occur: [Submit a bug report](https://github.com/webfashionist/RichText/issues/new?template=bug-report.md)
 
 
 ## Ground rules & expectations
