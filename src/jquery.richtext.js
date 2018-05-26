@@ -609,8 +609,8 @@
                     var $popup = $toolbar.find('#richText-URL');
                     $popup.find('input#url').val($target.attr('href'));
                     $popup.find('input#urlText').val($target.text());
-                    $popup.find('input#openIn').val($target.attr('target'));
-                    $toolbar.find('.fa-link').parent('li').addClass('is-selected');
+                    $popup.find('select#openIn').val($target.attr('target'));
+                    $toolbar.find('.richText-btn').children('.fa-link').parent('li').addClass('is-selected');
                 });
 
                 return false;
@@ -631,8 +631,8 @@
                     $target.addClass('richText-editNode');
                     var $popup = $toolbar.find('#richText-Image');
                     $popup.find('input#imageURL').val($target.attr('src'));
-                    $popup.find('input#align').val(align);
-                    $toolbar.find('.fa-image').parent('li').addClass('is-selected');
+                    $popup.find('select#align').val(align);
+                    $toolbar.find('.richText-btn').children('.fa-image').parents('li').addClass('is-selected');
                 });
 
                 return false;
@@ -693,7 +693,7 @@
                         } else {
 
                         }
-                        restoreSelection(editorID);
+                        restoreSelection(editorID, true);
                         pasteHTMLAtCaret(html);
                         updateTextarea();
                         // reset input values
@@ -816,7 +816,7 @@
                     } else {
                         html = '<a href="' + url + '" target="' + target + '">' + text + '</a>';
                     }
-                    restoreSelection(editorID);
+                    restoreSelection(editorID, false, true);
 
                     var $editNode = $('.richText-editNode');
                     if($editNode.length > 0 && $editNode.prop("tagName") === "A") {
@@ -877,7 +877,7 @@
                             html = '<img src="' + url + '" align="' + align + '">';
                         }
                     }
-                    restoreSelection(editorID);
+                    restoreSelection(editorID, true);
                     var $editNode = $('.richText-editNode');
                     if($editNode.length > 0 && $editNode.prop("tagName") === "IMG") {
                         $editNode.attr("src", url);
@@ -935,7 +935,7 @@
                     } else {
                         html = '<a href="' + url + '" target="_blank">' + text + '</a>';
                     }
-                    restoreSelection(editorID);
+                    restoreSelection(editorID, true);
                     pasteHTMLAtCaret(html);
                     // reset input values
                     $form.find('input#fileURL').val('');
@@ -983,7 +983,7 @@
                 html += '</tbody></table>';
 
                 // write html in editor
-                restoreSelection(editorID);
+                restoreSelection(editorID, true);
                 pasteHTMLAtCaret(html);
                 // reset input values
                 $form.find('input#tableColumns').val('');
@@ -1014,7 +1014,7 @@
 
                 if($clickedElement.children('.fa,svg').hasClass("fa-link")) {
                     // put currently selected text in URL form to replace it
-                    restoreSelection(editorID);
+                    restoreSelection(editorID, false, true);
                     var selectedText = getSelectedText();
                     $clickedElement.find("input#urlText").val('');
                     $clickedElement.find("input#url").val('');
@@ -1053,7 +1053,13 @@
                         // remove HTML/CSS formatting
                         $editor.find('*').each(function() {
                             // remove all, but very few, attributes from the nodes
-                            var keepAttributes = ["id", "class", "name", "action", "method", "src", "align", "alt", "title"];
+                            var keepAttributes = [
+                                "id", "class",
+                                "name", "action", "method",
+                                "src", "align", "alt", "title",
+                                "style", "webkitallowfullscreen", "mozallowfullscreen", "allowfullscreen",
+                                "width", "height", "frameborder"
+                            ];
                             var element = $(this);
                             var attributes = $.map(this.attributes, function(item) {
                                 return item.name;
@@ -1179,7 +1185,7 @@
         /**
          * Restore selection
          **/
-        function restoreSelection(editorID) {
+        function restoreSelection(editorID, media, url) {
             var containerEl = document.getElementById(editorID);
             var savedSel = savedSelection;
             if(!savedSel) {
@@ -1195,9 +1201,13 @@
 
             if(savedSel.editorID !== editorID) {
                 return false;
+            } else if(media === true) {
+                containerEl = (savedSel.anchor ? savedSel.anchor : containerEl); // fix selection issue
+            } else if(url === true) {
+                if(savedSel.start === 0 && savedSel.end === 0) {
+                    containerEl = (savedSel.anchor ? savedSel.anchor : containerEl); // fix selection issue
+                }
             }
-
-            //containerEl = (savedSel.anchor ? savedSel.anchor : containerEl); // fix selection issue
 
             if (window.getSelection && document.createRange) {
                 var charIndex = 0, range = document.createRange();
