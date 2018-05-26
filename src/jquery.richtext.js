@@ -610,7 +610,7 @@
                     $popup.find('input#url').val($target.attr('href'));
                     $popup.find('input#urlText').val($target.text());
                     $popup.find('select#openIn').val($target.attr('target'));
-                    $toolbar.find('.richText-btn').children('.fa-link').parent('li').addClass('is-selected');
+                    $toolbar.find('.richText-btn').children('.fa-link').parents('li').addClass('is-selected');
                 });
 
                 return false;
