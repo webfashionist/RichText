@@ -130,6 +130,9 @@
                 'close': 'Close'
             },
 
+            // privacy
+            youtubeCookies: false,
+
             // dev settings
             useSingleQuotes: false,
             height: 0,
@@ -1750,7 +1753,8 @@
             var allowfullscreen = 'webkitallowfullscreen mozallowfullscreen allowfullscreen';
 
             if(video.platform === "YouTube") {
-                html += '<iframe src="https://www.youtube.com/embed/' + video.id + '?ecver=2" width="' + size[0] + '" height="' + size[1] + '" frameborder="0"' + (responsive === true ? ' style="position:absolute;width:100%;height:100%;left:0"' : '') + ' ' + allowfullscreen + '></iframe>';
+                var youtubeDomain = (settings.youtubeCookies ? 'www.youtube.com' : 'www.youtube-nocookie.com');
+                html += '<iframe src="https://' + youtubeDomain + '/embed/' + video.id + '?ecver=2" width="' + size[0] + '" height="' + size[1] + '" frameborder="0"' + (responsive === true ? ' style="position:absolute;width:100%;height:100%;left:0"' : '') + ' ' + allowfullscreen + '></iframe>';
                 success = true;
             } else if(video.platform === "Vimeo") {
                 html += '<iframe src="https://player.vimeo.com/video/' + video.id + '" width="' + size[0] + '" height="' + size[1] + '" frameborder="0"' + (responsive === true ? ' style="position:absolute;width:100%;height:100%;left:0"' : '') + ' ' + allowfullscreen + '></iframe>';

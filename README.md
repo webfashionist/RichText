@@ -149,6 +149,9 @@ $(element).richText({
       'redo': 'Redo',
       'close': 'Close'
   },
+            
+  // privacy
+  youtubeCookies: false,
   
   // developer settings
   useSingleQuotes: false,
@@ -219,6 +222,10 @@ Custom dropdowns allow to customize in a restricted way the dropdowns in the edi
 **Translations**
 
 - `translations` :: An object of key-value entries allowing to set other texts/translations for the editor. The keys must stay the same as in the default translation object.
+
+**Privacy settings**
+
+- `youtubeCookies` (default: `(boolean) false`) :: If set to true, YouTube might set tracking cookies. By default (if the value is set to `false`), `youtube-nocookie.com` will be used to display YouTube videos.
 
 **Developer settings**
 
