@@ -1072,6 +1072,12 @@
                                     element.removeAttr(item);
                                 }
                             });
+                            if(element.prop('tagName') === "A") {
+                                // remove empty URL tags
+                                element.replaceWith(function() {
+                                    return $('<span />', {html: $(this).html()});
+                                });
+                            }
                         });
                         formatText('formatBlock', 'div', id);
                     }
