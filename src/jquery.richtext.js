@@ -1824,13 +1824,25 @@
          */
         function fixFirstLine() {
             if($editor && !$editor.find(".richText-editor").html()) {
+                // set first line with the right tags
                 if(settings.useParagraph !== false) {
                     $editor.find(".richText-editor").html('<p><br></p>');
                 } else {
                     $editor.find(".richText-editor").html('<div><br></div>');
                 }
-                updateTextarea();
+            } else {
+                // replace tags, to force <div> or <p> tags and fix issues
+                if(settings.useParagraph !== false) {
+                    $editor.find(".richText-editor").find('div').replaceWith(function() {
+                        return $('<p />', {html: $(this).html()});
+                    });
+                } else {
+                    $editor.find(".richText-editor").find('p').replaceWith(function() {
+                        return $('<div />', {html: $(this).html()});
+                    });
+                }
             }
+            updateTextarea();
         }
 
         return $(this);
