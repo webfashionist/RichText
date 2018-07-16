@@ -566,7 +566,7 @@
 
 
         // Saving changes from editor to textarea
-        $(document).on("input change blur keydown", ".richText-editor", function(e) {
+        $(document).on("input change blur keydown keyup", ".richText-editor", function(e) {
             if((e.keyCode === 9 || e.keyCode === "9") && e.type === "keydown") {
                 // tab through table cells
                 e.preventDefault();
