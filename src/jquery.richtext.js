@@ -15,6 +15,7 @@
             leftAlign: true,
             centerAlign: true,
             rightAlign: true,
+            justify: true,
 
             // lists
             ol: true,
@@ -97,6 +98,7 @@
                 'newTab': 'New tab',
                 'align': 'Align',
                 'left': 'Left',
+                'justify': 'Justify',
                 'center': 'Center',
                 'right': 'Right',
                 'rows': 'Rows',
@@ -153,6 +155,7 @@
             $btnBold = $('<a />', {class: "richText-btn", "data-command": "bold", "title": settings.translations.bold, html: '<span class="fa fa-bold"></span>'}), // bold
             $btnItalic = $('<a />', {class: "richText-btn", "data-command": "italic", "title": settings.translations.italic, html: '<span class="fa fa-italic"></span>'}), // italic
             $btnUnderline = $('<a />', {class: "richText-btn", "data-command": "underline", "title": settings.translations.underline, html: '<span class="fa fa-underline"></span>'}), // underline
+            $btnJustify = $('<a />', {class: "richText-btn", "data-command": "justifyFull", "title": settings.translations.justify, html: '<span class="fa fa-align-justify"></span>'}), // left align
             $btnLeftAlign = $('<a />', {class: "richText-btn", "data-command": "justifyLeft", "title": settings.translations.alignLeft, html: '<span class="fa fa-align-left"></span>'}), // left align
             $btnCenterAlign = $('<a />', {class: "richText-btn", "data-command": "justifyCenter", "title": settings.translations.alignCenter, html: '<span class="fa fa-align-center"></span>'}), // centered
             $btnRightAlign = $('<a />', {class: "richText-btn", "data-command": "justifyRight", "title": settings.translations.alignRight, html: '<span class="fa fa-align-right"></span>'}), // right align
@@ -425,6 +428,9 @@
             }
             if(settings.rightAlign === true) {
                 $toolbarList.append($toolbarElement.clone().append($btnRightAlign));
+            }
+            if(settings.justify === true) {
+                $toolbarList.append($toolbarElement.clone().append($btnJustify));
             }
 
             /* lists */

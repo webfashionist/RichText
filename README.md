@@ -35,6 +35,7 @@ $(element).richText({
   leftAlign: true,
   centerAlign: true,
   rightAlign: true,
+  justify: true,
 
   // lists
   ol: true,
@@ -177,6 +178,7 @@ $(element).richText({
 - `leftAlign` (default: `(boolean) true`)
 - `centerAlign` (default: `(boolean) true`)
 - `rightAlign` (default: `(boolean) true`)
+- `justify` (default: `(boolean) true`)
 
 **Lists**
 - `ol` (default: `(boolean) true`) :: Ordered list
