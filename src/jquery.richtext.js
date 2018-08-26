@@ -1760,7 +1760,7 @@
 
             var html = '<br><br>';
             if(responsive === true) {
-                html += '<div style="position:relative;height:0;padding-bottom:56.25%">';
+                html += '<div class="videoEmbed" style="position:relative;height:0;padding-bottom:56.25%">';
             }
             var allowfullscreen = 'webkitallowfullscreen mozallowfullscreen allowfullscreen';
 
@@ -1845,7 +1845,7 @@
             } else {
                 // replace tags, to force <div> or <p> tags and fix issues
                 if(settings.useParagraph !== false) {
-                    $editor.find(".richText-editor").find('div').replaceWith(function() {
+                    $editor.find(".richText-editor").find('div:not(.videoEmbed)').replaceWith(function() {
                         return $('<p />', {html: $(this).html()});
                     });
                 } else {
