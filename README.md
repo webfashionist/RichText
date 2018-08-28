@@ -3,14 +3,14 @@ WYSIWYG editor developed as jQuery plugin.
 
 ## Requirements
 
-- jQuery
-- FontAwesome (tested with v.4.7.0 and v.5.0.8)
+- [jQuery](https://jquery.com/)
+- FontAwesome ([v.4.7.0](https://fontawesome.com/v4.7.0/) / [v.5+](https://fontawesome.com/))
 - `src/jquery.richtext.min.js`
 - `src/richtext.min.css`
 
 ## Demo
 
-To see the latest demo version, you may use the following URL:
+To see the latest demo version, you might want to use the following URL:
 [Demo from htmlpreview.github.io](https://htmlpreview.github.io/?https://github.com/webfashionist/RichText/blob/master/examples/index.html)
 
 
@@ -46,19 +46,20 @@ $(element).richText({
 
   // fonts
   fonts: true,
-  fontList: [ "Arial", 
-              "Arial Black", 
-              "Comic Sans MS", 
-              "Courier New", 
-              "Geneva", 
-              "Georgia", 
-              "Helvetica", 
-              "Impact", 
-              "Lucida Console", 
-              "Tahoma", 
-              "Times New Roman",
-              "Verdana"
-              ],
+  fontList: [
+      "Arial", 
+      "Arial Black", 
+      "Comic Sans MS", 
+      "Courier New", 
+      "Geneva", 
+      "Georgia", 
+      "Helvetica", 
+      "Impact", 
+      "Lucida Console", 
+      "Tahoma", 
+      "Times New Roman",
+      "Verdana"
+  ],
   fontColor: true,
   fontSize: true,
 
