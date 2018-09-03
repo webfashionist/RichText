@@ -3,7 +3,7 @@ WYSIWYG editor developed as jQuery plugin.
 
 ## Requirements
 
-- [jQuery](https://jquery.com/)
+- [jQuery](https://jquery.com/) (v.3+, v.3.2+ recommended)
 - FontAwesome ([v.4.7.0](https://fontawesome.com/v4.7.0/) / [v.5+](https://fontawesome.com/))
 - `src/jquery.richtext.min.js`
 - `src/richtext.min.css`
