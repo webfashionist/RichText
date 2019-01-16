@@ -190,7 +190,13 @@
         /* internal settings */
         var savedSelection; // caret position/selection
         var editorID = "richText-" + Math.random().toString(36).substring(7);
-        var ignoreSave = false, $resizeImage = null, history = [], historyPosition = 0;
+        var ignoreSave = false, $resizeImage = null;
+
+        /* prepare editor history */
+        var history = [];
+        history[editorID] = [];
+        var historyPosition = [];
+        historyPosition[editorID] = 0;
 
         /* list dropdown for titles */
         var $titles = $dropdownList.clone();
@@ -532,7 +538,7 @@
             fixFirstLine();
 
             // save history
-            history.push($editor.find("textarea").val());
+            history[editorID].push($editor.find("textarea").val());
         }
 
         // initialize editor
@@ -563,10 +569,11 @@
         // undo / redo
         $(document).on("click", ".richText-undo, .richText-redo", function(e) {
              var $this = $(this);
+             var $editor = $this.parents('.richText');
              if($this.hasClass("richText-undo") && !$this.hasClass("is-disabled")) {
-                 undo();
+                 undo($editor);
              } else if($this.hasClass("richText-redo") && !$this.hasClass("is-disabled")) {
-                 redo();
+                 redo($editor);
              }
         });
 
@@ -1445,35 +1452,39 @@
          */
         function doSave(editorID) {
             var $textarea = $('.richText-editor#' + editorID).siblings('.richText-initial');
-            addHistory($textarea.val());
+            addHistory($textarea.val(), editorID);
             savedSelection = saveSelection(editorID);
         }
 
         /**
          * Add to history
-         * @param val
+         * @param val Editor content
+         * @param id Editor ID
          */
-        function addHistory(val) {
-            if(history.length-1 > historyPosition) {
-                history.length  = historyPosition + 1;
+        function addHistory(val, id) {
+            if(!history[id]) {
+                return false;
+            }
+            if(history[id].length-1 > historyPosition[id]) {
+                history[id].length = historyPosition[id] + 1;
             }
 
-            if(history[history.length-1] !== val) {
-                history.push(val);
+            if(history[id][history[id].length-1] !== val) {
+                history[id].push(val);
             }
 
-            historyPosition = history.length-1;
-            setHistoryButtons();
+            historyPosition[id] = history[id].length-1;
+            setHistoryButtons(id);
         }
 
-        function setHistoryButtons() {
-            if(historyPosition <= 0) {
+        function setHistoryButtons(id) {
+            if(historyPosition[id] <= 0) {
                 $editor.find(".richText-undo").addClass("is-disabled");
             } else {
                 $editor.find(".richText-undo").removeClass("is-disabled");
             }
 
-            if(historyPosition >= history.length-1 || history.length === 0) {
+            if(historyPosition[id] >= history[id].length-1 || history[id].length === 0) {
                 $editor.find(".richText-redo").addClass("is-disabled");
             } else {
                 $editor.find(".richText-redo").removeClass("is-disabled");
@@ -1482,24 +1493,34 @@
 
         /**
          * Undo
+         * @param $editor
          */
-        function undo() {
-            historyPosition--;
-            var value = history[historyPosition];
+        function undo($editor) {
+            var id = $editor.children('.richText-editor').attr('id');
+            historyPosition[id]--;
+            if(!historyPosition[id] && historyPosition[id] !== 0) {
+                return false;
+            }
+            var value = history[id][historyPosition[id]];
             $editor.find('textarea').val(value);
             $editor.find('.richText-editor').html(value);
-            setHistoryButtons();
+            setHistoryButtons(id);
         }
 
         /**
          * Undo
+         * @param $editor
          */
-        function redo() {
-            historyPosition++;
-            var value = history[historyPosition];
+        function redo($editor) {
+            var id = $editor.children('.richText-editor').attr('id');
+            historyPosition[id]++;
+            if(!historyPosition[id] && historyPosition[id] !== 0) {
+                return false;
+            }
+            var value = history[id][historyPosition[id]];
             $editor.find('textarea').val(value);
             $editor.find('.richText-editor').html(value);
-            setHistoryButtons();
+            setHistoryButtons(id);
         }
 
         /**
