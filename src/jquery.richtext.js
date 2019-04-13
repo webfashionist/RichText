@@ -141,7 +141,8 @@
             heightPercentage: 0,
             id: "",
             class: "",
-            useParagraph: false
+            useParagraph: false,
+            maxlength: 0
 
         }, options );
 
@@ -511,6 +512,12 @@
                     .append($('<a />', {class: 'richText-help', html: '<span class="fa fa-question-circle"></span>'}))
             );
 
+            if(settings.maxlength > 0) {
+                // display max length in editor toolbar
+                $editor.data('maxlength', settings.maxlength);
+                $editor.children('.richText-toolbar').children('.richText-help').before($('<a />', {class: 'richText-length', text: '0/' + settings.maxlength}));
+            }
+
             if(settings.height && settings.height > 0) {
                 // set custom editor height
                 $editor.children(".richText-editor, .richText-initial").css({'min-height' : settings.height + 'px', 'height' : settings.height + 'px'});
@@ -589,6 +596,7 @@
             fixFirstLine();
             updateTextarea();
             doSave($(this).attr("id"));
+            updateMaxLength($(this).attr('id'));
         });
 
 
@@ -664,6 +672,7 @@
             var editorID = $(this).siblings('.richText-editor').attr("id");
             updateEditor(editorID);
             doSave(editorID);
+            updateMaxLength(editorID);
         });
 
         // Save selection seperately (mainly needed for Safari)
@@ -1454,6 +1463,38 @@
             var $textarea = $('.richText-editor#' + editorID).siblings('.richText-initial');
             addHistory($textarea.val(), editorID);
             savedSelection = saveSelection(editorID);
+        }
+
+        /**
+         * @param editorID
+         * @returns {boolean}
+         */
+        function updateMaxLength(editorID) {
+            var $editorInner = $('.richText-editor#' + editorID);
+            var $editor = $editorInner.parents('.richText');
+            if(!$editor.data('maxlength')) {
+                return true;
+            }
+            var color;
+            var maxLength = parseInt($editor.data('maxlength'));
+            var content = $editorInner.text();
+            var percentage = (content.length/maxLength)*100;
+            if(percentage > 99) {
+                color = 'red';
+            } else if(percentage >= 90) {
+                color = 'orange';
+            } else {
+                color = 'black';
+            }
+
+            $editor.find('.richText-length').html('<span class="' + color + '">' + content.length + '</span>/' + maxLength);
+
+            if(content.length > maxLength) {
+                // content too long
+                undo($editor);
+                return false;
+            }
+            return true;
         }
 
         /**

@@ -161,7 +161,8 @@ $(element).richText({
   heightPercentage: 0,
   id: "",
   class: "",
-  useParagraph: false
+  useParagraph: false,
+  maxlength: 0
 });
 ```
 
@@ -238,7 +239,7 @@ Custom dropdowns allow to customize in a restricted way the dropdowns in the edi
 - `id` (default: `(string) ""`) :: Sets a custom ID for the editor
 - `class` (default: `(string) ""`) :: Sets additional custom classes for the editor
 - `useParagraph` (default: `(boolean) false`) :: Uses paragraph tags instead of div containers (browser default) when pressing ENTER, if set to `true`.
-
+- `maxlength` (default: `(int) 0`) :: Defines a max length for the text (HTML length not considered!). The default value `0` doesn't define any limit
 
 ## Undo RichText
 
