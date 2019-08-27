@@ -219,7 +219,7 @@
         var fontSizes = [24,18,16,14,12];
         var $fontSizes = $dropdownList.clone();
         for(var i = 0; i < fontSizes.length; i++) {
-            $fontSizes.append($('<li />', {html: '<a style="font-size:' + fontSizes[i] + 'px;" data-command="fontSize" data-option="' + fontSizes[i] + '">Text '  + fontSizes[i] + 'px</a>'}));
+            $fontSizes.append($('<li />', {html: '<a style="font-size:' + fontSizes[i] + 'px;" data-command="fontSize" data-option="' + fontSizes[i] + '">' + settings.translations.text  + ' ' + fontSizes[i] + 'px</a>'}));
         }
         $btnFontSize.append($dropdownOuter.clone().append($fontSizes.prepend($dropdownClose.clone())));
 
