@@ -249,6 +249,14 @@ For this to work, simply call `.unRichText()` on the initial textarea, on which 
 
 It is possible to delay `unRichText()` by a given amount of milliseconds with the parameter: `{delay: 2000}`. 
 
+## FAQ
+
+**How do I set the RichText value through jQuery? Using `.val()` doesn't work?**
+
+The `change` event needs to be triggered, in order to update the value within RichText. 
+Using `.val('Some text').trigger('change')` on your jQuery node will solve your issue.
+    
+
 
 ## Contributing
 
