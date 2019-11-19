@@ -1194,8 +1194,8 @@
 
                     type = (start === end ? 'caret' : 'selection');
                     anchor = sel.anchorNode; //(type === "caret" && sel.anchorNode.tagName ? sel.anchorNode : false);
-                    start = (type === 'caret' && anchor !== false ? 0 : preSelectionRange.toString().length);
-                    end = (type === 'caret' && anchor !== false ? 0 : (start + range.toString().length));
+                    start = (type === 'caret' && anchor !== false ? start : preSelectionRange.toString().length);
+                    end = (type === 'caret' && anchor !== false ? end : (start + range.toString().length));
 
                     return {
                         start: start,
