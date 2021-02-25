@@ -167,7 +167,8 @@
             class: "",
             useParagraph: false,
             maxlength: 0,
-            callback: undefined
+            callback: undefined,
+            useTabForNext: false
 
         }, options);
 
@@ -532,6 +533,10 @@
             $editor = $('<div />', {class: "richText"});
             var $toolbar = $('<div />', {class: "richText-toolbar"});
             var $editorView = $('<div />', {class: "richText-editor", id: editorID, contenteditable: true});
+            var $tabindex = $inputElement.prop("tabindex");
+            if (($tabindex) && (settings.useTabForNext === true)) {
+                $editorView.attr('tabindex',parseInt($tabindex));
+            }         
             $toolbar.append($toolbarList);
 
             /* text formatting */
@@ -731,9 +736,16 @@
         // Saving changes from editor to textarea
         $(document).on("input change blur keydown keyup", ".richText-editor", function (e) {
             if ((e.keyCode === 9 || e.keyCode === "9") && e.type === "keydown") {
-                // tab through table cells
+                // tab through table cells or focus next element
+                if (settings.useTabForNext === true) {
+                    var $next_obj = $('[tabindex='+(parseInt($(this).attr('tabindex'))+1)+']');
+                    if ($next_obj) {
+                        $next_obj.focus();
+                    }
+                    return false;
+                } 
                 e.preventDefault();
-                tabifyEditableTable(window, e);
+                tabifyEditableTable(window, e);                
                 return false;
             }
             fixFirstLine();
