@@ -1,0 +1,21 @@
+{
+  "name": "richtext",
+  "version": "1.0.16",
+  "description": "WYSIWYG editor developed as jQuery plugin",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "uglify": "uglifyjs src/jquery.richtext.js > src/jquery.richtext.min.js --comments --warn"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webfashionist/RichText.git"
+  },
+  "author": "webfashionist",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/webfashionist/RichText/issues"
+  },
+  "homepage": "https://github.com/webfashionist/RichText#readme"
+}
