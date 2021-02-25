@@ -163,8 +163,8 @@ $(element).richText({
   class: "",
   useParagraph: false,
   maxlength: 0,
-  callback: undefined
-
+  callback: undefined,
+  useTabForNext: false
 });
 ```
 
@@ -232,6 +232,10 @@ Custom dropdowns allow to customize in a restricted way the dropdowns in the edi
 **Privacy settings**
 
 - `youtubeCookies` (default: `(boolean) false`) :: If set to true, YouTube might set tracking cookies. By default (if the value is set to `false`), `youtube-nocookie.com` will be used to display YouTube videos.
+
+**Tabbing**
+
+- `useTabForNext` (default: `(boolean) false`) :: If set to true, you can tab to the next input element or RichText editor within the `contenteditable` part of the editor.
 
 **Developer settings**
 

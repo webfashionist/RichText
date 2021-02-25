@@ -167,7 +167,8 @@
             class: "",
             useParagraph: false,
             maxlength: 0,
-            callback: undefined
+            callback: undefined,
+            useTabForNext: false
 
         }, options);
 
@@ -532,7 +533,12 @@
             $editor = $('<div />', {class: "richText"});
             var $toolbar = $('<div />', {class: "richText-toolbar"});
             var $editorView = $('<div />', {class: "richText-editor", id: editorID, contenteditable: true});
+            var tabindex = $inputElement.prop('tabindex');
+            if (tabindex >= 0 && settings.useTabForNext === true) {
+                $editorView.attr('tabindex', tabindex);
+            }
             $toolbar.append($toolbarList);
+            settings.$editor = $editor;
 
             /* text formatting */
             if (settings.bold === true) {
@@ -695,7 +701,7 @@
         /** EVENT HANDLERS */
 
         // Help popup
-        $editor.find(".richText-help").on("click", function () {
+        settings.$editor.find('.richText-help').on('click', function () {
             var $editor = $(this).parents(".richText");
             if ($editor) {
                 var $outer = $('<div />', {
@@ -717,21 +723,24 @@
         });
 
         // undo / redo
-        $(document).on("click", ".richText-undo, .richText-redo", function (e) {
+        settings.$editor.find('.richText-undo, .richText-redo').on('click', function () {
             var $this = $(this);
-            var $editor = $this.parents('.richText');
             if ($this.hasClass("richText-undo") && !$this.hasClass("is-disabled")) {
-                undo($editor);
+                undo(settings.$editor);
             } else if ($this.hasClass("richText-redo") && !$this.hasClass("is-disabled")) {
-                redo($editor);
+                redo(settings.$editor);
             }
         });
 
 
         // Saving changes from editor to textarea
-        $(document).on("input change blur keydown keyup", ".richText-editor", function (e) {
+        settings.$editor.find('.richText-editor').on('input change blur keydown keyup', function (e) {
             if ((e.keyCode === 9 || e.keyCode === "9") && e.type === "keydown") {
-                // tab through table cells
+                // tab through table cells or focus next element
+                if (settings.useTabForNext === true) {
+                    focusNextElement();
+                    return false;
+                }
                 e.preventDefault();
                 tabifyEditableTable(window, e);
                 return false;
@@ -744,7 +753,7 @@
 
 
         // add context menu to several Node elements
-        $(document).on('contextmenu', '.richText-editor', function (e) {
+        settings.$editor.find('.richText-editor').on('contextmenu', '.richText-editor', function (e) {
 
             var $list = $('<ul />', {'class': 'list-rightclick richText-list'});
             var $li = $('<li />');
@@ -808,7 +817,7 @@
         });
 
         // Saving changes from textarea to editor
-        $(document).on("input change blur", ".richText-initial", function () {
+        settings.$editor.find('.richText-initial').on('input change blur', function () {
             if (settings.useSingleQuotes === true) {
                 $(this).val(changeAttributeQuotes($(this).val()));
             }
@@ -819,13 +828,12 @@
         });
 
         // Save selection seperately (mainly needed for Safari)
-        $(document).on("dblclick mouseup", ".richText-editor", function () {
-            var editorID = $(this).attr("id");
-            doSave(editorID);
+        settings.$editor.find('.richText-editor').on('dblclick mouseup', function () {
+            doSave($(this).attr('id'));
         });
 
         // embedding video
-        $(document).on("click", "#richText-Video button.btn", function (event) {
+        settings.$editor.find('#richText-Video button.btn').on('click', function (event) {
             event.preventDefault();
             var $button = $(this);
             var $form = $button.parent('.richText-form-item').parent('.richText-form');
@@ -958,7 +966,7 @@
             });
 
         // adding URL
-        $(document).on("click", "#richText-URL button.btn", function (event) {
+        settings.$editor.find('#richText-URL button.btn').on('click', function (event) {
             event.preventDefault();
             var $button = $(this);
             var $form = $button.parent('.richText-form-item').parent('.richText-form');
@@ -1019,7 +1027,7 @@
         });
 
         // adding image
-        $(document).on("click", "#richText-Image button.btn", function (event) {
+        settings.$editor.find('#richText-Image button.btn').on('click', function (event) {
             event.preventDefault();
             var $button = $(this);
             var $form = $button.parent('.richText-form-item').parent('.richText-form');
@@ -1089,7 +1097,7 @@
         });
 
         // adding file
-        $(document).on("click", "#richText-File button.btn", function (event) {
+        settings.$editor.find('#richText-File button.btn').on('click', function (event) {
             event.preventDefault();
             var $button = $(this);
             var $form = $button.parent('.richText-form-item').parent('.richText-form');
@@ -1135,7 +1143,7 @@
 
 
         // adding table
-        $(document).on("click", "#richText-Table button.btn", function (event) {
+        settings.$editor.find('#richText-Table button.btn').on('click', function (event) {
             event.preventDefault();
             var $button = $(this);
             var $form = $button.parent('.richText-form-item').parent('.richText-form');
@@ -1216,7 +1224,7 @@
         });
 
         // Executing editor commands
-        $(document).on("click", ".richText-toolbar a[data-command]", function (event) {
+        settings.$editor.find('.richText-toolbar a[data-command]').on('click', function (event) {
             var $button = $(this);
             var $toolbar = $button.closest('.richText-toolbar');
             var $editor = $toolbar.siblings('.richText-editor');
@@ -1277,6 +1285,23 @@
 
 
         /** INTERNAL METHODS **/
+
+        function focusNextElement () {
+            // add all elements we want to include in our selection
+            var focussableElements = 'a:not([disabled]):not(.richText-btn,.richText-undo,.richText-redo,.richText-help), button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([disabled]):not([tabindex="-1"])';
+            if (document.activeElement) {
+                var focussable = Array.prototype.filter.call(document.querySelectorAll(focussableElements),
+                    function (element) {
+                        // check for visibility while always include the current activeElement
+                        return element.offsetWidth > 0 || element.offsetHeight > 0 || element === document.activeElement
+                    });
+                var index = focussable.indexOf(document.activeElement);
+                if (index > -1) {
+                    var nextElement = focussable[index + 1] || focussable[0];
+                    nextElement.focus();
+                }
+            }
+        }
 
         /**
          * Format text in editor
