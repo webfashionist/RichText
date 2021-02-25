@@ -6,6 +6,7 @@
     "example": "examples"
   },
   "scripts": {
+    "installuglify": "npm i uglify-js -g",
     "uglify": "uglifyjs src/jquery.richtext.js > src/jquery.richtext.min.js --comments --warn"
   },
   "repository": {
