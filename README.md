@@ -230,6 +230,10 @@ Custom dropdowns allow to customize in a restricted way the dropdowns in the edi
 
 - `youtubeCookies` (default: `(boolean) false`) :: If set to true, YouTube might set tracking cookies. By default (if the value is set to `false`), `youtube-nocookie.com` will be used to display YouTube videos.
 
+**Preview**
+
+- `preview` (default: `(boolean) false`) :: If set to true, the `contenteditable` property is set to `false` and the toolbar buttons are not loaded.
+
 **Tabbing**
 
 - `useTabForNext` (default: `(boolean) false`) :: If set to true, you can tab to the next input element or RichText editor within the `contenteditable` part of the editor.
