@@ -148,6 +148,9 @@ $(element).richText({
             
   // privacy
   youtubeCookies: false,
+    
+  // preview
+  preview: false,
   
   // developer settings
   useSingleQuotes: false,

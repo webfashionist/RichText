@@ -159,6 +159,9 @@
             // privacy
             youtubeCookies: false,
 
+            // preview
+            preview: false,
+
             // dev settings
             useSingleQuotes: false,
             height: 0,
@@ -532,12 +535,14 @@
 
             $editor = $('<div />', {class: "richText"});
             var $toolbar = $('<div />', {class: "richText-toolbar"});
-            var $editorView = $('<div />', {class: "richText-editor", id: editorID, contenteditable: true});
+            var $editorView = $('<div />', {class: "richText-editor", id: editorID, contenteditable: !settings.preview});
             var tabindex = $inputElement.prop('tabindex');
             if (tabindex >= 0 && settings.useTabForNext === true) {
                 $editorView.attr('tabindex', tabindex);
             }
-            $toolbar.append($toolbarList);
+            if (!settings.preview) {
+                $toolbar.append($toolbarList);
+            }
             settings.$editor = $editor;
 
             /* text formatting */
@@ -630,20 +635,21 @@
             $inputElement.replaceWith($editor);
 
             // append bottom toolbar
-            $editor.append(
-                $('<div />', {class: 'richText-toolbar'})
-                    .append($('<a />', {
-                        class: 'richText-undo is-disabled',
-                        html: '<span class="fa fa-undo"></span>',
-                        'title': settings.translations.undo
-                    }))
-                    .append($('<a />', {
-                        class: 'richText-redo is-disabled',
-                        html: '<span class="fa fa-repeat fa-redo"></span>',
-                        'title': settings.translations.redo
-                    }))
-                    .append($('<a />', {class: 'richText-help', html: '<span class="fa fa-question-circle"></span>'}))
-            );
+            $bottomToolbar = $('<div />', {class: 'richText-toolbar'});
+            if (!settings.preview) {
+                $bottomToolbar.append($('<a />', {
+                    class: 'richText-undo is-disabled',
+                    html: '<span class="fa fa-undo"></span>',
+                    'title': settings.translations.undo
+                }));
+                $bottomToolbar.append($('<a />', {
+                    class: 'richText-redo is-disabled',
+                    html: '<span class="fa fa-repeat fa-redo"></span>',
+                    'title': settings.translations.redo
+                }));
+            }
+            $bottomToolbar.append($('<a />', {class: 'richText-help', html: '<span class="fa fa-question-circle"></span>'}));
+            $editor.append($bottomToolbar);
 
             if (settings.maxlength > 0) {
                 // display max length in editor toolbar
