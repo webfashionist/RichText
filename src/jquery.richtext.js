@@ -309,7 +309,7 @@
             $formInput = $('<input />', {type: "text"}), //form input field
             $formInputFile = $('<input />', {type: "file"}), // form file input field
             $formInputSelect = $('<select />'),
-            $formButton = $('<button />', {text: settings.translations.add, class: "btn"}); // button
+            $formButton = $('<button />', {text: settings.translations.add, class: "btn", type: "button"}); // button
 
         /* internal settings */
         var savedSelection; // caret position/selection
