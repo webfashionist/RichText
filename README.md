@@ -159,6 +159,7 @@ $(element).richText({
   useSingleQuotes: false,
   height: 0,
   heightPercentage: 0,
+  adaptiveHeight: false,
   id: "",
   class: "",
   useParagraph: false,
