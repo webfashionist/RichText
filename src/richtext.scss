@@ -245,6 +245,13 @@ $highlight: #3498db;
         overflow-y: scroll;
         overflow-x: auto;
 
+        &[placeholder] {
+            &:before {
+                content: attr(placeholder);
+                color: #555;
+            }
+        }
+
         ul, ol {
             margin: 10px 25px;
         }

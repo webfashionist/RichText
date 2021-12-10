@@ -162,6 +162,9 @@
             // preview
             preview: false,
 
+            // placeholder
+            placeholder: '',
+
             // dev settings
             useSingleQuotes: false,
             height: 0,
@@ -543,6 +546,24 @@
             if (!settings.preview) {
                 $toolbar.append($toolbarList);
             }
+            if (settings.placeholder) {
+                if (!$editorView.text().length) {
+                    $editorView.attr('placeholder', settings.placeholder);
+                    $editorView.on('focus', function () {
+                        $editorView.removeAttr('placeholder');
+                    });
+                    $editorView.on('focusout blur', function () {
+                        if (this.hasAttribute('placeholder')) {
+                            return;
+                        }
+                        if ($(this).text().length) {
+                            return;
+                        }
+                        $(this).attr('placeholder', settings.placeholder);
+                    });
+                }
+            }
+
             settings.$editor = $editor;
 
             /* text formatting */

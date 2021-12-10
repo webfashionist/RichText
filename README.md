@@ -151,6 +151,9 @@ $(element).richText({
     
   // preview
   preview: false,
+
+  // placeholder
+  placeholder: '',
   
   // developer settings
   useSingleQuotes: false,
@@ -233,6 +236,10 @@ Custom dropdowns allow to customize in a restricted way the dropdowns in the edi
 **Preview**
 
 - `preview` (default: `(boolean) false`) :: If set to true, the `contenteditable` property is set to `false` and the toolbar buttons are not loaded.
+
+**Placeholder**
+
+- `placeholder` (default: `(string) ''`) :: If a non-empty string is set, a placeholder will be shown if no text has been written in the `contenteditable` part of the editor. HTML code without text is considered empty and displays the placeholder.
 
 **Tabbing**
 
