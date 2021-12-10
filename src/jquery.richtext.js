@@ -169,6 +169,7 @@
             useSingleQuotes: false,
             height: 0,
             heightPercentage: 0,
+            adaptiveHeight: false,
             id: "",
             class: "",
             useParagraph: false,
@@ -685,7 +686,7 @@
                 // set custom editor height
                 $editor.children(".richText-editor, .richText-initial").css({
                     'min-height': settings.height + 'px',
-                    'height': settings.height + 'px'
+                    'height': settings.adaptiveHeight ? 'auto' : settings.height + 'px'
                 });
             } else if (settings.heightPercentage && settings.heightPercentage > 0) {
                 // set custom editor height in percentage
@@ -698,7 +699,11 @@
                 height -= parseInt($editor.find(".richText-editor").css("padding-bottom")); // remove paddings
                 $editor.children(".richText-editor, .richText-initial").css({
                     'min-height': height + 'px',
-                    'height': height + 'px'
+                    'height': settings.adaptiveHeight ? 'auto' : height + 'px'
+                });
+            } else if (settings.adaptiveHeight) {
+                $editor.children(".richText-editor, .richText-initial").css({
+                    'height': 'auto'
                 });
             }
 
