@@ -1442,6 +1442,8 @@
                     'editorID': editorID,
                     'anchor': $('#' + editorID).children('div')[0]
                 };
+            } else if (!savedSel.editorID && editorID) {
+                savedSel.editorID = editorID;
             }
 
             if (savedSel.editorID !== editorID) {
