@@ -55,6 +55,7 @@ $(element).richText({
       "Verdana"
   ],
   fontColor: true,
+  backgroundColor: true,
   fontSize: true,
 
   // uploads
@@ -113,6 +114,7 @@ $(element).richText({
       'newTab': 'New tab',
       'align': 'Align',
       'left': 'Left',
+      'justify': 'Justify',
       'center': 'Center',
       'right': 'Right',
       'rows': 'Rows',
@@ -128,12 +130,13 @@ $(element).richText({
       'alignLeft': 'Align left',
       'alignCenter': 'Align centered',
       'alignRight': 'Align right',
-      'addOrderedList': 'Add ordered list',
-      'addUnorderedList': 'Add unordered list',
-      'addHeading': 'Add Heading/title',
-      'addFont': 'Add font',
-      'addFontColor': 'Add font color',
-      'addFontSize' : 'Add font size',
+      'addOrderedList': 'Ordered list',
+      'addUnorderedList': 'Unordered list',
+      'addHeading': 'Heading/title',
+      'addFont': 'Font',
+      'addFontColor': 'Font color',
+      'addBackgroundColor': 'Background color',
+      'addFontSize': 'Font size',
       'addImage': 'Add image',
       'addVideo': 'Add video',
       'addFile': 'Add file',
@@ -194,6 +197,7 @@ $(element).richText({
 
 **Colors**
 - `fontColor` (default: `(boolean) true`)
+- `backgroundColor` (default: `(boolean) true`)
 - `colors` :: Set own colors for the editor. They will replace the default colors. Example:
 
 ```javascript

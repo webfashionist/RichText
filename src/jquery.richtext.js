@@ -64,6 +64,7 @@
                 "Verdana"
             ],
             fontColor: true,
+            backgroundColor: true,
             fontSize: true,
 
             // uploads
@@ -138,12 +139,13 @@
                 'alignLeft': 'Align left',
                 'alignCenter': 'Align centered',
                 'alignRight': 'Align right',
-                'addOrderedList': 'Add ordered list',
-                'addUnorderedList': 'Add unordered list',
-                'addHeading': 'Add Heading/title',
-                'addFont': 'Add font',
-                'addFontColor': 'Add font color',
-                'addFontSize': 'Add font size',
+                'addOrderedList': 'Ordered list',
+                'addUnorderedList': 'Unordered list',
+                'addHeading': 'Heading/title',
+                'addFont': 'Font',
+                'addFontColor': 'Font color',
+                'addBackgroundColor': 'Background color',
+                'addFontSize': 'Font size',
                 'addImage': 'Add image',
                 'addVideo': 'Add video',
                 'addFile': 'Add file',
@@ -253,8 +255,13 @@
             $btnFontColor = $('<a />', {
                 class: "richText-btn",
                 "title": settings.translations.addFontColor,
-                html: '<span class="fa fa-paint-brush"></span>'
+                html: '<span class="fa fa-pencil"></span>'
             }), // font color
+            $btnBackgroundColor = $('<a />', {
+                class: "richText-btn",
+                "title": settings.translations.addBackgroundColor,
+                html: '<span class="fa fa-paint-brush"></span>'
+            }), // background color
             $btnFontSize = $('<a />', {
                 class: "richText-btn",
                 "title": settings.translations.addFontSize,
@@ -355,11 +362,10 @@
         $fontColors.html(loadColors("forecolor"));
         $btnFontColor.append($dropdownOuter.clone().append($fontColors.prepend($dropdownClose.clone())));
 
-
         /* background colors */
-        //var $bgColors = $dropdownList.clone();
-        //$bgColors.html(loadColors("hiliteColor"));
-        //$btnBGColor.append($dropdownOuter.clone().append($bgColors));
+        var $backgroundColors = $dropdownList.clone();
+        $backgroundColors.html(loadColors("hiliteColor"));
+        $btnBackgroundColor.append($dropdownOuter.clone().append($backgroundColors.prepend($dropdownClose.clone())));
 
         /* box dropdown for links */
         var $linksDropdown = $dropdownBox.clone();
@@ -553,6 +559,7 @@
                     $editorView.on('focus', function () {
                         $editorView.removeAttr('placeholder');
                     });
+
                     $editorView.on('focusout blur', function () {
                         if (this.hasAttribute('placeholder')) {
                             return;
@@ -613,9 +620,14 @@
                 $toolbarList.append($toolbarElement.clone().append($btnHeading));
             }
 
-            /* colors */
+            /* font colors */
             if (settings.fontColor === true) {
                 $toolbarList.append($toolbarElement.clone().append($btnFontColor));
+            }
+
+            /* background colors */
+            if (settings.backgroundColor === true) {
+                $toolbarList.append($toolbarElement.clone().append($btnBackgroundColor));
             }
 
             /* uploads */
@@ -670,6 +682,7 @@
                     'title': settings.translations.redo
                 }));
             }
+
             $bottomToolbar.append($('<a />', {class: 'richText-help', html: '<span class="fa fa-question-circle"></span>'}));
             $editor.append($bottomToolbar);
 
@@ -764,7 +777,6 @@
             }
         });
 
-
         // Saving changes from editor to textarea
         settings.$editor.find('.richText-editor').on('input change blur keydown keyup', function (e) {
             if ((e.keyCode === 9 || e.keyCode === "9") && e.type === "keydown") {
@@ -803,7 +815,6 @@
                 'top': positionY,
                 'left': positionX
             });
-
 
             if ($target.prop("tagName") === "A") {
                 // edit URL
