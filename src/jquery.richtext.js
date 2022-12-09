@@ -176,6 +176,7 @@
             class: "",
             useParagraph: false,
             maxlength: 0,
+            maxlengthany: false,
             callback: undefined,
             useTabForNext: false
 
@@ -685,6 +686,8 @@
 
             $bottomToolbar.append($('<a />', {class: 'richText-help', html: '<span class="fa fa-question-circle"></span>'}));
             $editor.append($bottomToolbar);
+
+            $editor.data('maxlengthany', settings.maxlengthany);
 
             if (settings.maxlength > 0) {
                 // display max length in editor toolbar
@@ -1716,7 +1719,8 @@
             }
             var color;
             var maxLength = parseInt($editor.data('maxlength'));
-            var content = $editorInner.text();
+            var maxlengthany = Boolean($editor.data('maxlengthany'));
+            var content = maxlengthany ? $editorInner.siblings('.richText-initial').val() : $editorInner.text();
             var percentage = (content.length / maxLength) * 100;
             if (percentage > 99) {
                 color = 'red';
