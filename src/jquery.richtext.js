@@ -691,8 +691,9 @@
                 $editor.data('maxlength', settings.maxlength);
                 $editor.children('.richText-toolbar').children('.richText-help').before($('<a />', {
                     class: 'richText-length',
-                    text: '0/' + settings.maxlength
+                    text: '',
                 }));
+                updateMaxLength(editorID);
             }
 
             if (settings.height && settings.height > 0) {
