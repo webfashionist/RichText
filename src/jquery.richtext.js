@@ -176,6 +176,7 @@
             class: "",
             useParagraph: false,
             maxlength: 0,
+            maxlengthIncludeHTML: false,
             callback: undefined,
             useTabForNext: false
 
@@ -693,6 +694,7 @@
                     class: 'richText-length',
                     text: '0/' + settings.maxlength
                 }));
+                updateMaxLength($editor.find('.richText-editor').attr('id'));
             }
 
             if (settings.height && settings.height > 0) {
@@ -1715,7 +1717,7 @@
             }
             var color;
             var maxLength = parseInt($editor.data('maxlength'));
-            var content = $editorInner.text();
+            var content = settings.maxlengthIncludeHTML ? $editorInner.html() : $editorInner.text();
             var percentage = (content.length / maxLength) * 100;
             if (percentage > 99) {
                 color = 'red';
@@ -1724,6 +1726,8 @@
             } else {
                 color = 'black';
             }
+
+            console.log(settings);
 
             $editor.find('.richText-length').html('<span class="' + color + '">' + content.length + '</span>/' + maxLength);
 

@@ -167,6 +167,7 @@ $(element).richText({
   class: "",
   useParagraph: false,
   maxlength: 0,
+  maxlengthIncludeHTML: false,
   callback: undefined,
   useTabForNext: false
 });
@@ -260,12 +261,13 @@ Custom dropdowns allow to customize in a restricted way the dropdowns in the edi
 - `class` (default: `(string) ""`) :: Sets additional custom classes for the editor
 - `useParagraph` (default: `(boolean) false`) :: Uses paragraph tags instead of div containers (browser default) when pressing ENTER, if set to `true`.
 - `maxlength` (default: `(int) 0`) :: Defines a max length for the text (HTML length not considered!). The default value `0` doesn't define any limit
+- `maxlengthIncludeHTML` (default: `(boolean) false`) :: If `true`, the length of the HTML code will be used instead of only the written text
 - `callback` (default: `undefined`) :: Sets a callback if the editor has been loaded. The first and only parameter of the callback contains the jQuery element of the editor
 
 
 ## Undo RichText
 
-There's now the possibility to undo the RichText editor to the state before `.richText()` has been called.
+There's the possibility to undo the RichText editor to the state before `.richText()` has been called.
 
 For this to work, simply call `.unRichText()` on the initial textarea, on which `.richText()` has previously been called.
 
