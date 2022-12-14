@@ -1727,8 +1727,6 @@
                 color = 'black';
             }
 
-            console.log(settings);
-
             $editor.find('.richText-length').html('<span class="' + color + '">' + content.length + '</span>/' + maxLength);
 
             if (content.length > maxLength) {
