@@ -1,0 +1,24 @@
+{
+    "name": "webfashionist/rich-text",
+    "description": "WYSIWYG editor developed as jQuery plugin",
+    "type": "library",
+    "license": "BSD-3-Clause",
+    "keywords": ["wysiwyg", "editor", "jquery"],
+    "autoload": {
+        "psr-4": {"Webfashionist\\RichText\\": "yii2/"}
+    },
+    "authors": [
+        {"name": "Webfashionist Bob"},
+        {"name": "Egomezr Eleazar"}
+    ],
+    "prefer-stable": true,
+    "require": {
+        "npm-asset/fortawesome--fontawesome-free": "^5"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ]
+}

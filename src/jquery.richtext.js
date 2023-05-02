@@ -34,6 +34,8 @@
             bold: true,
             italic: true,
             underline: true,
+            save: false,
+            saveOnBlur: true,
 
             // text alignment
             leftAlign: true,
@@ -155,6 +157,7 @@
                 'code': 'Show HTML code',
                 'undo': 'Undo',
                 'redo': 'Redo',
+                'save': 'Save',
                 'close': 'Close'
             },
 
@@ -304,6 +307,12 @@
                 "data-command": "toggleCode",
                 "title": settings.translations.code,
                 html: '<span class="fa fa-code"></span>'
+            }),
+            $btnSave = $('<a />', {
+                class: "save-btn",
+                "data-command": "toggleSave",
+                "title": settings.translations.save,
+                html: '<span class="fa fa-save"></span>'
             }); // code
 
 
@@ -660,9 +669,13 @@
             if (settings.code === true) {
                 $toolbarList.append($toolbarElement.clone().append($btnCode));
             }
+            if (settings.save === true) {
+                $toolbarList.append($toolbarElement.clone().append($btnSave));
+            }
 
             // set current textarea value to editor
             $editorView.html($inputElement.val());
+            $editorView.data('content-val', $inputElement.val());
 
             $editor.append($toolbar);
             $editor.append($editorView);
@@ -792,7 +805,7 @@
                 return false;
             }
             fixFirstLine();
-            updateTextarea();
+            updateTextarea(e);
             doSave($(this).attr("id"));
             updateMaxLength($(this).attr('id'));
         });
@@ -1278,7 +1291,9 @@
                 event.preventDefault();
                 var command = $(this).data("command");
 
-                if (command === "toggleCode") {
+                if ('toggleSave' === command) {
+                    putContentToTextarea($editor.attr("id"));
+                } else if (command === "toggleCode") {
                     toggleCode($editor.attr("id"));
                 } else {
                     var option = null;
@@ -1385,13 +1400,30 @@
          * Update textarea when updating editor
          * @private
          */
-        function updateTextarea() {
+        function updateTextarea(event) {
             var $editor = $('#' + editorID);
             var content = $editor.html();
             if (settings.useSingleQuotes === true) {
                 content = changeAttributeQuotes(content);
             }
             $editor.siblings('.richText-initial').val(content);
+            console.log();
+            // On blur editor - we checking content and if it is changed, update content on control of form
+            if (settings.saveOnBlur && event && event.type == 'blur' && $editor.data('content-val') != content) {
+                $editor.trigger('changed-from-rich-editor');
+                $editor.data('content-val', content);
+                putContentToTextarea();
+            }
+        }
+
+        /**
+         * Saving content from editor to control element and trigger "change" event for this element
+         * @private
+         */
+        function putContentToTextarea (id) {
+            var $editor = $('#' + editorID);
+            var content = $editor.html();
+            $editor.siblings('.richText-initial').val(content).trigger('change');
         }
 
 
