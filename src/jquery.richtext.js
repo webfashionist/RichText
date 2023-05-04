@@ -30,12 +30,14 @@
         // and merge them with the parameter options
         var settings = $.extend({
 
+            // update content on realt form control
+            save: false,
+            saveOnBlur: true,
+
             // text formatting
             bold: true,
             italic: true,
             underline: true,
-            save: false,
-            saveOnBlur: true,
 
             // text alignment
             leftAlign: true,
