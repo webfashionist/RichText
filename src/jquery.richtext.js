@@ -33,6 +33,7 @@
             // update content on realt form control
             save: false,
             saveOnBlur: true,
+            undoRedo: true,
 
             // text formatting
             bold: true,
@@ -686,7 +687,7 @@
 
             // append bottom toolbar
             $bottomToolbar = $('<div />', {class: 'richText-toolbar'});
-            if (!settings.preview) {
+            if (!settings.preview && settings.undoRedo) {
                 $bottomToolbar.append($('<a />', {
                     class: 'richText-undo is-disabled',
                     html: '<span class="fa fa-undo"></span>',
