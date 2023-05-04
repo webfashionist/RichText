@@ -1410,7 +1410,6 @@
                 content = changeAttributeQuotes(content);
             }
             $editor.siblings('.richText-initial').val(content);
-            console.log();
             // On blur editor - we checking content and if it is changed, update content on control of form
             if (settings.saveOnBlur && event && event.type == 'blur' && $editor.data('content-val') != content) {
                 $editor.trigger('changed-from-rich-editor');
