@@ -1,12 +1,12 @@
 <?php
 
-namespace Webfashionist\RichText\widgets;
+namespace Webfashionist\RichText\yii2\widgets;
 
 use yii\base\Widget;
 use yii\helpers\Html;
 use Yii;
 
-use Webfashionist\RichText\assets\RichTextAsset;
+use Webfashionist\RichText\yii2\assets\RichTextAsset;
 
 class RichTextWidget extends Widget
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Webfashionist\RichText\assets;
+namespace Webfashionist\RichText\yii2\assets;
 
 use yii\web\AssetBundle;
 use yii\web\YiiAsset;

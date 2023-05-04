@@ -5,7 +5,7 @@
     "license": "BSD-3-Clause",
     "keywords": ["wysiwyg", "editor", "jquery"],
     "autoload": {
-        "psr-4": {"Webfashionist\\RichText\\": "yii2/"}
+        "psr-4": {"Webfashionist\\RichText\\yii2\\": "yii2/"}
     },
     "authors": [
         {"name": "Webfashionist Bob"},
