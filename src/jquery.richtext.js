@@ -1398,23 +1398,39 @@
             // document.designMode = "OFF";
         }
 
-
+        /**
+         * Get content of editor pseudo-element per id
+         *
+         * @param      string  editorId  The editor identifier
+         * @return     string  Content of Editor element
+         */
+        function getEditorContent(editorId) {
+            var $editor = $('#' + editorID);
+            var content = $editor.html();
+            if (settings.useSingleQuotes === true) {
+                content = changeAttributeQuotes(content);
+            }
+            return content;
+        }
         /**
          * Update textarea when updating editor
          * @private
          */
         function updateTextarea(event) {
             var $editor = $('#' + editorID);
-            var content = $editor.html();
-            if (settings.useSingleQuotes === true) {
-                content = changeAttributeQuotes(content);
-            }
+            content = getEditorContent(editorID);
             $editor.siblings('.richText-initial').val(content);
             // On blur editor - we checking content and if it is changed, update content on control of form
-            if (settings.saveOnBlur && event && event.type == 'blur' && $editor.data('content-val') != content) {
-                $editor.trigger('changed-from-rich-editor');
-                $editor.data('content-val', content);
-                putContentToTextarea();
+            if (settings.saveOnBlur && event && event.type == 'blur') {
+                // trigger updating content after saveOnBlur ns to save last action of editor
+                setTimeout(() => {
+                    var content = getEditorContent(editorID);
+                    if ($editor.data('content-val') != content) {
+                        $editor.data('content-val', content);
+                        $editor.trigger('changed-from-rich-editor');
+                        putContentToTextarea(editorID);
+                    }
+                }, settings.saveOnBlur);
             }
         }
 
@@ -1424,7 +1440,7 @@
          */
         function putContentToTextarea (id) {
             var $editor = $('#' + editorID);
-            var content = $editor.html();
+            var content = getEditorContent(editorID);
             $editor.siblings('.richText-initial').val(content).trigger('change');
         }
 
