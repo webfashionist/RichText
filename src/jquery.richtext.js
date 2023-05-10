@@ -586,6 +586,12 @@
             }
 
             settings.$editor = $editor;
+            settings.blurTriggered = false;
+            settings.$editor.on('click', (e) => {
+                // Click on control of editor ....=  reset blur event
+                settings.blurTriggered = false;
+
+            });
 
             /* text formatting */
             if (settings.bold === true) {
@@ -1422,8 +1428,13 @@
             $editor.siblings('.richText-initial').val(content);
             // On blur editor - we checking content and if it is changed, update content on control of form
             if (settings.saveOnBlur && event && event.type == 'blur') {
+                settings.blurTriggered = true;
                 // trigger updating content after saveOnBlur ns to save last action of editor
                 setTimeout(() => {
+                    // if blur event not triggered = noting to do  .....
+                    if (!settings.blurTriggered) {
+                        return;
+                    }
                     var content = getEditorContent(editorID);
                     if ($editor.data('content-val') != content) {
                         $editor.data('content-val', content);
