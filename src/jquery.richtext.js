@@ -1391,12 +1391,12 @@
             // Execute the command
             if (command === "heading" && getSelectedText()) {
                 // IE workaround
-                pasteHTMLAtCaret('<' + option + '>' + getSelectedText() + '</' + option + '>');
+                wrapTextNode(option, '<' + option + '>' + getSelectedText() + '</' + option + '>');
             } else if (command === "fontSize" && parseInt(option) > 0) {
                 var selection = getSelectedText();
                 selection = (selection + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2');
                 var html = (settings.useSingleQuotes ? "<span style='font-size:" + option + "px;'>" + selection + "</span>" : '<span style="font-size:' + option + 'px;">' + selection + '</span>');
-                pasteHTMLAtCaret(html);
+                wrapTextNode('span style="font-size:' + option + 'px;"', html);
             } else {
                 document.execCommand(command, false, option);
             }
@@ -1872,6 +1872,20 @@
             if (savedSelection) {
                 restoreSelection((id ? id : savedSelection.editorID));
             }
+        }
+
+        function wrapTextNode(tag, html) {
+            if (window.getSelection) {
+                // IE9 and non-IE
+                sel = window.getSelection();
+                console.log(sel, 1);
+                if (sel.focusNode.nodeType === 3) {
+                    $(sel.focusNode).wrap('<' + tag + ' />');
+                }
+
+                return;
+            }
+            pasteHTMLAtCaret(html);
         }
 
         /**
