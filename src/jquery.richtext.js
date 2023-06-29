@@ -706,12 +706,16 @@
             $bottomToolbar.append($('<a />', {class: 'richText-help', html: '<span class="fa fa-question-circle"></span>'}));
             $editor.append($bottomToolbar);
 
-            if (settings.maxlength > 0) {
+			var maxlength = settings.maxlength;
+			if (!maxlength && $inputElement.attr("maxlength")) {
+				maxlength = $inputElement.attr("maxlength");
+			}
+            if (maxlength > 0) {
                 // display max length in editor toolbar
-                $editor.data('maxlength', settings.maxlength);
+                $editor.data('maxlength', maxlength);
                 $editor.children('.richText-toolbar').children('.richText-help').before($('<a />', {
                     class: 'richText-length',
-                    text: '0/' + settings.maxlength
+                    text: '0/' + maxlength
                 }));
                 updateMaxLength($editor.find('.richText-editor').attr('id'));
             }
