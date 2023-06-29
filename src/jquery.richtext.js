@@ -29,12 +29,6 @@
         // set default options
         // and merge them with the parameter options
         var settings = $.extend({
-
-            // update content on realt form control
-            save: false,
-            saveOnBlur: true,
-            undoRedo: true,
-
             // text formatting
             bold: true,
             italic: true,
@@ -184,7 +178,11 @@
             maxlength: 0,
             maxlengthIncludeHTML: false,
             callback: undefined,
-            useTabForNext: false
+            useTabForNext: false,
+            save: false,
+            saveCallback: undefined,
+            saveOnBlur: 0,
+            undoRedo: true
 
         }, options);
 
@@ -587,10 +585,9 @@
 
             settings.$editor = $editor;
             settings.blurTriggered = false;
-            settings.$editor.on('click', (e) => {
-                // Click on control of editor ....=  reset blur event
+            settings.$editor.on('click', () => {
+                // click within the editor => reset blur event
                 settings.blurTriggered = false;
-
             });
 
             /* text formatting */
@@ -1300,8 +1297,11 @@
                 event.preventDefault();
                 var command = $(this).data("command");
 
-                if ('toggleSave' === command) {
-                    putContentToTextarea($editor.attr("id"));
+                if (command === 'toggleSave') {
+                    $editor.trigger('change');
+                    if (typeof settings.saveCallback === 'function') {
+                        settings.saveCallback($editor, 'save', getEditorContent(editorID));
+                    }
                 } else if (command === "toggleCode") {
                     toggleCode($editor.attr("id"));
                 } else {
@@ -1425,9 +1425,11 @@
         function updateTextarea(event) {
             var $editor = $('#' + editorID);
             content = getEditorContent(editorID);
-            $editor.siblings('.richText-initial').val(content);
-            // On blur editor - we checking content and if it is changed, update content on control of form
-            if (settings.saveOnBlur && event && event.type == 'blur') {
+            if (content !== $editor.siblings('.richText-initial').val()) {
+                $editor.siblings('.richText-initial').val(content);
+            }
+            // On blur editor - checking content and if it is changed, update content on control of form
+            if (settings.saveOnBlur && event && event.type === 'blur') {
                 settings.blurTriggered = true;
                 // trigger updating content after saveOnBlur ns to save last action of editor
                 setTimeout(() => {
@@ -1436,25 +1438,16 @@
                         return;
                     }
                     var content = getEditorContent(editorID);
-                    if ($editor.data('content-val') != content) {
+                    if ($editor.data('content-val') !== content) {
                         $editor.data('content-val', content);
-                        $editor.trigger('changed-from-rich-editor');
-                        putContentToTextarea(editorID);
+                        $editor.trigger('change');
+                        if (typeof settings.saveCallback === 'function') {
+                            settings.saveCallback($editor, 'blur', content);
+                        }
                     }
                 }, settings.saveOnBlur);
             }
         }
-
-        /**
-         * Saving content from editor to control element and trigger "change" event for this element
-         * @private
-         */
-        function putContentToTextarea (id) {
-            var $editor = $('#' + editorID);
-            var content = getEditorContent(editorID);
-            $editor.siblings('.richText-initial').val(content).trigger('change');
-        }
-
 
         /**
          * Update editor when updating textarea

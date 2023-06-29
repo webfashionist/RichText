@@ -146,7 +146,8 @@ $(element).richText({
       'code': 'Show HTML code',
       'undo': 'Undo',
       'redo': 'Redo',
-      'close': 'Close'
+      'close': 'Close',
+      'save': 'Save'
   },
             
   // privacy
@@ -169,7 +170,11 @@ $(element).richText({
   maxlength: 0,
   maxlengthIncludeHTML: false,
   callback: undefined,
-  useTabForNext: false
+  useTabForNext: false,
+  save: false,
+  saveCallback: undefined,
+  saveOnBlur: 0, 
+  undoRedo: true
 });
 ```
 
@@ -263,6 +268,84 @@ Custom dropdowns allow to customize in a restricted way the dropdowns in the edi
 - `maxlength` (default: `(int) 0`) :: Defines a max length for the text (HTML length not considered!). The default value `0` doesn't define any limit
 - `maxlengthIncludeHTML` (default: `(boolean) false`) :: If `true`, the length of the HTML code will be used instead of only the written text
 - `callback` (default: `undefined`) :: Sets a callback if the editor has been loaded. The first and only parameter of the callback contains the jQuery element of the editor
+- `save`: (default: `(boolean) false`) :: If set to `true`, an additional icon to save the content manually will be added
+- `saveOnBlur`: (default: `(int) 0`) :: If set to a value greater than 0, the editor will be saved after the given amount of milliseconds after the last change. The default value `0` disables this feature.
+- `saveCallback`: (default: `undefined`) :: If a function is set, it will be called after blur (see `saveOnBlur`) or when the save action is being triggered (see `save`). See [Saving the content](#saving-the-content) for more information.
+- `undoRedo`: (default `(boolean) true`) :: If set to `false`, the undo/redo buttons will be hidden
+
+## Saving the content
+
+### Save on blur
+
+If the `saveOnBlur` setting is set to a value greater than 0, the editor will be saved after the given amount of milliseconds after the last change. The default value `0` disables this feature.
+Additionally, the editor element with the class `.richText-editor` will get the `change` event triggered, if the content has been changed.
+
+By implementing the following code you are able to check for any changes within the editor:
+
+```javascript
+$('.richText-editor').on('change', function() { 
+    // your code here 
+});
+```
+
+On top of that, the `saveCallback` function will be called, if set. See [Save callback](#save-callback) for more information.
+
+### Save manually
+
+If the `save` setting is set to `true`, an additional icon to save the content manually will be added. By clicking on the icon, the `saveCallback` function (see [Save callback](#save-callback)) will be called and the `change` event will be triggered on the editor element with the class `.richText-editor`.
+
+### Save callback
+
+If the `saveCallback` setting is set to a function, it will be called after blur (see [Save on blur](#save-on-blur)) or when the save action is being triggered (see [Save manually](#save-manually)).
+If none of the mentioned settings are set, the `saveCallback` function will not be called.
+
+The function will be called with the following parameters:
+
+- `editor` :: The jQuery element of the editor (`.richText-editor`)
+- `source` :: A string indicating the source of the save action. Possible values are `blur` and `save`
+- `content` :: The HTML content of the editor
+
+Example implementation:
+
+```javascript
+$('textarea.content').richText({
+    saveOnBlur: 1000,
+    save: true,
+    saveCallback: function (editor, source, content) {
+        console.log('editor: ', editor);
+        console.log('source: ', source);
+        console.log('content: ', content);
+    }
+});
+```
+
+### Save via `<form>` submission
+
+If the editor is placed within a `<form>` element, the content will be saved automatically when the form is being submitted.
+
+The content of the editor will be saved to the textarea element, which has been used to initialize the editor.
+
+Keep in mind, that a `name` attribute is required for the textarea element, otherwise the content won't be saved.
+
+Example: 
+
+```html 
+<form method="post">
+    <textarea class="content" name="example"></textarea>
+    <button type="submit">Submit</button>
+</form>
+<script>
+    $('.content').richText();
+</script>
+```
+
+With this basic example code, the content of the editor will be set to the POST parameter `example`.
+
+PHP:
+you can access the content with `$_POST['example']` (careful to properly sanitize any content!).
+
+Node.js:
+you can access the content with `req.body.example` (careful to properly sanitize any content!).
 
 
 ## Undo RichText
@@ -281,6 +364,11 @@ Additionally the `callback` option is available as well.
 The `change` event needs to be triggered, in order to update the value within RichText. 
 Using `.val('Some text').trigger('change')` on your jQuery node will solve your issue.
     
+**My editor does not save the content, what can I do?**
+
+Make sure that the textarea element has a `name` attribute. Otherwise the content won't be saved if you are trying to save the editor's content via form submission.
+
+Please read the section [Saving the content](#saving-the-content) for more information about all the possibilities to save the content.
 
 
 ## Contributing
