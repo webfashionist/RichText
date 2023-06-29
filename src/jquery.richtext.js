@@ -1967,7 +1967,7 @@
          * @private
          */
         function loadColors(command) {
-            var colors = [];
+            var colors = {};
             var result = '';
 
             colors["#FFFFFF"] = settings.translations.white;
@@ -1988,7 +1988,7 @@
             colors["#F79646"] = settings.translations.orange;
             colors["#FFFF00"] = settings.translations.yellow;
 
-            if (settings.colors && settings.colors.length > 0) {
+            if (settings.colors && Object.keys(settings.colors).length) {
                 colors = settings.colors;
             }
 
