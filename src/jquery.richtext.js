@@ -557,6 +557,57 @@
             $editor = $('<div />', {class: "richText"});
             var $toolbar = $('<div />', {class: "richText-toolbar"});
             var $editorView = $('<div />', {class: "richText-editor", id: editorID, contenteditable: !settings.preview});
+
+            $editorView.on('clear', () => {
+                var $editor = $('#' + editorID);
+                $editor.siblings('.richText-initial').val('<div><br></div>')
+                $editor.html($editor.siblings('.richText-initial').val());
+            });
+
+            $editorView.on('setContent', (event, content) => {
+                var $editor = $('#' + editorID);
+                $editor.siblings('.richText-initial').val(content)
+                $editor.html($editor.siblings('.richText-initial').val());
+            });
+
+            $editorView.on('getContent', (event, callback) => {
+                if (typeof callback !== 'function') {
+                    return;
+                }
+                callback($editorView.siblings('.richText-initial').val());
+            });
+
+            $editorView.on('save', (event, callback) => {
+                $editorView.trigger('change');
+                if (typeof settings.saveCallback === 'function') {
+                    settings.saveCallback($editor, 'save', getEditorContent(editorID));
+                }
+            });
+
+            $editorView.on('destroy', (event, options) => {
+                const destroy = () => {
+                    let $main = $editorView.parents('.richText');
+                    $main.find('.richText-toolbar').remove();
+                    $main.find('.richText-editor').remove();
+                    const $textarea = $main.find('.richText-initial')
+                    $textarea
+                        .unwrap('.richText')
+                        .data('editor', 'richText')
+                        .removeClass('richText-initial')
+                        .show();
+                    if (options && typeof options.callback === 'function') {
+                        options.callback($textarea);
+                    }
+                }
+                if (options && options.delay) {
+                    setTimeout(() => {
+                        destroy();
+                    }, options.delay);
+                    return;
+                }
+                destroy();
+            });
+
             var tabindex = $inputElement.prop('tabindex');
             if (tabindex >= 0 && settings.useTabForNext === true) {
                 $editorView.attr('tabindex', tabindex);
@@ -2245,6 +2296,11 @@
         return $(this);
     };
 
+    /**
+     * Undo RichText
+     * @deprecated Use the `destroy` event on the `.richText-editor` element instead
+     * @param options
+     */
     $.fn.unRichText = function (options) {
 
         // set default options

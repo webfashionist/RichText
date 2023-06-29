@@ -348,7 +348,91 @@ Node.js:
 you can access the content with `req.body.example` (careful to properly sanitize any content!).
 
 
-## Undo RichText
+## Events
+
+The `.richText-editor` element listens to specific events in order to handle or modify the content of the editor.
+
+### Clear content
+
+If you want to clear the content of the editor, you can trigger the `clear` event on the `.richText-editor` element.
+
+*As noted in [#12](https://github.com/webfashionist/RichText/issues/12) the editor is considered empty if it contains `<div><br></div>` as content. 
+If you need to check if the editor is empty in the backend or frontend, you should strip `<div>`, `<p>` and `<br>` tags and check for the length of the content.*
+
+**Example:**
+
+```javascript
+$('.richText-editor').trigger('clear');
+```
+
+### Set content
+
+If you want to set the content of the editor, you can trigger the `setContent` event on the `.richText-editor` element.
+
+**Example:**
+
+```javascript
+$('.richText-editor').trigger('setContent', '<div>Some content</div>');
+```
+
+### Get content
+
+If you want to get the content of the editor, you can trigger the `getContent` event on the `.richText-editor` element.
+This event requires a callback function as second parameter, which will be called with the content as second parameter.
+
+This event is similar to the `save` event, but it doesn't trigger the `saveCallback` function (see [Save callback](#save-callback)) and is therefore more variable to use for each event trigger.
+
+**Example:**
+
+```javascript
+$('.richText-editor').trigger('getContent', function (event, content) {
+    console.log(content);
+});
+```
+
+
+### Save
+
+If you want to save the content of the editor, you can trigger the `save` event on the `.richText-editor` element.
+The `saveCallback` function (see [Save callback](#save-callback)) will be called and the `change` event will be triggered on the editor element with the class `.richText-editor`.
+
+**Example:**
+
+```javascript
+$('.richText-editor').trigger('save');
+```
+
+### Destroy / Undo RichText
+
+If you want to destroy the editor, you can trigger the `destroy` event on the `.richText-editor` element.
+The editor will be removed and the textarea element will be restored to its initial state keeping the current value set.
+
+**Example:**
+
+```javascript
+$('.richText-editor').trigger('destroy');
+```
+
+You can also set a delay value in milliseconds to delay the destruction of the editor.
+
+**Example:**
+
+```javascript
+$('.richText-editor').trigger('destroy', {delay: 2000});
+```
+
+Additionally the `callback` option is available as well and will provide the jQuery element of the remaining `<textarea>` node.
+
+**Example:**
+
+```javascript
+$('.richText-editor').trigger('destroy', {delay: 2000, callback: function (textarea) {
+    console.log(textarea);
+}});
+```
+
+
+## Undo RichText (deprecated)
 
 There's the possibility to undo the RichText editor to the state before `.richText()` has been called.
 
@@ -356,6 +440,11 @@ For this to work, simply call `.unRichText()` on the initial textarea, on which 
 
 It is possible to delay `unRichText()` by a given amount of milliseconds with the parameter: `{delay: 2000}`. 
 Additionally the `callback` option is available as well. 
+
+**Deprecation note:**
+
+The `unRichText()` function will be removed in the next major release.
+Please use the `destroy` event instead. See [Destroy / Undo RichText](#destroy--undo-richtext) for more information.
 
 ## FAQ
 
