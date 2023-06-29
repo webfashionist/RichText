@@ -29,7 +29,6 @@
         // set default options
         // and merge them with the parameter options
         var settings = $.extend({
-
             // text formatting
             bold: true,
             italic: true,
@@ -155,6 +154,7 @@
                 'code': 'Show HTML code',
                 'undo': 'Undo',
                 'redo': 'Redo',
+                'save': 'Save',
                 'close': 'Close'
             },
 
@@ -178,7 +178,11 @@
             maxlength: 0,
             maxlengthIncludeHTML: false,
             callback: undefined,
-            useTabForNext: false
+            useTabForNext: false,
+            save: false,
+            saveCallback: undefined,
+            saveOnBlur: 0,
+            undoRedo: true
 
         }, options);
 
@@ -304,6 +308,12 @@
                 "data-command": "toggleCode",
                 "title": settings.translations.code,
                 html: '<span class="fa fa-code"></span>'
+            }),
+            $btnSave = $('<a />', {
+                class: "save-btn",
+                "data-command": "toggleSave",
+                "title": settings.translations.save,
+                html: '<span class="fa fa-save"></span>'
             }); // code
 
 
@@ -574,6 +584,11 @@
             }
 
             settings.$editor = $editor;
+            settings.blurTriggered = false;
+            settings.$editor.on('click', () => {
+                // click within the editor => reset blur event
+                settings.blurTriggered = false;
+            });
 
             /* text formatting */
             if (settings.bold === true) {
@@ -660,9 +675,13 @@
             if (settings.code === true) {
                 $toolbarList.append($toolbarElement.clone().append($btnCode));
             }
+            if (settings.save === true) {
+                $toolbarList.append($toolbarElement.clone().append($btnSave));
+            }
 
             // set current textarea value to editor
             $editorView.html($inputElement.val());
+            $editorView.data('content-val', $inputElement.val());
 
             $editor.append($toolbar);
             $editor.append($editorView);
@@ -671,7 +690,7 @@
 
             // append bottom toolbar
             $bottomToolbar = $('<div />', {class: 'richText-toolbar'});
-            if (!settings.preview) {
+            if (!settings.preview && settings.undoRedo) {
                 $bottomToolbar.append($('<a />', {
                     class: 'richText-undo is-disabled',
                     html: '<span class="fa fa-undo"></span>',
@@ -796,7 +815,7 @@
                 return false;
             }
             fixFirstLine();
-            updateTextarea();
+            updateTextarea(e);
             doSave($(this).attr("id"));
             updateMaxLength($(this).attr('id'));
         });
@@ -1282,7 +1301,12 @@
                 event.preventDefault();
                 var command = $(this).data("command");
 
-                if (command === "toggleCode") {
+                if (command === 'toggleSave') {
+                    $editor.trigger('change');
+                    if (typeof settings.saveCallback === 'function') {
+                        settings.saveCallback($editor, 'save', getEditorContent(editorID));
+                    }
+                } else if (command === "toggleCode") {
                     toggleCode($editor.attr("id"));
                 } else {
                     var option = null;
@@ -1371,12 +1395,12 @@
             // Execute the command
             if (command === "heading" && getSelectedText()) {
                 // IE workaround
-                pasteHTMLAtCaret('<' + option + '>' + getSelectedText() + '</' + option + '>');
+                wrapTextNode(option, '<' + option + '>' + getSelectedText() + '</' + option + '>');
             } else if (command === "fontSize" && parseInt(option) > 0) {
                 var selection = getSelectedText();
                 selection = (selection + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2');
                 var html = (settings.useSingleQuotes ? "<span style='font-size:" + option + "px;'>" + selection + "</span>" : '<span style="font-size:' + option + 'px;">' + selection + '</span>');
-                pasteHTMLAtCaret(html);
+                wrapTextNode('span style="font-size:' + option + 'px;"', html);
             } else {
                 document.execCommand(command, false, option);
             }
@@ -1384,20 +1408,50 @@
             // document.designMode = "OFF";
         }
 
-
         /**
-         * Update textarea when updating editor
-         * @private
+         * Get content of editor pseudo-element per id
+         *
+         * @param      string  editorId  The editor identifier
+         * @return     string  Content of Editor element
          */
-        function updateTextarea() {
+        function getEditorContent(editorId) {
             var $editor = $('#' + editorID);
             var content = $editor.html();
             if (settings.useSingleQuotes === true) {
                 content = changeAttributeQuotes(content);
             }
-            $editor.siblings('.richText-initial').val(content);
+            return content;
         }
-
+        /**
+         * Update textarea when updating editor
+         * @private
+         */
+        function updateTextarea(event) {
+            var $editor = $('#' + editorID);
+            content = getEditorContent(editorID);
+            if (content !== $editor.siblings('.richText-initial').val()) {
+                $editor.siblings('.richText-initial').val(content);
+            }
+            // On blur editor - checking content and if it is changed, update content on control of form
+            if (settings.saveOnBlur && event && event.type === 'blur') {
+                settings.blurTriggered = true;
+                // trigger updating content after saveOnBlur ns to save last action of editor
+                setTimeout(() => {
+                    // if blur event not triggered = noting to do  .....
+                    if (!settings.blurTriggered) {
+                        return;
+                    }
+                    var content = getEditorContent(editorID);
+                    if ($editor.data('content-val') !== content) {
+                        $editor.data('content-val', content);
+                        $editor.trigger('change');
+                        if (typeof settings.saveCallback === 'function') {
+                            settings.saveCallback($editor, 'blur', content);
+                        }
+                    }
+                }, settings.saveOnBlur);
+            }
+        }
 
         /**
          * Update editor when updating textarea
@@ -1815,6 +1869,20 @@
             if (savedSelection) {
                 restoreSelection((id ? id : savedSelection.editorID));
             }
+        }
+
+        function wrapTextNode(tag, html) {
+            if (window.getSelection) {
+                // IE9 and non-IE
+                sel = window.getSelection();
+                console.log(sel, 1);
+                if (sel.focusNode.nodeType === 3) {
+                    $(sel.focusNode).wrap('<' + tag + ' />');
+                }
+
+                return;
+            }
+            pasteHTMLAtCaret(html);
         }
 
         /**

@@ -1,0 +1,23 @@
+{
+    "name": "webfashionist/richtext",
+    "description": "WYSIWYG editor developed as jQuery plugin",
+    "type": "library",
+    "license": "AGPL-3.0",
+    "keywords": ["wysiwyg", "editor", "jquery"],
+    "autoload": {
+        "psr-4": {"Webfashionist\\RichText\\yii2\\": "yii2/"}
+    },
+    "authors": [
+        {"name": "webfashionist"}
+    ],
+    "prefer-stable": true,
+    "require": {
+        "npm-asset/fortawesome--fontawesome-free": "^5"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ]
+}

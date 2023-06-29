@@ -1,0 +1,25 @@
+name: Build
+on: pull_request # run on pull request events
+permissions:
+  pull-requests: write # grant write permission on the pull-requests endpoint
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v6
+      - name: Install dependencies
+        run: npm install
+      - name: Build development environment
+        run: npm run build
+      - name: Auto commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          branch: ${{ steps.branch-name.outputs.current_branch }}
+          commit_message: "build(Minify): Minify JavaScript [skip actions]"
+          commit_user_name: webfashionist
+          commit_user_email: info@webfashion.in
+          commit_author: webfashionist <info@webfashion.in>
