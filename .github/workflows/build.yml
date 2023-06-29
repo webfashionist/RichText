@@ -1,13 +1,9 @@
-name: Compile+lint JS/Vue
-on:
-  push:
-    paths:
-      - "package.json"
-      - "package-lock.json"
-      - "**/*.js"
-      - "**/*.yml"
+name: Build
+on: pull_request # run on pull request events
+permissions:
+  pull-requests: write # grant write permission on the pull-requests endpoint
 jobs:
-  JS-Compile:
+  Build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
