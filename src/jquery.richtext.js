@@ -688,10 +688,10 @@
             $editor.append($bottomToolbar);
 
 			var maxlength = settings.maxlength;
-			if (maxlength == 0 &&  $inputElement.attr("maxlength") != undefined) {
+			if (!maxlength && $inputElement.attr("maxlength")) {
 				maxlength = $inputElement.attr("maxlength");
 			}
-            if (settings.maxlength > 0) {
+            if (maxlength > 0) {
                 // display max length in editor toolbar
                 $editor.data('maxlength', maxlength);
                 $editor.children('.richText-toolbar').children('.richText-help').before($('<a />', {
