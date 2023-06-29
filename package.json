@@ -7,7 +7,8 @@
   },
   "scripts": {
     "installuglify": "npm i uglify-js -g",
-    "uglify": "uglifyjs src/jquery.richtext.js > src/jquery.richtext.min.js --comments --warn"
+    "uglify": "uglifyjs src/jquery.richtext.js > src/jquery.richtext.min.js --comments --warn",
+    "build": "./node_modules/uglify-js/bin/uglifyjs src/jquery.richtext.js > src/jquery.richtext.min.js --comments --warn"
   },
   "repository": {
     "type": "git",
@@ -18,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/webfashionist/RichText/issues"
   },
-  "homepage": "https://github.com/webfashionist/RichText#readme"
+  "homepage": "https://github.com/webfashionist/RichText#readme",
+  "devDependencies": {
+    "uglify-js": "^3.17.4"
+  }
 }
