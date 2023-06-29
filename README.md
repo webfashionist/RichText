@@ -450,8 +450,7 @@ Please use the `destroy` event instead. See [Destroy / Undo RichText](#destroy--
 
 **How do I set the RichText value through jQuery? Using `.val()` doesn't work?**
 
-The `change` event needs to be triggered, in order to update the value within RichText. 
-Using `.val('Some text').trigger('change')` on your jQuery node will solve your issue.
+Use the `setContent` event on the `.richTex-editor` node as explained in [Set content](#set-content).  
     
 **My editor does not save the content, what can I do?**
 
