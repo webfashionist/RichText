@@ -24,6 +24,7 @@
 $highlight: #3498db;
 
 .richText {
+    z-index: 1;
     position: relative;
     background-color: #FAFAFA;
     border: #EFEFEF solid 1px;
@@ -230,6 +231,7 @@ $highlight: #3498db;
 
     .richText-toolbar:last-child {
         font-size: 12px;
+        z-index: -1;
     }
 
     .richText-toolbar:after{
