@@ -2,7 +2,7 @@
  RichText: WYSIWYG editor developed as jQuery plugin
 
  @name RichText
- @version 1.0.17
+ @version 1.1.0
  @author https://github.com/webfashionist - Bob Schockweiler - richtext@webfashion.eu
  @license GNU AFFERO GENERAL PUBLIC LICENSE Version 3
  @preserve
@@ -2295,70 +2295,6 @@
         }
 
         return $(this);
-    };
-
-    /**
-     * Undo RichText
-     * @deprecated Use the `destroy` event on the `.richText-editor` element instead
-     * @param options
-     */
-    $.fn.unRichText = function (options) {
-
-        // set default options
-        // and merge them with the parameter options
-        var settings = $.extend({
-            delay: 0 // delay in ms
-        }, options);
-
-        var $editor, $textarea, $main;
-        var $el = $(this);
-
-        /**
-         * Initialize undoing RichText and call remove() method
-         */
-        function init() {
-
-            if ($el.hasClass('richText')) {
-                $main = $el;
-            } else if ($el.hasClass('richText-initial') || $el.hasClass('richText-editor')) {
-                $main = $el.parents('.richText');
-            }
-
-            if (!$main) {
-                // node element does not correspond to RichText elements
-                return false;
-            }
-
-            $editor = $main.find('.richText-editor');
-            $textarea = $main.find('.richText-initial');
-
-            if (parseInt(settings.delay) > 0) {
-                // a delay has been set
-                setTimeout(remove, parseInt(settings.delay));
-            } else {
-                remove();
-            }
-        }
-
-        init();
-
-        /**
-         * Remove RichText elements
-         */
-        function remove() {
-            $main.find('.richText-toolbar').remove();
-            $main.find('.richText-editor').remove();
-            $textarea
-                .unwrap('.richText')
-                .data('editor', 'richText')
-                .removeClass('richText-initial')
-                .show();
-
-            if (settings.callback && typeof settings.callback === 'function') {
-                settings.callback();
-            }
-        }
-
     };
 
 }(jQuery));

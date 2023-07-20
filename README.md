@@ -431,21 +431,6 @@ $('.richText-editor').trigger('destroy', {delay: 2000, callback: function (texta
 }});
 ```
 
-
-## Undo RichText (deprecated)
-
-There's the possibility to undo the RichText editor to the state before `.richText()` has been called.
-
-For this to work, simply call `.unRichText()` on the initial textarea, on which `.richText()` has previously been called.
-
-It is possible to delay `unRichText()` by a given amount of milliseconds with the parameter: `{delay: 2000}`. 
-Additionally the `callback` option is available as well. 
-
-**Deprecation note:**
-
-The `unRichText()` function will be removed in the next major release.
-Please use the `destroy` event instead. See [Destroy / Undo RichText](#destroy--undo-richtext) for more information.
-
 ## FAQ
 
 **How do I set the RichText value through jQuery? Using `.val()` doesn't work?**
