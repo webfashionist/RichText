@@ -1,6 +1,6 @@
 {
   "name": "richtext",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "WYSIWYG editor developed as jQuery plugin",
   "directories": {
     "example": "examples"

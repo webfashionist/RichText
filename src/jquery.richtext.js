@@ -2,6 +2,7 @@
  RichText: WYSIWYG editor developed as jQuery plugin
 
  @name RichText
+ @version 1.0.17
  @author https://github.com/webfashionist - Bob Schockweiler - richtext@webfashion.eu
  @license GNU AFFERO GENERAL PUBLIC LICENSE Version 3
  @preserve

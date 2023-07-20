@@ -1,5 +1,6 @@
 {
     "name": "webfashionist/richtext",
+    "version": "1.0.17",
     "description": "WYSIWYG editor developed as jQuery plugin",
     "type": "library",
     "license": "AGPL-3.0",
