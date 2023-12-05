@@ -6,9 +6,11 @@
     "example": "examples"
   },
   "scripts": {
+    "start": "http-server -p 8080",
     "installuglify": "npm i uglify-js -g",
     "uglify": "uglifyjs src/jquery.richtext.js > src/jquery.richtext.min.js --comments --warn",
-    "build": "./node_modules/uglify-js/bin/uglifyjs src/jquery.richtext.js > src/jquery.richtext.min.js --comments --warn"
+    "build": "./node_modules/uglify-js/bin/uglifyjs src/jquery.richtext.js > src/jquery.richtext.min.js --comments --warn",
+    "test": "cypress run -b chrome"
   },
   "repository": {
     "type": "git",
@@ -21,6 +23,8 @@
   },
   "homepage": "https://github.com/webfashionist/RichText#readme",
   "devDependencies": {
+    "cypress": "^13.6.0",
+    "http-server": "^14.1.1",
     "uglify-js": "^3.17.4"
   }
 }
