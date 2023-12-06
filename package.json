@@ -8,6 +8,7 @@
   "scripts": {
     "installuglify": "npm i uglify-js -g",
     "uglify": "uglifyjs src/jquery.richtext.js > src/jquery.richtext.min.js --comments --warn",
+    "minifycss": "./node_modules/node-sass/bin/node-sass -w src/richtext.scss src/richtext.min.css --output-style compressed",
     "build": "./node_modules/uglify-js/bin/uglifyjs src/jquery.richtext.js > src/jquery.richtext.min.js --comments --warn"
   },
   "repository": {
@@ -21,6 +22,7 @@
   },
   "homepage": "https://github.com/webfashionist/RichText#readme",
   "devDependencies": {
+    "node-sass": "^9.0.0",
     "uglify-js": "^3.17.4"
   }
 }
