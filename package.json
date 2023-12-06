@@ -8,9 +8,9 @@
   "scripts": {
     "start": "http-server -p 8080",
     "installuglify": "npm i uglify-js -g",
-    "uglify": "node_modules/uglify-js/bin/uglifyjs src/jquery.richtext.js > src/jquery.richtext.min.js --comments --warn",
+    "uglify": "npx uglifyjs src/jquery.richtext.js > src/jquery.richtext.min.js --comments --warn",
     "test": "cypress run -b chrome",
-    "minifycss": "node_modules/node-sass/bin/node-sass -w src/richtext.scss src/richtext.min.css --output-style compressed",
+    "minifycss": "npx sass --style=compressed src/richtext.scss:src/richtext.min.css",
     "build": "npm run uglify && npm run minifycss"
   },
   "repository": {
@@ -26,7 +26,7 @@
   "devDependencies": {
     "cypress": "^13.6.0",
     "http-server": "^14.1.1",
-    "node-sass": "^9.0.0",
+    "sass": "^1.69.5",
     "uglify-js": "^3.17.4"
   }
 }
