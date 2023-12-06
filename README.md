@@ -1,4 +1,7 @@
 # RichText
+
+[![Cypress Tests](https://github.com/webfashionist/RichText/actions/workflows/test.yml/badge.svg)](https://github.com/webfashionist/RichText/actions/workflows/test.yml) 
+
 WYSIWYG editor developed as jQuery plugin.
 
 ## Requirements

@@ -8,10 +8,10 @@
   "scripts": {
     "start": "http-server -p 8080",
     "installuglify": "npm i uglify-js -g",
-    "uglify": "uglifyjs src/jquery.richtext.js > src/jquery.richtext.min.js --comments --warn",
+    "uglify": "node_modules/uglify-js/bin/uglifyjs src/jquery.richtext.js > src/jquery.richtext.min.js --comments --warn",
     "test": "cypress run -b chrome",
-    "minifycss": "./node_modules/node-sass/bin/node-sass -w src/richtext.scss src/richtext.min.css --output-style compressed",
-    "build": "./node_modules/uglify-js/bin/uglifyjs src/jquery.richtext.js > src/jquery.richtext.min.js --comments --warn"
+    "minifycss": "node_modules/node-sass/bin/node-sass -w src/richtext.scss src/richtext.min.css --output-style compressed",
+    "build": "npm run uglify && npm run minifycss"
   },
   "repository": {
     "type": "git",
