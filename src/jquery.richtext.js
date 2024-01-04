@@ -1798,6 +1798,9 @@
             var range;
             if (window.getSelection) {  // all browsers, except IE before version 9
                 range = window.getSelection();
+                if (range.isCollapsed) {
+                    return false;
+                }
                 return range.toString() ? range.toString() : range.focusNode.nodeValue;
             } else if (document.selection.createRange) { // Internet Explorer
                 range = document.selection.createRange();
