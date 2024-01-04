@@ -123,18 +123,34 @@ $highlight: #3498db;
                         background-color: rgba(0,0,0,0.3);
                         cursor: default;
 
+                        > .richText-dropdown-close {
+                            position: absolute;
+                            top: 0;
+                            right: -23px;
+                            background: #FFF;
+                            color: #333;
+                            cursor: pointer;
+                            font-size: 20px;
+                            text-align: center;
+                            width: 20px;
+                        }
+
                         .richText-dropdown {
                             position:relative;
                             display: block;
                             margin: 3% auto 0 auto;
                             background-color: #FAFAFA;
                             border: #EFEFEF solid 1px;
+                            border-radius: 4px;
                             min-width: 100px;
                             width: 300px;
                             max-width: 90%;
-                            -webkit-box-shadow:0 0 5px 0 #333;
-                            -moz-box-shadow:0 0 5px 0 #333;
-                            box-shadow:0 0 5px 0 #333;
+                            -webkit-box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
+                            -moz-box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
+                            box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
+                            max-height: 300px;
+                            overflow-y: auto;
+                            overflow-x: hidden;
 
                             .richText-dropdown-close {
                                 position: absolute;

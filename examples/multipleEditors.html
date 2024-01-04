@@ -18,14 +18,20 @@
 
 <div class="page-wrapper box-content">
 
-    <textarea class="content" name="example"></textarea>
+    <textarea class="content" name="example">asdsad ADS DS F</textarea>
     <textarea class="content2" name="example2"></textarea>
 </div>
 
 <script>
     $(document).ready(function() {
-        $('.content').richText();
-        $('.content2').richText();
+        $('.content').richText({
+            useTabForNext: true,
+            maxlength: 1000,
+            maxlengthIncludeHTML: true
+        });
+        $('.content2').richText({
+            useTabForNext: true
+        });
     });
 </script>
 

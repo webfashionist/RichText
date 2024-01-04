@@ -324,6 +324,7 @@
             class: "richText-dropdown-close",
             html: '<span title="' + settings.translations.close + '"><span class="fa fa-times"></span></span>'
         });
+        $dropdownOuter.prepend($dropdownClose.clone());
         var $dropdownList = $('<ul />', {class: "richText-dropdown"}), // dropdown lists
             $dropdownBox = $('<div />', {class: "richText-dropdown"}), // dropdown boxes / custom dropdowns
             $form = $('<div />', {class: "richText-form"}), // symbolic form
@@ -351,7 +352,7 @@
         $titles.append($('<li />', {html: '<a data-command="formatBlock" data-option="h2">' + settings.translations.title + ' #2</a>'}));
         $titles.append($('<li />', {html: '<a data-command="formatBlock" data-option="h3">' + settings.translations.title + ' #3</a>'}));
         $titles.append($('<li />', {html: '<a data-command="formatBlock" data-option="h4">' + settings.translations.title + ' #4</a>'}));
-        $btnHeading.append($dropdownOuter.clone().append($titles.prepend($dropdownClose.clone())));
+        $btnHeading.append($dropdownOuter.clone().append($titles));
 
         /* list dropdown for fonts */
         var fonts = settings.fontList;
@@ -359,25 +360,24 @@
         for (var i = 0; i < fonts.length; i++) {
             $fonts.append($('<li />', {html: '<a style="font-family:' + fonts[i] + ';" data-command="fontName" data-option="' + fonts[i] + '">' + fonts[i] + '</a>'}));
         }
-        $btnFont.append($dropdownOuter.clone().append($fonts.prepend($dropdownClose.clone())));
+        $btnFont.append($dropdownOuter.clone().append($fonts));
 
         /* list dropdown for font sizes */
-        var fontSizes = [24, 18, 16, 14, 12];
         var $fontSizes = $dropdownList.clone();
-        for (var i = 0; i < fontSizes.length; i++) {
-            $fontSizes.append($('<li />', {html: '<a style="font-size:' + fontSizes[i] + 'px;" data-command="fontSize" data-option="' + fontSizes[i] + '">' + settings.translations.text + ' ' + fontSizes[i] + 'px</a>'}));
+        for (let fontSize = 24; fontSize >= 12; fontSize -= 2) {
+            $fontSizes.append($('<li />', {html: '<a style="font-size:' + fontSize + 'px;" data-command="fontSize" data-option="' + fontSize + '">' + settings.translations.text + ' ' + fontSize + 'px</a>'}));
         }
-        $btnFontSize.append($dropdownOuter.clone().append($fontSizes.prepend($dropdownClose.clone())));
+        $btnFontSize.append($dropdownOuter.clone().append($fontSizes));
 
         /* font colors */
         var $fontColors = $dropdownList.clone();
         $fontColors.html(loadColors("forecolor"));
-        $btnFontColor.append($dropdownOuter.clone().append($fontColors.prepend($dropdownClose.clone())));
+        $btnFontColor.append($dropdownOuter.clone().append($fontColors));
 
         /* background colors */
         var $backgroundColors = $dropdownList.clone();
         $backgroundColors.html(loadColors("hiliteColor"));
-        $btnBackgroundColor.append($dropdownOuter.clone().append($backgroundColors.prepend($dropdownClose.clone())));
+        $btnBackgroundColor.append($dropdownOuter.clone().append($backgroundColors));
 
         /* box dropdown for links */
         var $linksDropdown = $dropdownBox.clone();
@@ -404,7 +404,7 @@
         );
         $linksForm.append($formItem.clone().append($formButton.clone()));
         $linksDropdown.append($linksForm);
-        $btnURLs.append($dropdownOuter.clone().append($linksDropdown.prepend($dropdownClose.clone())));
+        $btnURLs.append($dropdownOuter.clone().append($linksDropdown));
 
         /* box dropdown for video embedding */
         var $videoDropdown = $dropdownBox.clone();
@@ -429,7 +429,7 @@
         );
         $videoForm.append($formItem.clone().append($formButton.clone()));
         $videoDropdown.append($videoForm);
-        $btnVideoEmbed.append($dropdownOuter.clone().append($videoDropdown.prepend($dropdownClose.clone())));
+        $btnVideoEmbed.append($dropdownOuter.clone().append($videoDropdown));
 
         /* box dropdown for image upload/image selection */
         var $imageDropdown = $dropdownBox.clone();
@@ -460,7 +460,7 @@
         }
         $imageForm.append($formItem.clone().append($formButton.clone()));
         $imageDropdown.append($imageForm);
-        $btnImageUpload.append($dropdownOuter.clone().append($imageDropdown.prepend($dropdownClose.clone())));
+        $btnImageUpload.append($dropdownOuter.clone().append($imageDropdown));
 
         /* box dropdown for file upload/file selection */
         var $fileDropdown = $dropdownBox.clone();
@@ -485,7 +485,7 @@
         }
         $fileForm.append($formItem.clone().append($formButton.clone()));
         $fileDropdown.append($fileForm);
-        $btnFileUpload.append($dropdownOuter.clone().append($fileDropdown.prepend($dropdownClose.clone())));
+        $btnFileUpload.append($dropdownOuter.clone().append($fileDropdown));
 
         /* box dropdown for tables */
         var $tableDropdown = $dropdownBox.clone();
@@ -502,7 +502,7 @@
         );
         $tableForm.append($formItem.clone().append($formButton.clone()));
         $tableDropdown.append($tableForm);
-        $btnTable.append($dropdownOuter.clone().append($tableDropdown.prepend($dropdownClose.clone())));
+        $btnTable.append($dropdownOuter.clone().append($tableDropdown));
 
 
         /* initizalize editor */
