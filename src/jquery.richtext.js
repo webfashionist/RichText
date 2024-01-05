@@ -261,7 +261,7 @@
             $btnFontColor = $('<a />', {
                 class: "richText-btn",
                 "title": settings.translations.addFontColor,
-                html: '<span class="fa fa-pencil"></span>'
+                html: '<span class="fa fa-pencil fa-pencil-alt"></span>'
             }), // font color
             $btnBackgroundColor = $('<a />', {
                 class: "richText-btn",
