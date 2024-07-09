@@ -1024,7 +1024,7 @@
                     });
                 }
             }
-            if ($target.prop("tagName") === "IMG" && $target.parents("#" + editorID)) {
+            if ($target.prop("tagName") === "IMG" && $target.parents("#" + editorID).length) {
                 startX = e.pageX;
                 startY = e.pageY;
                 startW = $target.innerWidth();
