@@ -439,16 +439,30 @@ $('.richText-editor').trigger('destroy', {delay: 2000, callback: function (texta
 
 ## FAQ
 
-**How do I set the RichText value through jQuery? Using `.val()` doesn't work?**
+### How do I set the RichText value through jQuery? Using `.val()` doesn't work?
 
 Use the `setContent` event on the `.richText-editor` node as explained in [Set content](#set-content).  
     
-**My editor does not save the content, what can I do?**
+### My editor does not save the content, what can I do?
 
 Make sure that the textarea element has a `name` attribute. Otherwise the content won't be saved if you are trying to save the editor's content via form submission.
 
 Please read the section [Saving the content](#saving-the-content) for more information about all the possibilities to save the content.
 
+### Do I need to sanitize the content before saving it?
+
+Yes, you should always sanitize the content before saving it to your database. The editor does not provide any sanitation methods.
+Always be careful about SQL injection and XSS attacks.
+
+As this is only a frontend solution, you should always validate and sanitize the content on the server side (PHP, Node.js or any other backend language).
+
+To keep the editor available for multiple use cases and open to also include JavaScript code, the editor does not provide any sanitation methods.
+
+More information on security topics:
+- [OWASP: SQL Injection](https://owasp.org/www-community/attacks/SQL_Injection)
+- [OWASP: Cross-Site Scripting (XSS)](https://owasp.org/www-community/attacks/xss/)
+- [OWASP: Cross-Site Request Forgery (CSRF)](https://owasp.org/www-community/attacks/csrf)
+- [StackExchange Security: Filter user input before the database or upon display?](https://security.stackexchange.com/questions/9415/filter-user-input-before-the-database-or-upon-display)
 
 ## Contributing
 
