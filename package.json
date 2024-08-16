@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/webfashionist/RichText#readme",
   "devDependencies": {
-    "cypress": "^13.6.0",
+    "cypress": "^13.13.3",
     "http-server": "^14.1.1",
     "sass": "^1.69.5",
     "uglify-js": "^3.17.4"
