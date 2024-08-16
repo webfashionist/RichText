@@ -1,6 +1,9 @@
 # RichText
 
-[![Cypress Tests](https://github.com/webfashionist/RichText/actions/workflows/test.yml/badge.svg)](https://github.com/webfashionist/RichText/actions/workflows/test.yml) 
+[![Cypress Tests](https://github.com/webfashionist/RichText/actions/workflows/test.yml/badge.svg)](https://github.com/webfashionist/RichText/actions/workflows/test.yml)
+[![Accessibility](https://github.com/webfashionist/RichText/actions/workflows/accessibility.yml/badge.svg)](https://github.com/webfashionist/RichText/actions/workflows/accessibility.yml)
+[![GitHub release](https://img.shields.io/github/v/release/webfashionist/RichText)](https://github.com/webfashionist/RichText/releases)
+
 
 WYSIWYG editor developed as jQuery plugin.
 
