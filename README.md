@@ -463,6 +463,8 @@ More information on security topics:
 - [OWASP: Cross-Site Scripting (XSS)](https://owasp.org/www-community/attacks/xss/)
 - [OWASP: Cross-Site Request Forgery (CSRF)](https://owasp.org/www-community/attacks/csrf)
 - [StackExchange Security: Filter user input before the database or upon display?](https://security.stackexchange.com/questions/9415/filter-user-input-before-the-database-or-upon-display)
+- [Content Security Policy (CSP) Quick Reference Guide](https://content-security-policy.com/)
+- [DOMPurify is a DOM-only, super-fast, uber-tolerant XSS sanitizer for HTML, MathML and SVG.](https://github.com/cure53/DOMPurify)
 
 ## Contributing
 
