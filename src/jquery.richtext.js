@@ -112,6 +112,7 @@
                 'orange': 'Orange',
                 'yellow': 'Yellow',
                 'imageURL': 'Image URL',
+                'altText': 'Alternative text',
                 'fileURL': 'File URL',
                 'linkText': 'Link text',
                 'url': 'URL',
@@ -512,6 +513,11 @@
                 $formItem.clone()
                     .append($formLabel.clone().text(settings.translations.imageURL).attr("for", "imageURL"))
                     .append($formInput.clone().attr("id", "imageURL"))
+            );
+            $imageForm.append(
+                $formItem.clone()
+                    .append($formLabel.clone().text(settings.translations.altText).attr("for", "altText"))
+                    .append($formInput.clone().attr("id", "altText"))
             );
             $imageForm.append(
                 $formItem.clone()
@@ -1007,6 +1013,7 @@
                     $target.addClass('richText-editNode');
                     var $popup = $toolbar.find('#richText-Image');
                     $popup.find('input#imageURL').val($target.attr('src'));
+                    $popup.find('input#altText').val($target.attr('alt'));
                     $popup.find('select#align').val(align);
                     $toolbar.find('.richText-btn').children('.fa-image').parents('li').addClass('is-selected');
                 });
@@ -1235,6 +1242,7 @@
                 // only for currently selected editor
                 var url = $form.find('#imageURL').val();
                 var align = $form.find('select#align').val();
+                var alt = $form.find('#altText').val();
 
                 // set default values
                 if (!align) {
@@ -1258,15 +1266,15 @@
                     var html = '';
                     if (settings.useSingleQuotes === true) {
                         if (align === "center") {
-                            html = "<div style='text-align:center;'><img src='" + url + "'></div>";
+                            html = "<div style='text-align:center;'><img src='" + url + "' alt='" + alt + "'></div>";
                         } else {
-                            html = "<img src='" + url + "' align='" + align + "'>";
+                            html = "<img src='" + url + "' align='" + align + "' alt='" + alt + "'>";
                         }
                     } else {
                         if (align === "center") {
-                            html = '<div style="text-align:center;"><img src="' + url + '"></div>';
+                            html = '<div style="text-align:center;"><img src="' + url + '" alt="' + alt + '"></div>';
                         } else {
-                            html = '<img src="' + url + '" align="' + align + '">';
+                            html = '<img src="' + url + '" align="' + align + '" alt="' + alt + '">';
                         }
                     }
                     restoreSelection(editorID, true);
