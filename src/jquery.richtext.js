@@ -156,7 +156,8 @@
                 'undo': 'Undo',
                 'redo': 'Redo',
                 'save': 'Save',
-                'close': 'Close'
+                'close': 'Close',
+                'help': 'Help'
             },
 
             // privacy
@@ -197,123 +198,189 @@
             $btnBold = $('<a />', {
                 class: "richText-btn",
                 "data-command": "bold",
-                "title": settings.translations.bold,
+                title: settings.translations.bold,
+                name: 'bold',
+                "aria-label": settings.translations.bold,
+                "aria-role": "button",
                 html: '<span class="fa fa-bold"></span>'
             }), // bold
             $btnItalic = $('<a />', {
                 class: "richText-btn",
                 "data-command": "italic",
-                "title": settings.translations.italic,
+                title: settings.translations.italic,
+                name: 'italic',
+                "aria-label": settings.translations.italic,
+                "aria-role": "button",
                 html: '<span class="fa fa-italic"></span>'
             }), // italic
             $btnUnderline = $('<a />', {
                 class: "richText-btn",
                 "data-command": "underline",
-                "title": settings.translations.underline,
+                title: settings.translations.underline,
+                name: 'underline',
+                "aria-label": settings.translations.underline,
+                "aria-role": "button",
                 html: '<span class="fa fa-underline"></span>'
             }), // underline
             $btnJustify = $('<a />', {
                 class: "richText-btn",
                 "data-command": "justifyFull",
-                "title": settings.translations.justify,
+                title: settings.translations.justify,
+                name: 'justify',
+                "aria-label": settings.translations.justify,
+                "aria-role": "button",
                 html: '<span class="fa fa-align-justify"></span>'
             }), // left align
             $btnLeftAlign = $('<a />', {
                 class: "richText-btn",
                 "data-command": "justifyLeft",
-                "title": settings.translations.alignLeft,
+                title: settings.translations.alignLeft,
+                name: 'alignLeft',
+                "aria-label": settings.translations.alignLeft,
+                "aria-role": "button",
                 html: '<span class="fa fa-align-left"></span>'
             }), // left align
             $btnCenterAlign = $('<a />', {
                 class: "richText-btn",
                 "data-command": "justifyCenter",
-                "title": settings.translations.alignCenter,
+                title: settings.translations.alignCenter,
+                name: 'alignCenter',
+                "aria-label": settings.translations.alignCenter,
+                "aria-role": "button",
                 html: '<span class="fa fa-align-center"></span>'
             }), // centered
             $btnRightAlign = $('<a />', {
                 class: "richText-btn",
                 "data-command": "justifyRight",
-                "title": settings.translations.alignRight,
+                title: settings.translations.alignRight,
+                name: 'alignRight',
+                "aria-label": settings.translations.alignRight,
+                "aria-role": "button",
                 html: '<span class="fa fa-align-right"></span>'
             }), // right align
             $btnOL = $('<a />', {
                 class: "richText-btn",
                 "data-command": "insertOrderedList",
-                "title": settings.translations.addOrderedList,
+                title: settings.translations.addOrderedList,
+                name: 'addOrderedList',
+                "aria-label": settings.translations.addOrderedList,
+                "aria-role": "button",
                 html: '<span class="fa fa-list-ol"></span>'
             }), // ordered list
             $btnUL = $('<a />', {
                 class: "richText-btn",
                 "data-command": "insertUnorderedList",
-                "title": settings.translations.addUnorderedList,
+                title: settings.translations.addUnorderedList,
+                name: 'addUnorderedList',
+                "aria-label": settings.translations.addUnorderedList,
+                "aria-role": "button",
                 html: '<span class="fa fa-list"></span>'
             }), // unordered list
             $btnHeading = $('<a />', {
                 class: "richText-btn",
-                "title": settings.translations.addHeading,
+                title: settings.translations.addHeading,
+                name: 'addHeading',
+                "aria-label": settings.translations.addHeading,
+                "aria-role": "button",
                 html: '<span class="fa fa-header fa-heading"></span>'
             }), // title/header
             $btnFont = $('<a />', {
                 class: "richText-btn",
-                "title": settings.translations.addFont,
+                title: settings.translations.addFont,
+                name: 'addFont',
+                "aria-label": settings.translations.addFont,
+                "aria-role": "button",
                 html: '<span class="fa fa-font"></span>'
             }), // font color
             $btnFontColor = $('<a />', {
                 class: "richText-btn",
-                "title": settings.translations.addFontColor,
+                title: settings.translations.addFontColor,
+                name: 'addFontColor',
+                "aria-label": settings.translations.addFontColor,
+                "aria-role": "button",
                 html: '<span class="fa fa-pencil fa-pencil-alt"></span>'
             }), // font color
             $btnBackgroundColor = $('<a />', {
                 class: "richText-btn",
-                "title": settings.translations.addBackgroundColor,
+                title: settings.translations.addBackgroundColor,
+                name: 'addBackgroundColor',
+                "aria-label": settings.translations.addBackgroundColor,
+                "aria-role": "button",
                 html: '<span class="fa fa-paint-brush"></span>'
             }), // background color
             $btnFontSize = $('<a />', {
                 class: "richText-btn",
-                "title": settings.translations.addFontSize,
+                title: settings.translations.addFontSize,
+                name: 'addFontSize',
+                "aria-label": settings.translations.addFontSize,
+                "aria-role": "button",
                 html: '<span class="fa fa-text-height"></span>'
             }), // font color
             $btnImageUpload = $('<a />', {
                 class: "richText-btn",
-                "title": settings.translations.addImage,
+                title: settings.translations.addImage,
+                name: 'addImage',
+                "aria-label": settings.translations.addImage,
+                "aria-role": "button",
                 html: '<span class="fa fa-image"></span>'
             }), // image
             $btnVideoEmbed = $('<a />', {
                 class: "richText-btn",
-                "title": settings.translations.addVideo,
+                title: settings.translations.addVideo,
+                name: 'addVideo',
+                "aria-label": settings.translations.addVideo,
+                "aria-role": "button",
                 html: '<span class="fa fa-video-camera fa-video"></span>'
             }), // video
             $btnFileUpload = $('<a />', {
                 class: "richText-btn",
-                "title": settings.translations.addFile,
+                title: settings.translations.addFile,
+                name: 'addFile',
+                "aria-label": settings.translations.addFile,
+                "aria-role": "button",
                 html: '<span class="fa fa-file-text-o far fa-file-alt"></span>'
             }), // file
             $btnURLs = $('<a />', {
                 class: "richText-btn",
-                "title": settings.translations.addURL,
+                title: settings.translations.addURL,
+                name: 'addURL',
+                "aria-label": settings.translations.addURL,
+                "aria-role": "button",
                 html: '<span class="fa fa-link"></span>'
             }), // urls/links
             $btnTable = $('<a />', {
                 class: "richText-btn",
-                "title": settings.translations.addTable,
+                title: settings.translations.addTable,
+                name: 'addTable',
+                "aria-label": settings.translations.addTable,
+                "aria-role": "button",
                 html: '<span class="fa fa-table"></span>'
             }), // table
             $btnRemoveStyles = $('<a />', {
                 class: "richText-btn",
                 "data-command": "removeFormat",
-                "title": settings.translations.removeStyles,
+                title: settings.translations.removeStyles,
+                name: 'removeStyles',
+                "aria-label": settings.translations.removeStyles,
+                "aria-role": "button",
                 html: '<span class="fa fa-recycle"></span>'
             }), // clean up styles
             $btnCode = $('<a />', {
                 class: "richText-btn",
                 "data-command": "toggleCode",
-                "title": settings.translations.code,
+                title: settings.translations.code,
+                name: 'code',
+                "aria-label": settings.translations.code,
+                "aria-role": "button",
                 html: '<span class="fa fa-code"></span>'
             }),
             $btnSave = $('<a />', {
                 class: "save-btn",
                 "data-command": "toggleSave",
-                "title": settings.translations.save,
+                title: settings.translations.save,
+                name: 'save',
+                "aria-label": settings.translations.save,
+                "aria-role": "button",
                 html: '<span class="fa fa-save"></span>'
             }); // code
 
@@ -746,16 +813,29 @@
                 $bottomToolbar.append($('<a />', {
                     class: 'richText-undo is-disabled',
                     html: '<span class="fa fa-undo"></span>',
-                    'title': settings.translations.undo
+                    title: settings.translations.undo,
+                    name: 'undo',
+                    "aria-label": settings.translations.undo,
+                    "aria-role": "button"
                 }));
                 $bottomToolbar.append($('<a />', {
                     class: 'richText-redo is-disabled',
                     html: '<span class="fa fa-repeat fa-redo"></span>',
-                    'title': settings.translations.redo
+                    title: settings.translations.redo,
+                    name: 'redo',
+                    "aria-label": settings.translations.redo,
+                    "aria-role": "button"
                 }));
             }
 
-            $bottomToolbar.append($('<a />', {class: 'richText-help', html: '<span class="fa fa-question-circle"></span>'}));
+            $bottomToolbar.append($('<a />', {
+                class: 'richText-help',
+                'aria-label': settings.translations.help,
+                'aria-role': 'button',
+                title: settings.translations.help,
+                name: 'help',
+                html: '<span class="fa fa-question-circle"></span>'
+            }));
             $editor.append($bottomToolbar);
 
 			var maxlength = settings.maxlength;
@@ -2048,7 +2128,7 @@
             }
 
             for (var i in colors) {
-                result += '<li class="inline"><a data-command="' + command + '" data-option="' + i + '" style="text-align:left;" title="' + colors[i] + '"><span class="box-color" style="background-color:' + i + '"></span></a></li>';
+                result += '<li class="inline"><a data-command="' + command + '" data-option="' + i + '" style="text-align:left;" title="' + colors[i] + '" aria-label="' + colors[i] + '" name="color-' + colors[i] + '"><span class="box-color" style="background-color:' + i + '"></span></a></li>';
             }
             return result;
         }
