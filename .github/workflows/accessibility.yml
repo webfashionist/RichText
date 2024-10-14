@@ -30,4 +30,4 @@ jobs:
       - name: Run pa11y
         run: |
           npm install -g pa11y
-          pa11y http://localhost:8080/index.html
+          pa11y http://localhost:8080/index.html --no-sandbox
