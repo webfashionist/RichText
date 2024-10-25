@@ -22,13 +22,26 @@
 
 
 $highlight: #3498db;
+$alabaster: #fafafa;
+$gallery: #efefef;
+$mine-shaft: #333333;
+$dusty-gray: #999999;
+$black: #000000;
+$white: #ffffff;
+$orange: #ffa500;
+$red: #ff0000;
+$emperor: #555555;
+$mine-shaft: #282828;
+$harlequin: #33ff33;
+$curious-blue: #3498db;
+
 
 .richText {
     z-index: 1;
     position: relative;
-    background-color: #FAFAFA;
-    border: #EFEFEF solid 1px;
-    color: #333333;
+    background-color: $alabaster;
+    border: $gallery solid 1px;
+    color: $mine-shaft;
     width: 100%;
 
     .richText-form {
@@ -40,7 +53,7 @@ $highlight: #3498db;
 
         input[type="text"], input[type="file"], input[type="number"], select {
             padding: 10px 15px;
-            border: #999999 solid 1px;
+            border: $dusty-gray solid 1px;
             min-width: 200px;
             width: 100%;
         }
@@ -54,7 +67,7 @@ $highlight: #3498db;
             padding: 10px 15px;
             background-color: $highlight;
             border: none;
-            color: #FAFAFA;
+            color: $alabaster;
             cursor: pointer;
             -webkit-appearance: none;
             -moz-appearance: none;
@@ -70,7 +83,7 @@ $highlight: #3498db;
         top: 0;
         min-height: 20px;
         background-color: inherit;
-        border-bottom: #EFEFEF solid 1px;
+        border-bottom: $gallery solid 1px;
         z-index: 1;
 
         .richText-length {
@@ -79,13 +92,13 @@ $highlight: #3498db;
             vertical-align: middle;
             line-height: 34px;
             .black {
-                color: #000;
+                color: $black;
             }
             .orange {
-                color: orange;
+                color: $orange;
             }
             .red {
-                color: red;
+                color: $red;
             }
         }
 
@@ -103,7 +116,7 @@ $highlight: #3498db;
                 a {
                     display: block;
                     padding: 10px 13px;
-                    border-right: #EFEFEF solid 1px;
+                    border-right: $gallery solid 1px;
                     cursor: pointer;
                     -webkit-transition: background-color 0.4s;
                     -moz-transition: background-color 0.4s;
@@ -127,8 +140,8 @@ $highlight: #3498db;
                             position: absolute;
                             top: 0;
                             right: -23px;
-                            background: #FFF;
-                            color: #333;
+                            background: $white;
+                            color: $mine-shaft;
                             cursor: pointer;
                             font-size: 20px;
                             text-align: center;
@@ -139,8 +152,8 @@ $highlight: #3498db;
                             position:relative;
                             display: block;
                             margin: 3% auto 0 auto;
-                            background-color: #FAFAFA;
-                            border: #EFEFEF solid 1px;
+                            background-color: $alabaster;
+                            border: $gallery solid 1px;
                             border-radius: 4px;
                             min-width: 100px;
                             width: 300px;
@@ -156,8 +169,8 @@ $highlight: #3498db;
                                 position: absolute;
                                 top: 0;
                                 right: -23px;
-                                background: #FFF;
-                                color: #333;
+                                background: $white;
+                                color: $mine-shaft;
                                 cursor: pointer;
                                 font-size: 20px;
                                 text-align: center;
@@ -177,11 +190,11 @@ $highlight: #3498db;
                                 a {
                                     display: block;
                                     padding: 10px 15px;
-                                    border-bottom: #EFEFEF solid 1px;
+                                    border-bottom: $gallery solid 1px;
                                 }
 
                                 a:hover {
-                                    background-color: #FFFFFF;
+                                    background-color: $white;
                                 }
                             }
 
@@ -197,9 +210,9 @@ $highlight: #3498db;
                                     -webkit-border-radius: 50%;
                                     -moz-border-radius: 50%;
                                     border-radius: 50%;
-                                    -webkit-box-shadow: 0 0 10px 0 #999;
-                                    -moz-box-shadow: 0 0 10px 0 #999;
-                                    box-shadow: 0 0 10px 0 #999;
+                                    -webkit-box-shadow: 0 0 10px 0 $dusty-gray;
+                                    -moz-box-shadow: 0 0 10px 0 $dusty-gray;
+                                    box-shadow: 0 0 10px 0 $dusty-gray;
 
                                     span {
                                         display: block;
@@ -223,7 +236,7 @@ $highlight: #3498db;
                 }
 
                 a:hover {
-                    background-color: #FFFFFF;
+                    background-color: $white;
                 }
             }
 
@@ -259,8 +272,8 @@ $highlight: #3498db;
 
     .richText-editor {
         padding: 20px;
-        background-color: #FFFFFF;
-        border-left: #FFFFFF solid 2px;
+        background-color: $white;
+        border-left: $white solid 2px;
         font-family: Calibri,Verdana,Helvetica,sans-serif;
         height: 300px;
         outline: none;
@@ -270,7 +283,7 @@ $highlight: #3498db;
         &[placeholder] {
             &:before {
                 content: attr(placeholder);
-                color: #555;
+                color: $emperor;
             }
         }
 
@@ -285,7 +298,7 @@ $highlight: #3498db;
 
             td, th {
                 padding: 10px;
-                border:#EFEFEF solid 1px;
+                border: $gallery solid 1px;
             }
         }
     }
@@ -298,9 +311,9 @@ $highlight: #3498db;
     .richText-initial {
         margin-bottom: -4px;
         padding: 10px;
-        background-color: #282828;
+        background-color: $mine-shaft;
         border: none;
-        color: #33FF33;
+        color: $harlequin;
         font-family: Monospace,Calibri,Verdana,Helvetica,sans-serif;
         max-width: 100%;
         min-width: 100%;
@@ -321,7 +334,7 @@ $highlight: #3498db;
         float: left;
         display: block;
         padding: 10px 15px;
-        border-right: #EFEFEF solid 1px;
+        border-right: $gallery solid 1px;
         cursor: pointer;
     }
     .richText-undo.is-disabled,
@@ -331,22 +344,22 @@ $highlight: #3498db;
 
     .richText-help-popup {
         a {
-            color:#3498db;
+            color: $curious-blue;
             text-decoration:underline;
         }
 
         hr {
             margin: 10px auto 5px auto;
             border:none;
-            border-top: #EFEFEF solid 1px;
+            border-top: $gallery solid 1px;
         }
     }
 
     .richText-list.list-rightclick {
         position: absolute;
-        background-color: #FAFAFA;
-        border-right: #EFEFEF solid 1px;
-        border-bottom: #EFEFEF solid 1px;
+        background-color: $alabaster;
+        border-right: $gallery solid 1px;
+        border-bottom: $gallery solid 1px;
 
         li {
             padding: 5px 7px;
@@ -356,4 +369,3 @@ $highlight: #3498db;
     }
 
 }
-

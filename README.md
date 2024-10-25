@@ -437,6 +437,32 @@ $('.richText-editor').trigger('destroy', {delay: 2000, callback: function (texta
 }});
 ```
 
+### Customizing the color of the editor:
+
+If you want to change the color of the editor, you can override one of the variables.
+
+**Example:**
+    
+```css
+// Override variables
+$highlight: #3498db;
+$alabaster: #fafafa;
+$gallery: #efefef;
+$mine-shaft: #333333;
+$dusty-gray: #999999;
+$black: #000000;
+$white: #ffffff;
+$orange: #ffa500;
+$red: #ff0000;
+$emperor: #555555;
+$mine-shaft: #282828;
+$harlequin: #33ff33;
+$curious-blue: #3498db;
+
+@import 'richtext';
+```
+
+
 ## FAQ
 
 ### How do I set the RichText value through jQuery? Using `.val()` doesn't work?
