@@ -437,14 +437,14 @@ $('.richText-editor').trigger('destroy', {delay: 2000, callback: function (texta
 }});
 ```
 
-### Customizing the color of the editor:
+### Customizing the colors
 
-If you want to change the color of the editor, you can override one of the variables.
+If you want to customize the colors of the RichText editor, you can update the `richtext-colors.scss` and run `npm run minifycss` after.
+The `richtext.min.css` will be updated with the new colors.
 
-**Example:**
-    
-```css
-// Override variables
+**Initial colors:**
+
+```scss
 $highlight: #3498db;
 $alabaster: #fafafa;
 $gallery: #efefef;
@@ -458,8 +458,6 @@ $emperor: #555555;
 $mine-shaft: #282828;
 $harlequin: #33ff33;
 $curious-blue: #3498db;
-
-@import 'richtext';
 ```
 
 
