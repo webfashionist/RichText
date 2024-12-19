@@ -9,12 +9,39 @@ WYSIWYG editor developed as jQuery plugin.
 
 ## Requirements
 
+The following libraries are required to use the RichText editor:
+
 - [jQuery](https://jquery.com/) (v.3+, v.3.2+ recommended)
 - FontAwesome ([v.4.7.0](https://fontawesome.com/v4.7.0/) / [v.5+](https://fontawesome.com/))
-- `src/jquery.richtext.min.js`
-- `src/richtext.min.css`
+
+## Install RichText
+
+### NPM
+
+```bash
+npm install @webfashionist/richtext
+```
+
+### Yarn
+
+```bash
+yarn add @webfashionist/richtext
+```
+
+
+### Manually
+
+Download the latest release from the [releases page](https://github.com/webfashionist/RichText/releases) and include the files in your project.
+
 
 ## Initialize editor
+
+In order to use the RichText editor, you need to include the following files in your project:
+
+```html
+<link rel="stylesheet" href="src/richtext.min.css">
+<script src="src/jquery.richtext.min.js"></script>
+```
 
 Simply call `.richText()` on your `jQuery('textarea')` or `jQuery('input')` field (other HTML tags are allowed as well, but not recommended).
 
