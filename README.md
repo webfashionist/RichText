@@ -209,7 +209,9 @@ $(element).richText({
   save: false,
   saveCallback: undefined,
   saveOnBlur: 0, 
-  undoRedo: true
+  undoRedo: true, 
+  disableScripts: false,
+  DOMPurify: false
 });
 ```
 
