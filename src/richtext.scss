@@ -20,14 +20,14 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-@import "richtext-colors";
+@use "richtext-colors.scss" as colors;
 
 .richText {
     z-index: 1;
     position: relative;
-    background-color: $alabaster;
-    border: $gallery solid 1px;
-    color: $mine-shaft;
+    background-color: colors.$alabaster;
+    border: colors.$gallery solid 1px;
+    color: colors.$mine-shaft;
     width: 100%;
 
     .richText-form {
@@ -39,7 +39,7 @@
 
         input[type="text"], input[type="file"], input[type="number"], select {
             padding: 10px 15px;
-            border: $dusty-gray solid 1px;
+            border: colors.$dusty-gray solid 1px;
             min-width: 200px;
             width: 100%;
         }
@@ -51,9 +51,9 @@
         button {
             margin: 10px 0;
             padding: 10px 15px;
-            background-color: $highlight;
+            background-color: colors.$highlight;
             border: none;
-            color: $alabaster;
+            color: colors.$alabaster;
             cursor: pointer;
             -webkit-appearance: none;
             -moz-appearance: none;
@@ -69,7 +69,7 @@
         top: 0;
         min-height: 20px;
         background-color: inherit;
-        border-bottom: $gallery solid 1px;
+        border-bottom: colors.$gallery solid 1px;
         z-index: 1;
 
         .richText-length {
@@ -78,13 +78,13 @@
             vertical-align: middle;
             line-height: 34px;
             .black {
-                color: $black;
+                color: colors.$black;
             }
             .orange {
-                color: $orange;
+                color: colors.$orange;
             }
             .red {
-                color: $red;
+                color: colors.$red;
             }
             + .richText-wordcount {
                 margin-left: 10px;
@@ -112,7 +112,7 @@
                 a {
                     display: block;
                     padding: 10px 13px;
-                    border-right: $gallery solid 1px;
+                    border-right: colors.$gallery solid 1px;
                     cursor: pointer;
                     -webkit-transition: background-color 0.4s;
                     -moz-transition: background-color 0.4s;
@@ -136,8 +136,8 @@
                             position: absolute;
                             top: 0;
                             right: -23px;
-                            background: $white;
-                            color: $mine-shaft;
+                            background: colors.$white;
+                            color: colors.$mine-shaft;
                             cursor: pointer;
                             font-size: 20px;
                             text-align: center;
@@ -148,8 +148,8 @@
                             position:relative;
                             display: block;
                             margin: 3% auto 0 auto;
-                            background-color: $alabaster;
-                            border: $gallery solid 1px;
+                            background-color: colors.$alabaster;
+                            border: colors.$gallery solid 1px;
                             border-radius: 4px;
                             min-width: 100px;
                             width: 300px;
@@ -165,8 +165,8 @@
                                 position: absolute;
                                 top: 0;
                                 right: -23px;
-                                background: $white;
-                                color: $mine-shaft;
+                                background: colors.$white;
+                                color: colors.$mine-shaft;
                                 cursor: pointer;
                                 font-size: 20px;
                                 text-align: center;
@@ -186,11 +186,11 @@
                                 a {
                                     display: block;
                                     padding: 10px 15px;
-                                    border-bottom: $gallery solid 1px;
+                                    border-bottom: colors.$gallery solid 1px;
                                 }
 
                                 a:hover {
-                                    background-color: $white;
+                                    background-color: colors.$white;
                                 }
                             }
 
@@ -206,9 +206,9 @@
                                     -webkit-border-radius: 50%;
                                     -moz-border-radius: 50%;
                                     border-radius: 50%;
-                                    -webkit-box-shadow: 0 0 10px 0 $dusty-gray;
-                                    -moz-box-shadow: 0 0 10px 0 $dusty-gray;
-                                    box-shadow: 0 0 10px 0 $dusty-gray;
+                                    -webkit-box-shadow: 0 0 10px 0 colors.$dusty-gray;
+                                    -moz-box-shadow: 0 0 10px 0 colors.$dusty-gray;
+                                    box-shadow: 0 0 10px 0 colors.$dusty-gray;
 
                                     span {
                                         display: block;
@@ -232,7 +232,7 @@
                 }
 
                 a:hover {
-                    background-color: $white;
+                    background-color: colors.$white;
                 }
             }
 
@@ -268,8 +268,8 @@
 
     .richText-editor {
         padding: 20px;
-        background-color: $white;
-        border-left: $white solid 2px;
+        background-color: colors.$white;
+        border-left: colors.$white solid 2px;
         font-family: Calibri,Verdana,Helvetica,sans-serif;
         height: 300px;
         outline: none;
@@ -279,7 +279,7 @@
         &[placeholder] {
             &:before {
                 content: attr(placeholder);
-                color: $emperor;
+                color: colors.$emperor;
             }
         }
 
@@ -294,22 +294,22 @@
 
             td, th {
                 padding: 10px;
-                border: $gallery solid 1px;
+                border: colors.$gallery solid 1px;
             }
         }
     }
 
 
     .richText-editor:focus {
-        border-left: $highlight solid 2px;
+        border-left: colors.$highlight solid 2px;
     }
 
     .richText-initial {
         margin-bottom: -4px;
         padding: 10px;
-        background-color: $mine-shaft;
+        background-color: colors.$mine-shaft;
         border: none;
-        color: $harlequin;
+        color: colors.$harlequin;
         font-family: Monospace,Calibri,Verdana,Helvetica,sans-serif;
         max-width: 100%;
         min-width: 100%;
@@ -330,7 +330,7 @@
         float: left;
         display: block;
         padding: 10px 15px;
-        border-right: $gallery solid 1px;
+        border-right: colors.$gallery solid 1px;
         cursor: pointer;
     }
     .richText-undo.is-disabled,
@@ -340,22 +340,22 @@
 
     .richText-help-popup {
         a {
-            color: $curious-blue;
+            color: colors.$curious-blue;
             text-decoration:underline;
         }
 
         hr {
             margin: 10px auto 5px auto;
             border:none;
-            border-top: $gallery solid 1px;
+            border-top: colors.$gallery solid 1px;
         }
     }
 
     .richText-list.list-rightclick {
         position: absolute;
-        background-color: $alabaster;
-        border-right: $gallery solid 1px;
-        border-bottom: $gallery solid 1px;
+        background-color: colors.$alabaster;
+        border-right: colors.$gallery solid 1px;
+        border-bottom: colors.$gallery solid 1px;
 
         li {
             padding: 5px 7px;
