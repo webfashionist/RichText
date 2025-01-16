@@ -401,6 +401,19 @@ If you need to check if the editor is empty in the backend or frontend, you shou
 $('.richText-editor').trigger('clear');
 ```
 
+### Add content at caret position
+
+If you want to add content at the caret position, you can trigger the `pasteAtCaret` event on the `.richText-editor` element.
+
+**Example:**
+
+```javascript
+$('.richText-editor').trigger('pasteAtCaret', '<div>Some content</div>');
+```
+
+Note: If the editor is currently not focused/the caret not active, the editor will try to restore the last caret position.
+If the caret position is not available, the content will be added at the start of the available editor content.
+
 ### Set content
 
 If you want to set the content of the editor, you can trigger the `setContent` event on the `.richText-editor` element.

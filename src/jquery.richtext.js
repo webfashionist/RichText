@@ -660,6 +660,16 @@
                 }
             });
 
+            $editorView.on('pasteAtCaret', (event, content) => {
+                var $editor = $('#' + editorID);
+                if (!content || !content.length) {
+                    return;
+                }
+                restoreSelection($editor.attr('id'));
+                pasteHTMLAtCaret(content);
+                updateTextarea();
+            });
+
             $editorView.on('destroy', (event, options) => {
                 const destroy = () => {
                     let $main = $editorView.parents('.richText');
