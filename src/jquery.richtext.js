@@ -2382,6 +2382,12 @@
                     });
                 }
             }
+
+            const content = $editor.find(".richText-editor").html();
+            if (content.trim().substring(0, 1) !== '<') {
+                // fix first line without tag container
+                $editor.find(".richText-editor").html('<div>' + content + '</div>');
+            }
             updateTextarea();
         }
 
