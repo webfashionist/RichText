@@ -1932,10 +1932,38 @@
 
             if (content.length > maxLength) {
                 // content too long
-                undo($editor);
+                $editor.find('.richText-editor').html(truncateHTMLText(content, maxLength));
+                updateTextarea();
+                // undo($editor);
                 return false;
             }
             return true;
+        }
+
+        function truncateHTMLText(content, approxNumChars) {
+            const taggish = /<[^>]+>/g;
+            content = content.slice(0, approxNumChars - 3); // ignores tag lengths for solution brevity
+            content = content.replace(/<[^>]*$/, '');  // rm any trailing partial tags
+            let tags = content.match(taggish);
+
+            // find out which tags are unmatched
+            const openTagsSeen = [];
+            for (let tag_i in tags) {
+                var tag = tags[tag_i];
+                if (tag.match(/<[^>]+>/) !== null) {
+                    openTagsSeen.push(tag);
+                } else {
+                    // quick version that assumes your HTML is correctly formatted (alas) -- else we would have to check the content inside for matches and loop through the opentags
+                    openTagsSeen.pop();
+                }
+            }
+
+            // reverse and close unmatched tags
+            openTagsSeen.reverse();
+            for (let tag_i in openTagsSeen) {
+                content += ('<\\' + openTagsSeen[tag_i].match(/\w+/)[0] + '>');
+            }
+            return content + '...';
         }
 
         /**
