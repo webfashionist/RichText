@@ -308,6 +308,8 @@ Custom dropdowns allow to customize in a restricted way the dropdowns in the edi
 - `saveOnBlur`: (default: `(int) 0`) :: If set to a value greater than 0, the editor will be saved after the given amount of milliseconds after the last change. The default value `0` disables this feature.
 - `saveCallback`: (default: `undefined`) :: If a function is set, it will be called after blur (see `saveOnBlur`) or when the save action is being triggered (see `save`). See [Saving the content](#saving-the-content) for more information.
 - `undoRedo`: (default `(boolean) true`) :: If set to `false`, the undo/redo buttons will be hidden
+- `disableScripts`: (default `(boolean) false`) :: If set to `true`, all `<script>` tags will be removed from the content
+- `DOMPurify`: (default `(boolean) false`) :: If set to `true`, the content will be sanitized using [DOMPurify](https://github.com/cure53/DOMPurify). Please note that this is not a built-in feature and you need to include the library yourself.
 
 ## Saving the content
 
@@ -518,12 +520,21 @@ Please read the section [Saving the content](#saving-the-content) for more infor
 
 ### Do I need to sanitize the content before saving it?
 
-Yes, you should always sanitize the content before saving it to your database. The editor does not provide any sanitation methods.
+Yes, you should always sanitize the content before saving it to your database.
 Always be careful about SQL injection and XSS attacks.
 
 As this is only a frontend solution, you should always validate and sanitize the content on the server side (PHP, Node.js or any other backend language).
 
-To keep the editor available for multiple use cases and open to also include JavaScript code, the editor does not provide any sanitation methods.
+To keep the editor available for multiple use cases and open to also include JavaScript code, the editor does not provide any sanitation methods by default.
+
+You do however have two options to sanitize the content within RichText:
+- Use `disableScripts: true` to remove all `<script>` tags and `javascript:` attributes from the HTML content
+- Use `DOMPurify: true` to sanitize the content with [DOMPurify](https://github.com/cure53/DOMPurify). Please note that this is not a built-in feature and you need to include the library yourself.
+
+Please note that the sanitation is only done on the client side and you should always validate and sanitize the content on the server side as well.
+Both options are only a basic sanitation for XSS attacks and not a full sanitation for all possible attacks.
+Also, SQL injections are not addressed by this sanitation.
+
 
 More information on security topics:
 - [OWASP: SQL Injection](https://owasp.org/www-community/attacks/SQL_Injection)
@@ -532,6 +543,14 @@ More information on security topics:
 - [StackExchange Security: Filter user input before the database or upon display?](https://security.stackexchange.com/questions/9415/filter-user-input-before-the-database-or-upon-display)
 - [Content Security Policy (CSP) Quick Reference Guide](https://content-security-policy.com/)
 - [DOMPurify is a DOM-only, super-fast, uber-tolerant XSS sanitizer for HTML, MathML and SVG.](https://github.com/cure53/DOMPurify)
+
+
+### Is it compatible with DOMPurify?
+
+Yes, you can use the [DOMPurify](https://github.com/cure53/DOMPurify) library to sanitize the content of the editor.
+If you want to use DOMPurify, you need to include the library yourself and use the `DOMPurify: true` setting within the RichText options.
+
+RichText will then handle the sanitation of the content with DOMPurify.
 
 ## Contributing
 

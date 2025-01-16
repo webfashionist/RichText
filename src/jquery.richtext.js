@@ -181,13 +181,15 @@
             useParagraph: false,
             maxlength: 0,
             maxlengthIncludeHTML: false,
-            wordCount: true,
+            wordCount: false,
             callback: undefined,
             useTabForNext: false,
             save: false,
             saveCallback: undefined,
             saveOnBlur: 0,
-            undoRedo: true
+            undoRedo: true,
+            disableScripts: false,
+            DOMPurify: false
 
         }, options);
 
@@ -667,6 +669,12 @@
                 }
                 restoreSelection($editor.attr('id'));
                 pasteHTMLAtCaret(content);
+                if (settings.disableScripts) {
+                    removeScripts($editor.attr('id'));
+                }
+                if (settings.DOMPurify) {
+                    sanitizeContent($editor.attr('id'));
+                }
                 updateTextarea();
             });
 
@@ -973,12 +981,47 @@
                 return false;
             }
             fixFirstLine();
+            if (settings.disableScripts) {
+                removeScripts($(this).attr('id'));
+            }
+            if (settings.DOMPurify) {
+                sanitizeContent($(this).attr('id'));
+            }
             updateTextarea(e);
             doSave($(this).attr("id"));
             updateMaxLength($(this).attr('id'));
             updateWordCount($(this).attr('id'));
         });
 
+        function sanitizeContent(editorID) {
+            if (!window.DOMPurify || typeof window.DOMPurify.sanitize !== 'function') {
+                console.error('RichText: DOMPurify is not loaded. Please include it in your project.');
+                return;
+            }
+            const $editor = $('#' + editorID);
+            const html = $editor.html();
+            const clean = window.DOMPurify.sanitize(html, { USE_PROFILES: { html: true } });
+            $editor.html(clean);
+
+            const $editorInitial = $editor.parent().find('.richText-initial');
+            $editorInitial.val(window.DOMPurify.sanitize($editorInitial.val(), { USE_PROFILES: { html: true } }));
+        }
+
+        function removeScripts(editorID) {
+            const regex = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script\s*>/gi
+            const regex2 = /\s+[a-z]+=['"]javascript:.*['"]/gi
+            const $editor = $('#' + editorID);
+            const $editorInitial = $editor.parent().find('.richText-initial');
+            // remove <script> tags from textarea
+            $editorInitial.val($editorInitial.val().replace(regex, ''));
+            $editorInitial.val($editorInitial.val().replace(regex2, ''));
+            // remove <script> tags from editor
+            const html = $editor.html();
+            const $div = $('<div />').html(html);
+            $div.html($div.html().replace(regex, ''));
+            $div.html($div.html().replace(regex2, ''));
+            $editor.html($div.html());
+        }
 
         // add context menu to several Node elements
         settings.$editor.find('.richText-editor').on('contextmenu', '.richText-editor', function (e) {
@@ -1620,8 +1663,14 @@
          * @private
          */
         function updateEditor(editorID) {
-            var $editor = $('#' + editorID);
-            var content = $editor.siblings('.richText-initial').val();
+            const $editor = $('#' + editorID);
+            const content = $editor.siblings('.richText-initial').val();
+            if (settings.disableScripts) {
+                removeScripts(editorID);
+            }
+            if (settings.DOMPurify) {
+                sanitizeContent(editorID);
+            }
             $editor.html(content);
         }
 
