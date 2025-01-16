@@ -180,7 +180,8 @@ $(element).richText({
       'undo': 'Undo',
       'redo': 'Redo',
       'close': 'Close',
-      'save': 'Save'
+      'save': 'Save',
+      'words': 'word(s)'
   },
             
   // privacy
@@ -202,6 +203,7 @@ $(element).richText({
   useParagraph: false,
   maxlength: 0,
   maxlengthIncludeHTML: false,
+  wordCount: false,
   callback: undefined,
   useTabForNext: false,
   save: false,
@@ -300,6 +302,7 @@ Custom dropdowns allow to customize in a restricted way the dropdowns in the edi
 - `useParagraph` (default: `(boolean) false`) :: Uses paragraph tags instead of div containers (browser default) when pressing ENTER, if set to `true`.
 - `maxlength` (default: `(int) 0`) :: Defines a max length for the text (HTML length not considered!). The default value `0` doesn't define any limit
 - `maxlengthIncludeHTML` (default: `(boolean) false`) :: If `true`, the length of the HTML code will be used instead of only the written text
+- `wordCount` (default: `(boolean) false`) :: If set to `true`, a word count will be displayed below the editor
 - `callback` (default: `undefined`) :: Sets a callback if the editor has been loaded. The first and only parameter of the callback contains the jQuery element of the editor
 - `save`: (default: `(boolean) false`) :: If set to `true`, an additional icon to save the content manually will be added
 - `saveOnBlur`: (default: `(int) 0`) :: If set to a value greater than 0, the editor will be saved after the given amount of milliseconds after the last change. The default value `0` disables this feature.

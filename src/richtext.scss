@@ -86,6 +86,16 @@
             .red {
                 color: $red;
             }
+            + .richText-wordcount {
+                margin-left: 10px;
+            }
+        }
+
+        .richText-wordcount {
+            font-family: Verdana, Helvetica, sans-serif;
+            font-size: 13px;
+            vertical-align: middle;
+            line-height: 34px;
         }
 
         ul {

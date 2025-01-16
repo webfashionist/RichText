@@ -158,7 +158,8 @@
                 'redo': 'Redo',
                 'save': 'Save',
                 'close': 'Close',
-                'help': 'Help'
+                'help': 'Help',
+                'words': 'word(s)',
             },
 
             // privacy
@@ -180,6 +181,7 @@
             useParagraph: false,
             maxlength: 0,
             maxlengthIncludeHTML: false,
+            wordCount: true,
             callback: undefined,
             useTabForNext: false,
             save: false,
@@ -857,6 +859,14 @@
                 }));
                 updateMaxLength($editor.find('.richText-editor').attr('id'));
             }
+            if (settings.wordCount) {
+                // display word count in editor toolbar
+                $editor.children('.richText-toolbar').children('.richText-help').before($('<a />', {
+                    class: 'richText-wordcount',
+                    text: '0 ' + settings.translations.words
+                }));
+                updateWordCount($editor.find('.richText-editor').attr('id'));
+            }
 
             if (settings.height && settings.height > 0) {
                 // set custom editor height
@@ -956,6 +966,7 @@
             updateTextarea(e);
             doSave($(this).attr("id"));
             updateMaxLength($(this).attr('id'));
+            updateWordCount($(this).attr('id'));
         });
 
 
@@ -1032,6 +1043,7 @@
             updateEditor(editorID);
             doSave(editorID);
             updateMaxLength(editorID);
+            updateWordCount(editorID);
         });
 
         // Save selection seperately (mainly needed for Safari)
@@ -1904,6 +1916,20 @@
             var $textarea = $('.richText-editor#' + editorID).siblings('.richText-initial');
             addHistory($textarea.val(), editorID);
             savedSelection = saveSelection(editorID);
+        }
+
+        function updateWordCount(editorID) {
+            const $editorInner = $('.richText-editor#' + editorID);
+            const $editor = $editorInner.parents('.richText');
+            const $wordCount = $editor.find('.richText-wordcount');
+            if (!$wordCount || $wordCount.length === 0) {
+                return;
+            }
+            const content = $editor.find('.richText-editor').text().trim();
+            const words = content.replace(/\s+/g, ' ').split(' ').filter(function (entry) {
+                return entry.trim() !== '';
+            }).length;
+            $wordCount.html('<span>' + words + '</span> ' + settings.translations.words);
         }
 
         /**
