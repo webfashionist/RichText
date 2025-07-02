@@ -134,14 +134,22 @@
 
                         > .richText-dropdown-close {
                             position: absolute;
-                            top: 0;
-                            right: -23px;
+                            top: 28px;
+                            left: calc(50% + 147px);
                             background: colors.$white;
+                            border: colors.$gallery solid 1px;
+                            border-radius: 4px;
                             color: colors.$mine-shaft;
                             cursor: pointer;
                             font-size: 20px;
                             text-align: center;
-                            width: 20px;
+                            width: 32px;
+                            -webkit-box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
+                            -moz-box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
+                            box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
+                            &:focus, &:hover {
+                                color: colors.$highlight;
+                            }
                         }
 
                         .richText-dropdown {
