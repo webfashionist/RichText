@@ -66,6 +66,7 @@
             fontColor: true,
             backgroundColor: true,
             fontSize: true,
+            fontSizes: undefined,
 
             // uploads
             imageUpload: true,
@@ -436,9 +437,21 @@
 
         /* list dropdown for font sizes */
         var $fontSizes = $dropdownList.clone();
-        for (let fontSize = 24; fontSize >= 12; fontSize -= 2) {
-            $fontSizes.append($('<li />', {html: '<a style="font-size:' + fontSize + 'px;" data-command="fontSize" data-option="' + fontSize + '">' + settings.translations.text + ' ' + fontSize + 'px</a>'}));
+        if (settings.fontSizes && Array.isArray(settings.fontSizes)) {
+            // custom font sizes
+            for (let i = 0; i < settings.fontSizes.length; i++) {
+                if (typeof settings.fontSizes[i] !== 'number' || settings.fontSizes[i] < 1 || settings.fontSizes[i] > 100) {
+                    console.warn('Invalid font size: ' + settings.fontSizes[i]);
+                    continue;
+                }
+                $fontSizes.append($('<li />', {html: '<a style="font-size:' + settings.fontSizes[i] + 'px;" data-command="fontSize" data-option="' + settings.fontSizes[i] + '">' + settings.translations.text + ' ' + settings.fontSizes[i] + 'px</a>'}));
+            }
+        } else {
+            for (let fontSize = 24; fontSize >= 12; fontSize -= 2) {
+                $fontSizes.append($('<li />', {html: '<a style="font-size:' + fontSize + 'px;" data-command="fontSize" data-option="' + fontSize + '">' + settings.translations.text + ' ' + fontSize + 'px</a>'}));
+            }
         }
+
         $btnFontSize.append($dropdownOuter.clone().append($fontSizes));
 
         /* font colors */

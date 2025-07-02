@@ -90,6 +90,7 @@ $(element).richText({
   fontColor: true,
   backgroundColor: true,
   fontSize: true,
+  fontSizes: undefined,
 
   // uploads
   imageUpload: true,
@@ -224,6 +225,7 @@ $(element).richText({
 - `fonts` (default: `(boolean) true`) :: Enables font formatting
 - `fontList` :: Array of allowed fonts. The fonts set by default are fonts which should work on Windows, Mac and Linux by default. Setting fonts manually will overwrite the array.
 - `fontSize` (default: `(boolean) true`) :: Allows to use different font sizes
+- `fontSizes` (default: `undefined`) :: Array of allowed font sizes. If the default value is being used, the editor will provide a default set of font sizes. Setting font sizes manually will overwrite the default array. Example: `fontSizes: [10, 12, 14, 16]`
 
 **Text alignment**
 - `leftAlign` (default: `(boolean) true`)
