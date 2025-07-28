@@ -26,7 +26,7 @@
   "devDependencies": {
     "cypress": "^14.0.0",
     "http-server": "^14.1.1",
-    "pa11y-ci": "^3.1.0",
+    "pa11y-ci": "^4.0.0",
     "sass": "^1.83.0",
     "uglify-js": "^3.19.3"
   }
