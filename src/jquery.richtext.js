@@ -1037,7 +1037,7 @@
         }
 
         // add context menu to several Node elements
-        settings.$editor.find('.richText-editor').on('contextmenu', '.richText-editor', function (e) {
+        settings.$editor.find('.richText-editor').on('contextmenu', function (e) {
 
             var $list = $('<ul />', {'class': 'list-rightclick richText-list'});
             var $li = $('<li />');
