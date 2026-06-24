@@ -2144,9 +2144,21 @@
             if (window.getSelection) {
                 // IE9 and non-IE
                 sel = window.getSelection();
-                console.log(sel, 1);
                 if (sel.focusNode.nodeType === 3) {
-                    $(sel.focusNode).wrap('<' + tag + ' />');
+                    var textNode = sel.focusNode;
+                    // Remove font-size from ancestor spans before wrapping, so changing the font size
+                    // of already-formatted text does not leave nested spans with different font-sizes
+                    // (which render as extra spacing between lines).
+                    if (tag.indexOf('font-size') !== -1) {
+                        $(textNode).parents('span').each(function() {
+                            this.style.removeProperty('font-size');
+                            var styleAttr = this.getAttribute('style');
+                            if (!styleAttr || styleAttr.trim() === '') {
+                                this.removeAttribute('style');
+                            }
+                        });
+                    }
+                    $(textNode).wrap('<' + tag + ' />');
                 }
 
                 return;
