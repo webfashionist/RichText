@@ -29,5 +29,9 @@
     "pa11y-ci": "^4.0.0",
     "sass": "^1.83.0",
     "uglify-js": "^3.19.3"
+  },
+  "allowScripts": {
+    "cypress@15.17.0": true,
+    "puppeteer@24.38.0": true
   }
 }
