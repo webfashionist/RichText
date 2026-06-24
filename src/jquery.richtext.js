@@ -2150,13 +2150,19 @@
                     // of already-formatted text does not leave nested spans with different font-sizes
                     // (which render as extra spacing between lines).
                     if (tag.indexOf('font-size') !== -1) {
-                        $(textNode).parents('span').each(function() {
-                            this.style.removeProperty('font-size');
-                            var styleAttr = this.getAttribute('style');
+                        // Only strip an existing inline font-size when it is applied solely to the focused text node.
+                        // Otherwise we risk removing formatting from sibling content that is not being changed.
+                        var $fontSizeSpan = $(textNode).parents('span').filter(function() {
+                            return this.style && this.style.fontSize;
+                        }).first();
+
+                        if ($fontSizeSpan.length && $fontSizeSpan[0].childNodes.length === 1 && $fontSizeSpan[0].firstChild === textNode) {
+                            $fontSizeSpan[0].style.removeProperty('font-size');
+                            var styleAttr = $fontSizeSpan[0].getAttribute('style');
                             if (!styleAttr || styleAttr.trim() === '') {
-                                this.removeAttribute('style');
+                                $fontSizeSpan[0].removeAttribute('style');
                             }
-                        });
+                        }
                     }
                     $(textNode).wrap('<' + tag + ' />');
                 }
