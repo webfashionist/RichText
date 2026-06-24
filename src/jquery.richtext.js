@@ -2144,9 +2144,27 @@
             if (window.getSelection) {
                 // IE9 and non-IE
                 sel = window.getSelection();
-                console.log(sel, 1);
                 if (sel.focusNode.nodeType === 3) {
-                    $(sel.focusNode).wrap('<' + tag + ' />');
+                    var textNode = sel.focusNode;
+                    // Remove font-size from ancestor spans before wrapping, so changing the font size
+                    // of already-formatted text does not leave nested spans with different font-sizes
+                    // (which render as extra spacing between lines).
+                    if (tag.indexOf('font-size') !== -1) {
+                        // Only strip an existing inline font-size when it is applied solely to the focused text node.
+                        // Otherwise we risk removing formatting from sibling content that is not being changed.
+                        var $fontSizeSpan = $(textNode).parents('span').filter(function() {
+                            return this.style && this.style.fontSize;
+                        }).first();
+
+                        if ($fontSizeSpan.length && $fontSizeSpan[0].childNodes.length === 1 && $fontSizeSpan[0].firstChild === textNode) {
+                            $fontSizeSpan[0].style.removeProperty('font-size');
+                            var styleAttr = $fontSizeSpan[0].getAttribute('style');
+                            if (!styleAttr || styleAttr.trim() === '') {
+                                $fontSizeSpan[0].removeAttribute('style');
+                            }
+                        }
+                    }
+                    $(textNode).wrap('<' + tag + ' />');
                 }
 
                 return;
