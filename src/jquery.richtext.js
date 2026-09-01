@@ -1359,6 +1359,7 @@
                     var $editNode = $('.richText-editNode');
                     if ($editNode.length > 0 && $editNode.prop("tagName") === "IMG") {
                         $editNode.attr("src", url);
+                        $editNode.attr("alt", alt ? alt : '');
                         if ($editNode.parent('div').length > 0 && $editNode.parent('div').attr('style') === 'text-align:center;' && align !== 'center') {
                             $editNode.unwrap('div');
                             $editNode.attr('align', align);
