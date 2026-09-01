@@ -31,7 +31,7 @@
     "uglify-js": "^3.19.3"
   },
   "allowScripts": {
-    "cypress@15.17.0": true,
-    "puppeteer@24.38.0": true
+    "puppeteer@24.38.0": true,
+    "cypress@15.21.1": true
   }
 }
