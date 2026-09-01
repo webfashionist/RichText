@@ -1344,15 +1344,15 @@
                     var html = '';
                     if (settings.useSingleQuotes === true) {
                         if (align === "center") {
-                            html = "<div style='text-align:center;'><img src='" + url + "' alt='" + alt + "'></div>";
+                            html = "<div style='text-align:center;'><img src='" + url + "' alt='" + (alt ? alt : '') + "'></div>";
                         } else {
-                            html = "<img src='" + url + "' align='" + align + "' alt='" + alt + "'>";
+                            html = "<img src='" + url + "' align='" + align + "' alt='" + (alt ? alt : '') + "'>";
                         }
                     } else {
                         if (align === "center") {
-                            html = '<div style="text-align:center;"><img src="' + url + '" alt="' + alt + '"></div>';
+                            html = '<div style="text-align:center;"><img src="' + url + '" alt="' + (alt ? alt : '') + '"></div>';
                         } else {
-                            html = '<img src="' + url + '" align="' + align + '" alt="' + alt + '">';
+                            html = '<img src="' + url + '" align="' + align + '" alt="' + (alt ? alt : '') + '">';
                         }
                     }
                     restoreSelection(editorID, true);
