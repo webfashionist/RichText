@@ -14,6 +14,10 @@ The following libraries are required to use the RichText editor:
 - [jQuery](https://jquery.com/) (v.3+, v.3.2+ recommended)
 - FontAwesome ([v.4.7.0](https://fontawesome.com/v4.7.0/) / [v.5+](https://fontawesome.com/))
 
+## Demo
+
+Open the [demo page](https://www.jqueryscript.net/demo/Rich-Text-Editor-jQuery-RichText/) to see the RichText editor in action.
+
 ## Install RichText
 
 ### NPM
