@@ -7,6 +7,12 @@ describe('basic formatting', () => {
         }
         return `${selector}:first-child`;
     };
+    
+    const removeFormatSelector = () => {
+        cy.get(commandSelector('removeFormat')).first().click({
+            force: true
+        });
+    }
 
     const typeWithCommand = (command, text, options) => {
         cy.get(commandSelector(command, options)).click();
@@ -94,21 +100,21 @@ describe('basic formatting', () => {
         typeWithCommand('bold', 'hello world');
         cy.get(editorSelector).should('have.html', '<div><b>hello world</b></div>');
         cy.get(editorSelector).type('{selectall}');
-        cy.get(commandSelector('removeFormat')).click();
+        removeFormatSelector();
         cy.get(editorSelector).should('have.html', '<div>hello world</div>');
         // check italic
         cy.get(editorSelector).type('{selectall}');
         typeWithCommand('italic', 'hello world');
         cy.get(editorSelector).should('have.html', '<div><i>hello world</i></div>');
         cy.get(editorSelector).type('{selectall}');
-        cy.get(commandSelector('removeFormat')).click();
+        removeFormatSelector();
         cy.get(editorSelector).should('have.html', '<div>hello world</div>');
     });
 
     it('can write text with font-size', () => {
         for (let n = 24; n >= 12; n -= 2) {
             cy.get(editorSelector).type('{selectall}');
-            cy.get(commandSelector('removeFormat')).click();
+            removeFormatSelector();
             cy.get(editorSelector).type(`hello world ${n}`);
             cy.get(editorSelector).type('{selectall}');
             const buttonSelector = cy.get(`.fa-text-height`).parent(`a`);
@@ -126,7 +132,7 @@ describe('basic formatting', () => {
 
     it('can write text with multiple selected font-size', () => {
         cy.get(editorSelector).type('{selectall}');
-        cy.get(commandSelector('removeFormat')).click();
+        removeFormatSelector();
         cy.get(editorSelector).type(`hello world 12`);
         cy.get(editorSelector).type('{selectall}');
         const buttonSelector = cy.get(`.fa-text-height`).parent(`a`);
@@ -174,7 +180,7 @@ describe('basic formatting', () => {
 
         for (const fontName of fontNames) {
             cy.get(editorSelector).type('{selectall}');
-            cy.get(commandSelector('removeFormat')).click();
+            removeFormatSelector();
             cy.get(editorSelector).type(`hello world ${fontName}`);
             cy.get(editorSelector).type('{selectall}');
             const buttonSelector = cy.get(`.fa-font`).parent(`a`);
@@ -210,7 +216,7 @@ describe('basic formatting', () => {
 
         for (const fontColor of fontColors) {
             cy.get(editorSelector).type('{selectall}');
-            cy.get(commandSelector('removeFormat')).click();
+            removeFormatSelector();
             cy.get(editorSelector).type(`hello world ${fontColor}`);
             cy.get(editorSelector).type('{selectall}');
             const buttonSelector = cy.get(`.fa-pencil`).parent(`a`);
@@ -258,7 +264,7 @@ describe('basic formatting', () => {
 
         for (const backgroundColor of backgroundColors) {
             cy.get(editorSelector).type('{selectall}');
-            cy.get(commandSelector('removeFormat')).click();
+            removeFormatSelector();
             cy.get(editorSelector).type(`hello world ${backgroundColor}`);
             cy.get(editorSelector).type('{selectall}');
             const buttonSelector = cy.get(`.fa-paint-brush`).parent(`a`);
