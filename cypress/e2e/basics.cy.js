@@ -3,9 +3,9 @@ describe('basic formatting', () => {
     const commandSelector = (command, options) => {
         const selector = `a[data-command="${command}"]`;
         if (options) {
-            return `${selector}[data-option="${options}"]`;
+            return `${selector}[data-option="${options}"]:first-child`;
         }
-        return selector;
+        return `${selector}:first-child`;
     };
 
     const typeWithCommand = (command, text, options) => {
