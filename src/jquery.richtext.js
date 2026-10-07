@@ -147,6 +147,7 @@
                 'addFont': 'Font',
                 'addFontColor': 'Font color',
                 'addBackgroundColor': 'Background color',
+                'bodyText': 'Standard text',
                 'addFontSize': 'Font size',
                 'addImage': 'Add image',
                 'addVideo': 'Add video',
@@ -425,6 +426,7 @@
         $titles.append($('<li />', {html: '<a data-command="formatBlock" data-option="h2">' + settings.translations.title + ' #2</a>'}));
         $titles.append($('<li />', {html: '<a data-command="formatBlock" data-option="h3">' + settings.translations.title + ' #3</a>'}));
         $titles.append($('<li />', {html: '<a data-command="formatBlock" data-option="h4">' + settings.translations.title + ' #4</a>'}));
+        $titles.append($('<li />', {html: '<a data-command="removeFormat">' + settings.translations.bodyText + '</a>'}));
         $btnHeading.append($dropdownOuter.clone().append($titles));
 
         /* list dropdown for fonts */

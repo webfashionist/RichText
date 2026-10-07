@@ -174,6 +174,7 @@ $(element).richText({
       'addFont': 'Font',
       'addFontColor': 'Font color',
       'addBackgroundColor': 'Background color',
+      'bodyText': 'Standard text',
       'addFontSize': 'Font size',
       'addImage': 'Add image',
       'addVideo': 'Add video',
